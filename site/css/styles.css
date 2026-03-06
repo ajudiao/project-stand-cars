@@ -1,0 +1,184 @@
+/* Custom styles for AutoAI Motors */
+:root {
+  /* Automotive theme with metallic blue, gray, and white */
+  --background: oklch(0.99 0.002 240);
+  --foreground: oklch(0.15 0.01 240);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.15 0.01 240);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.15 0.01 240);
+  --primary: oklch(0.45 0.15 240);
+  --primary-foreground: oklch(0.99 0.002 240);
+  --secondary: oklch(0.65 0.08 240);
+  --secondary-foreground: oklch(0.99 0.002 240);
+  --muted: oklch(0.94 0.005 240);
+  --muted-foreground: oklch(0.5 0.01 240);
+  --accent: oklch(0.55 0.12 240);
+  --accent-foreground: oklch(0.99 0.002 240);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.99 0.002 240);
+  --border: oklch(0.88 0.005 240);
+  --input: oklch(0.88 0.005 240);
+  --ring: oklch(0.45 0.15 240);
+}
+
+.dark {
+  /* Dark mode with deep blue-gray tones */
+  --background: oklch(0.12 0.015 240);
+  --foreground: oklch(0.95 0.005 240);
+  --card: oklch(0.15 0.015 240);
+  --card-foreground: oklch(0.95 0.005 240);
+  --popover: oklch(0.15 0.015 240);
+  --popover-foreground: oklch(0.95 0.005 240);
+  --primary: oklch(0.55 0.15 240);
+  --primary-foreground: oklch(0.99 0.002 240);
+  --secondary: oklch(0.25 0.02 240);
+  --secondary-foreground: oklch(0.95 0.005 240);
+  --muted: oklch(0.2 0.015 240);
+  --muted-foreground: oklch(0.65 0.01 240);
+  --accent: oklch(0.55 0.12 240);
+  --accent-foreground: oklch(0.99 0.002 240);
+  --destructive: oklch(0.5 0.2 27.325);
+  --destructive-foreground: oklch(0.95 0.005 240);
+  --border: oklch(0.25 0.02 240);
+  --input: oklch(0.25 0.02 240);
+  --ring: oklch(0.55 0.15 240);
+}
+
+/* Apply color variables */
+.bg-background {
+  background-color: var(--background);
+}
+.text-foreground {
+  color: var(--foreground);
+}
+.bg-card {
+  background-color: var(--card);
+}
+.text-card-foreground {
+  color: var(--card-foreground);
+}
+.bg-primary {
+  background-color: var(--primary);
+}
+.text-primary {
+  color: var(--primary);
+}
+.text-primary-foreground {
+  color: var(--primary-foreground);
+}
+.bg-secondary {
+  background-color: var(--secondary);
+}
+.text-secondary-foreground {
+  color: var(--secondary-foreground);
+}
+.bg-muted {
+  background-color: var(--muted);
+}
+.text-muted-foreground {
+  color: var(--muted-foreground);
+}
+.bg-accent {
+  background-color: var(--accent);
+}
+.text-accent {
+  color: var(--accent);
+}
+.text-accent-foreground {
+  color: var(--accent-foreground);
+}
+.border-border {
+  border-color: var(--border);
+}
+
+/* Smooth transitions */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Loading animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}

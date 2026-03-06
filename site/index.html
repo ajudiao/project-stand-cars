@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoAI Motors - Stand de Automóveis com IA</title>
+    <meta name="description" content="Encontre o veículo perfeito com a ajuda da inteligência artificial">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/config.js"></script>
+</head>
+<body class="font-sans antialiased bg-background text-foreground">
+    <!-- Navegação -->
+    <div id="navigation"></div>
+    
+    <!-- Conteúdo Principal -->
+    <main class="min-h-screen">
+    <!-- Secção Hero -->
+        <section class="relative overflow-hidden bg-gradient-to-br from-background via-background to-muted/30 px-4 py-20 lg:py-32">
+            <div class="container mx-auto">
+                <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
+                    <div class="flex flex-col justify-center">
+                        <span class="mb-4 inline-flex w-fit items-center gap-1 rounded-full bg-accent/10 px-3 py-1 text-sm font-medium text-accent">
+                            <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                            Feito para você
+                        </span>
+                        <h1 class="mb-6 text-4xl font-bold leading-tight tracking-tight lg:text-6xl">
+                            Encontre o veículo perfeito com inteligência artificial
+                        </h1>
+                        <p class="mb-8 text-lg leading-relaxed text-muted-foreground lg:text-xl">
+                            Tecnologia de ponta encontra o automóvel ideal para você. Responda algumas perguntas e deixe nossa IA recomendar as melhores opções do mercado.
+                        </p>
+                        <div class="flex flex-col gap-4 sm:flex-row">
+                            <a href="recomendacao-ia.html" class="group inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 text-base font-medium text-primary-foreground transition-colors hover:bg-primary/90">
+                                <svg class="mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                Recomendação IA
+                                <svg class="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </a>
+                            <a href="veiculos.html" class="inline-flex items-center justify-center rounded-lg border border-border bg-background px-6 py-3 text-base font-medium transition-colors hover:bg-muted">
+                                <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                                Explorar Veículos
+                            </a>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-muted shadow-2xl">
+                            <img src="public/modern-luxury-car-showroom-automotive-technology.jpg" alt="Showroom AutoAI Motors" class="h-full w-full object-cover">
+                        </div>
+                        <div class="absolute -bottom-6 -left-6 rounded-xl border border-border bg-card p-4 shadow-lg">
+                            <div class="flex items-center gap-3">
+                                <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                                    <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="text-2xl font-bold">98%</div>
+                                    <div class="text-sm text-muted-foreground">Satisfação</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <!-- Secção de Estatísticas -->
+        <section class="border-y border-border bg-muted/30 px-4 py-12">
+            <div class="container mx-auto">
+                <div class="grid grid-cols-2 gap-8 lg:grid-cols-4">
+                    <div class="text-center">
+                        <div class="mb-2 text-4xl font-bold text-primary lg:text-5xl">500+</div>
+                        <div class="text-sm text-muted-foreground lg:text-base">Veículos Disponíveis</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="mb-2 text-4xl font-bold text-primary lg:text-5xl">2.000+</div>
+                        <div class="text-sm text-muted-foreground lg:text-base">Clientes Satisfeitos</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="mb-2 text-4xl font-bold text-primary lg:text-5xl">98%</div>
+                        <div class="text-sm text-muted-foreground lg:text-base">Taxa de Satisfação</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="mb-2 text-4xl font-bold text-primary lg:text-5xl">15+</div>
+                        <div class="text-sm text-muted-foreground lg:text-base">Anos de Experiência</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <!-- Veículos em Destaque -->
+        <section class="px-4 py-20">
+            <div class="container mx-auto">
+                <div class="mb-12 text-center">
+                    <h2 class="mb-4 text-3xl font-bold lg:text-4xl">Veículos em Destaque</h2>
+                    <p class="text-lg text-muted-foreground">Seleção premium dos nossos melhores veículos disponíveis</p>
+                </div>
+                <div id="featured-vehicles" class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    <!-- Veículos serão carregados pelo JavaScript -->
+                </div>
+                <div class="mt-12 text-center">
+                    <a href="veiculos.html" class="inline-flex items-center justify-center rounded-lg border border-border bg-background px-6 py-3 text-base font-medium transition-colors hover:bg-muted">
+                        Ver Todos os Veículos
+                        <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    <!-- CTA de Recomendação IA -->
+        <section class="px-4 py-20">
+            <div class="container mx-auto">
+                <div class="overflow-hidden rounded-2xl border-2 border-primary/20 bg-gradient-to-br from-primary/5 via-background to-accent/5 p-8 lg:p-12">
+                    <div class="grid gap-8 lg:grid-cols-2 lg:gap-12">
+                        <div class="flex flex-col justify-center">
+                            <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
+                                <svg class="h-8 w-8 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                            </div>
+                            <h2 class="mb-4 text-3xl font-bold lg:text-4xl">Deixe a IA encontrar seu carro ideal</h2>
+                            <p class="mb-6 text-lg leading-relaxed text-muted-foreground">
+                                Nossa inteligência artificial analisa suas preferências, orçamento e necessidades para recomendar os veículos perfeitos. Rápido, preciso e personalizado.
+                            </p>
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-3">
+                                    <svg class="h-5 w-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span>Recomendações personalizadas em segundos</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <svg class="h-5 w-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span>Análise de mais de 500 veículos</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <svg class="h-5 w-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span>100% gratuito e sem compromisso</span>
+                                </div>
+                            </div>
+                            <div class="mt-8">
+                                <a href="recomendacao-ia.html" class="group inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 text-base font-medium text-primary-foreground transition-colors hover:bg-primary/90">
+                                    <svg class="mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z"/>
+                                    </svg>
+                                    Começar Agora
+                                    <svg class="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <div class="aspect-square overflow-hidden rounded-2xl border border-border bg-muted">
+                                <img src="public/ai-technology-automotive-interface-futuristic.jpg" alt="AI Recommendation" class="h-full w-full object-cover">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <!-- Grade de Funcionalidades -->
+        <section class="bg-muted/30 px-4 py-20">
+            <div class="container mx-auto">
+                <div class="mb-12 text-center">
+                    <h2 class="mb-4 text-3xl font-bold lg:text-4xl">Por que escolher AutoAI Motors?</h2>
+                    <p class="text-lg text-muted-foreground">Tecnologia e experiência ao serviço da sua satisfação</p>
+                </div>
+                <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+                    <div class="rounded-lg border border-border/50 bg-card p-6 transition-shadow hover:shadow-md">
+                        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                            <svg class="h-6 w-6 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                        </div>
+                        <h3 class="mb-2 text-xl font-bold">Recomendação IA</h3>
+                        <p class="leading-relaxed text-muted-foreground">Algoritmos avançados analisam suas preferências para encontrar o veículo perfeito</p>
+                    </div>
+                    <div class="rounded-lg border border-border/50 bg-card p-6 transition-shadow hover:shadow-md">
+                        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                            <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="mb-2 text-xl font-bold">Busca Inteligente</h3>
+                        <p class="leading-relaxed text-muted-foreground">Filtre por marca, modelo, preço e características específicas em segundos</p>
+                    </div>
+                    <div class="rounded-lg border border-border/50 bg-card p-6 transition-shadow hover:shadow-md">
+                        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                            <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                        </div>
+                        <h3 class="mb-2 text-xl font-bold">Garantia Total</h3>
+                        <p class="leading-relaxed text-muted-foreground">Todos os veículos com inspeção completa e garantia de qualidade</p>
+                    </div>
+                    <div class="rounded-lg border border-border/50 bg-card p-6 transition-shadow hover:shadow-md">
+                        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                            <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="mb-2 text-xl font-bold">Melhor Preço</h3>
+                        <p class="leading-relaxed text-muted-foreground">Preços competitivos e transparentes, sem taxas ocultas</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <!-- Secção de Confiança -->
+        <section class="px-4 py-20">
+            <div class="container mx-auto">
+                <div class="rounded-2xl border border-border bg-card p-8 lg:p-12">
+                    <div class="grid gap-8 lg:grid-cols-2 lg:gap-12">
+                        <div>
+                            <h2 class="mb-4 text-3xl font-bold lg:text-4xl">Confiança e transparência</h2>
+                            <p class="mb-6 text-lg leading-relaxed text-muted-foreground">
+                                Com mais de 15 anos de experiência no mercado automóvel, a AutoAI Motors combina tradição com inovação tecnológica para oferecer a melhor experiência de compra.
+                            </p>
+                            <div class="space-y-4">
+                                <div class="flex items-start gap-4">
+                                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                                        <svg class="h-5 w-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="mb-1 font-semibold">Atendimento Personalizado</h3>
+                                        <p class="text-sm text-muted-foreground">Equipa especializada pronta para ajudar em cada etapa</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                                        <svg class="h-5 w-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="mb-1 font-semibold">Garantia de Qualidade</h3>
+                                        <p class="text-sm text-muted-foreground">Todos os veículos inspecionados e certificados</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                                        <svg class="h-5 w-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="mb-1 font-semibold">Prémios e Reconhecimento</h3>
+                                        <p class="text-sm text-muted-foreground">Melhor stand de automóveis 2023 em Lisboa</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <div class="aspect-[4/3] overflow-hidden rounded-xl border border-border bg-muted">
+                                <img src="public/professional-automotive-team-modern-dealership.jpg" alt="Equipa AutoAI Motors" class="h-full w-full object-cover">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <!-- CTA Final -->
+        <section class="bg-primary px-4 py-20 text-primary-foreground">
+            <div class="container mx-auto text-center">
+                <h2 class="mb-4 text-3xl font-bold lg:text-4xl">Pronto para encontrar seu próximo carro?</h2>
+                <p class="mb-8 text-lg text-primary-foreground/90">Comece agora e descubra as melhores ofertas do mercado</p>
+                <div class="flex flex-col justify-center gap-4 sm:flex-row">
+                    <a href="recomendacao-ia.html" class="group inline-flex items-center justify-center rounded-lg bg-secondary px-6 py-3 text-base font-medium text-secondary-foreground transition-colors hover:bg-secondary/90">
+                        <svg class="mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        Recomendação IA
+                        <svg class="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="contato.html" class="inline-flex items-center justify-center rounded-lg border border-primary-foreground/20 bg-transparent px-6 py-3 text-base font-medium text-primary-foreground transition-colors hover:bg-primary-foreground/10">
+                        Falar com Especialista
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Rodapé -->
+    <div id="footer"></div>
+
+    <script src="js/components.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

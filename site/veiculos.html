@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veículos - AutoAI Motors</title>
+    <meta name="description" content="Explore nossa seleção completa de veículos com filtros avançados">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/config.js"></script>
+</head>
+<body class="font-sans antialiased bg-background text-foreground">
+    <div id="navigation"></div>
+    
+    <main class="min-h-screen">
+    <!-- Cabeçalho -->
+        <section class="bg-gradient-to-br from-primary/10 via-background to-accent/5 px-4 py-12">
+            <div class="container mx-auto">
+                <h1 class="mb-4 text-4xl font-bold lg:text-5xl">Nossos Veículos</h1>
+                <p class="text-lg text-muted-foreground">Explore nossa seleção completa com filtros avançados</p>
+            </div>
+        </section>
+
+    <!-- Pesquisa e Filtros -->
+        <section class="px-4 py-8">
+            <div class="container mx-auto">
+                <div class="grid gap-8 lg:grid-cols-4">
+                    <!-- Barra Lateral de Filtros -->
+                    <div class="lg:col-span-1">
+                        <div class="sticky top-20 rounded-lg border border-border bg-card p-6">
+                            <div class="mb-6 flex items-center justify-between">
+                                <h2 class="text-lg font-bold">Filtros</h2>
+                                <button id="clear-filters" class="text-sm text-primary hover:underline">Limpar</button>
+                            </div>
+
+                            <!-- Pesquisa -->
+                            <div class="mb-6">
+                                <label class="mb-2 block text-sm font-medium">Pesquisar</label>
+                                <input type="text" id="search-input" placeholder="Marca ou modelo..." class="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                            </div>
+
+                            <!-- Filtro de Marca -->
+                            <div class="mb-6">
+                                <label class="mb-2 block text-sm font-medium">Marca</label>
+                                <select id="brand-filter" class="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                                    <option value="">Todas as marcas</option>
+                                </select>
+                            </div>
+
+                            <!-- Intervalo de Preço -->
+                            <div class="mb-6">
+                                <label class="mb-2 block text-sm font-medium">Preço Máximo</label>
+                                <input type="range" id="price-range" min="0" max="100000" step="5000" value="100000" class="w-full">
+                                <div class="mt-2 text-sm text-muted-foreground">
+                                    Até <span id="price-value" class="font-medium text-foreground">100.000€</span>
+                                </div>
+                            </div>
+
+                            <!-- Tipo de Combustível -->
+                            <div class="mb-6">
+                                <label class="mb-2 block text-sm font-medium">Combustível</label>
+                                <select id="fuel-filter" class="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                                    <option value="">Todos</option>
+                                    <option value="Gasolina">Gasolina</option>
+                                    <option value="Diesel">Diesel</option>
+                                    <option value="Elétrico">Elétrico</option>
+                                    <option value="Híbrido">Híbrido</option>
+                                </select>
+                            </div>
+
+                            <!-- Transmissão -->
+                            <div class="mb-6">
+                                <label class="mb-2 block text-sm font-medium">Transmissão</label>
+                                <select id="transmission-filter" class="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                                    <option value="">Todas</option>
+                                    <option value="Manual">Manual</option>
+                                    <option value="Automática">Automática</option>
+                                </select>
+                            </div>
+
+                            <!-- Estado -->
+                            <div class="mb-6">
+                                <label class="mb-2 block text-sm font-medium">Condição</label>
+                                <select id="condition-filter" class="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                                    <option value="">Todas</option>
+                                    <option value="Novo">Novo</option>
+                                    <option value="Semi-novo">Semi-novo</option>
+                                    <option value="Usado">Usado</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grid de Veículos -->
+                    <div class="lg:col-span-3">
+                        <div class="mb-6 flex items-center justify-between">
+                            <div>
+                                <span id="results-count" class="text-sm text-muted-foreground">Carregando...</span>
+                            </div>
+                            <select id="sort-select" class="rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                                <option value="newest">Mais recentes</option>
+                                <option value="price-asc">Preço: Menor para Maior</option>
+                                <option value="price-desc">Preço: Maior para Menor</option>
+                                <option value="mileage-asc">Quilometragem: Menor</option>
+                                <option value="year-desc">Ano: Mais recente</option>
+                            </select>
+                        </div>
+
+                        <div id="vehicles-grid" class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                            <!-- Veículos serão carregados aqui -->
+                        </div>
+
+                        <div id="no-results" class="hidden rounded-lg border border-border bg-card p-12 text-center">
+                            <svg class="mx-auto mb-4 h-16 w-16 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <h3 class="mb-2 text-xl font-bold">Nenhum veículo encontrado</h3>
+                            <p class="text-muted-foreground">Tente ajustar os filtros para ver mais resultados</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer"></div>
+
+    <script src="js/components.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/veiculos.js"></script>
+</body>
+</html>

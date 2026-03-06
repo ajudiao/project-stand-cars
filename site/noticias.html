@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notícias - AutoAI Motors</title>
+    <meta name="description" content="Últimas notícias e artigos sobre o mundo automóvel">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/config.js"></script>
+</head>
+<body class="font-sans antialiased bg-background text-foreground">
+    <div id="navigation"></div>
+    
+    <main class="min-h-screen">
+    <!-- Cabeçalho -->
+        <section class="bg-gradient-to-br from-primary/10 via-background to-accent/5 px-4 py-12">
+            <div class="container mx-auto">
+                <h1 class="mb-4 text-4xl font-bold lg:text-5xl">Notícias e Artigos</h1>
+                <p class="text-lg text-muted-foreground">Fique por dentro das últimas novidades do mundo automóvel</p>
+            </div>
+        </section>
+
+    <!-- Secção de Notícias -->
+        <section class="px-4 py-12">
+            <div class="container mx-auto">
+                <!-- Filtro de Categoria -->
+                <div class="mb-8 flex flex-wrap gap-2">
+                    <button class="category-btn active rounded-full border border-border bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors" data-category="Todos">
+                        Todos
+                    </button>
+                    <button class="category-btn rounded-full border border-border bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted" data-category="Elétricos">
+                        Elétricos
+                    </button>
+                    <button class="category-btn rounded-full border border-border bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted" data-category="Híbridos">
+                        Híbridos
+                    </button>
+                    <button class="category-btn rounded-full border border-border bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted" data-category="Manutenção">
+                        Manutenção
+                    </button>
+                    <button class="category-btn rounded-full border border-border bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted" data-category="Tendências">
+                        Tendências
+                    </button>
+                    <button class="category-btn rounded-full border border-border bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted" data-category="Guias">
+                        Guias
+                    </button>
+                </div>
+
+                <!-- Artigo em Destaque -->
+                <div id="featured-article" class="mb-12">
+                    <!-- Será carregado pelo JavaScript -->
+                </div>
+
+                <!-- Grid de Artigos -->
+                <div id="articles-grid" class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    <!-- Artigos serão carregados aqui -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer"></div>
+
+    <script src="js/components.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/noticias.js"></script>
+</body>
+</html>
