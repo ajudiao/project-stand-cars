@@ -1,0 +1,17 @@
+{
+    "name": "andrejudiao/stand-cars",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "andrejudiao"
+        }
+    ],
+    "require": {
+        "pecee/simple-router": "^5.4",
+        "twig/twig": "^3.23"
+    }
+}
