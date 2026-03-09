@@ -14,7 +14,7 @@ class AdminMiddleware implements IMiddleware
         }
 
         if (!isset($_SESSION['admin_logged']) || $_SESSION['admin_logged'] !== true) {
-            header('Location: /stand-cars/public/admin/login');
+            header('Location: /admin/login');
             exit;
         }
     }

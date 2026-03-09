@@ -9,7 +9,7 @@ define('URL_PRODUCAO', 'https://seu-dominio.com'); // URL
 define('PUBLIC_PATH', __DIR__ . '/../public');           // caminho absoluto da pasta public
 define('APP_PATH', __DIR__ . '/../app');                 // caminho absoluto da pasta app
 define('ROUTES_PATH', __DIR__ . '/../routes');          // pasta das rotas
-define('VIEWS_PATH', __DIR__ . '/../app/Views');         // pasta das views
+define('VIEWS_PATH', __DIR__ . '/../../resources/views');         // pasta das views
 
 // -----------------------------
 // INFORMAÇÕES DO APLICATIVO

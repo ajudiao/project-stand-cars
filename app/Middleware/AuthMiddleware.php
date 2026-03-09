@@ -14,7 +14,7 @@ class AuthMiddleware implements IMiddleware
         }
 
         if (!isset($_SESSION['admin_logged'])) {
-            header('Location: /stand-cars/public/admin/login');
+            header('Location: /admin/login');
             exit;
         }
     }

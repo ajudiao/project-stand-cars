@@ -8,7 +8,7 @@ class AuthController
     {
         echo '
         <h2>Login Admin</h2>
-        <form method="POST" action="/stand-cars/public/admin/login">
+        <form method="POST" action="/admin/login">
             <input type="text" name="email" placeholder="Email"><br><br>
             <input type="password" name="password" placeholder="Senha"><br><br>
             <button type="submit">Entrar</button>
@@ -30,7 +30,7 @@ class AuthController
 
             $_SESSION['admin_logged'] = true;
 
-            header('Location: /stand-cars/public/admin');
+            header('Location: /admin');
             exit;
         }
 
@@ -45,7 +45,7 @@ class AuthController
 
         session_destroy();
 
-        header('Location: /stand-cars/public/');
+        header('Location: /admin/login');
         exit;
     }
 }

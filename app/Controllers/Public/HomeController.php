@@ -2,9 +2,14 @@
 // app/Controllers/Public/HomeController.php
 
 namespace App\Controllers\Public;
+use App\Core\Controller;
 
-class HomeController {
-    public function index() {
-        return 'Bem-vindo ao site da stand!';
+class HomeController extends Controller
+{
+    public function index()
+    {
+        $this->view('site/home', [
+            'message' => 'Olá Mundo com Twig'
+        ]);
     }
 }
