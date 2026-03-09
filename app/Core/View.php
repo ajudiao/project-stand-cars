@@ -26,9 +26,8 @@ class View
             | Variáveis globais
             |--------------------------------------------------------------------------
             */
-
             self::$twig->addGlobal('app_name', APP_NAME);
-            self::$twig->addGlobal('base_url', URL_BASE);
+            self::$twig->addGlobal('base_url', URL_DESENVOLVIMENTO);
 
             /*
             |--------------------------------------------------------------------------
@@ -38,7 +37,7 @@ class View
 
             self::$twig->addFunction(
                 new TwigFunction('asset', function ($path) {
-                    return URL_BASE . '/assets/' . ltrim($path, '/');
+                    return '/assets/images' . ltrim($path, '/');
                 })
             );
 

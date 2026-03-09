@@ -6,7 +6,6 @@ use Pecee\SimpleRouter\SimpleRouter;
 
 // carregar rotas
 require ROUTES_PATH . '/web.php';
-require ROUTES_PATH . '/admin.php';
 
 // iniciar router
 SimpleRouter::start();

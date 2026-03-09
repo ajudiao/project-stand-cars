@@ -2,6 +2,7 @@
 
 use Pecee\SimpleRouter\SimpleRouter as Router;
 use App\Middleware\AdminMiddleware;
+use Pecee\SimpleRouter\Route\Route;
 
 // ------------------------
 // SITE PÚBLICO
@@ -15,7 +16,14 @@ Router::group([
     Router::get('/', 'HomeController@index');
     Router::get('/carros', 'CarrosController@index');
     Router::get('/contato', 'ContatoController@index');
-
+    Router::get('/veiculos', 'VeiculosController@index');
+    Router::get('/veiculos/{id}', 'VeiculosController@show');
+    Router::get('/recomendacao', 'RecomendacaoController@index');
+    Router::get('/sobre', 'SobreController@index');
+    Router::get('/servicos', 'ServicosController@index');
+    Router::get('/blog', 'BlogController@index');
+    Router::get('/noticias', 'NoticiasController@index');
+    Router::get('/noticias/{id}', 'NoticiasController@show');
 });
 
 

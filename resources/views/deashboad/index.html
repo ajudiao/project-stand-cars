@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AutoVendas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <button id="sidebarToggle" class="btn-toggle-sidebar">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h4 class="mb-0 brand-name">AutoVendas</h4>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="index.html" class="nav-link active" data-page="dashboard">
+                        <i class="bi bi-speedometer2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="veiculos.html" class="nav-link" data-page="veiculos">
+                        <i class="bi bi-car-front"></i>
+                        <span>Veículos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clientes.html" class="nav-link" data-page="clientes">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Clientes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="vendas.html" class="nav-link" data-page="vendas">
+                        <i class="bi bi-graph-up"></i>
+                        <span>Vendas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="relatorios.html" class="nav-link" data-page="relatorios">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                        <span>Relatórios</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="publicacao.html" class="nav-link" data-page="publicacao">
+                        <i class="bi bi-globe"></i>
+                        <span>Publicação Web</span>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="perfil.html" class="nav-link" data-page="perfil">
+                        <i class="bi bi-person-circle"></i>
+                        <span>Meu Perfil</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="configuracoes.html" class="nav-link" data-page="configuracoes">
+                        <i class="bi bi-gear"></i>
+                        <span>Configurações</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" onclick="logout()">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Sair</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="d-flex align-items-center justify-content-between w-100">
+                    <div class="d-flex align-items-center gap-3">
+                        <button class="btn btn-sm btn-outline-secondary d-lg-none" id="mobileToggle">
+                            <i class="bi bi-list"></i>
+                        </button>
+                        <h5 class="mb-0">Dashboard</h5>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <!-- Notificações -->
+                        <div class="dropdown">
+                            <button class="btn btn-sm position-relative" id="notificationsBtn" data-bs-toggle="dropdown">
+                                <i class="bi bi-bell"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    3
+                                </span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end notifications-dropdown" id="notificationsDropdown">
+                                <li class="dropdown-header">
+                                    Notificações (3)
+                                    <button class="btn btn-sm float-end" onclick="clearNotifications()">
+                                        <i class="bi bi-x"></i>
+                                    </button>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <div class="notification-item">
+                                            <i class="bi bi-car-front text-primary"></i>
+                                            <div>
+                                                <strong>Novo veículo adicionado</strong>
+                                                <p>Toyota Corolla 2024</p>
+                                                <small class="text-muted">há 2 minutos</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <div class="notification-item">
+                                            <i class="bi bi-check-circle text-success"></i>
+                                            <div>
+                                                <strong>Venda realizada</strong>
+                                                <p>Honda Civic - R$ 95.000</p>
+                                                <small class="text-muted">há 15 minutos</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <div class="notification-item">
+                                            <i class="bi bi-exclamation-circle text-warning"></i>
+                                            <div>
+                                                <strong>Documento vencido</strong>
+                                                <p>Seguro do veículo #12345</p>
+                                                <small class="text-muted">há 1 hora</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item text-center small" href="#">Ver todas as notificações</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- User Menu -->
+                        <div class="dropdown">
+                            <button class="btn btn-sm" id="userBtn" data-bs-toggle="dropdown">
+                                <img src="https://via.placeholder.com/32" class="rounded-circle" alt="User">
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" href="perfil.html">
+                                        <i class="bi bi-person"></i> Meu Perfil
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="configuracoes.html">
+                                        <i class="bi bi-gear"></i> Configurações
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#" onclick="logout()">
+                                        <i class="bi bi-box-arrow-right"></i> Sair
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Página Content -->
+            <main class="page-content">
+                <!-- Dashboard -->
+                <div id="dashboard-page" class="page-section">
+                    <div class="container-fluid">
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h2>Bem-vindo, João Silva!</h2>
+                                <p class="text-muted">Resumo do seu negócio</p>
+                            </div>
+                        </div>
+
+                        <!-- KPI Cards -->
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-6 col-lg-3">
+                                <div class="card stat-card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="stat-icon bg-primary">
+                                                <i class="bi bi-car-front"></i>
+                                            </div>
+                                            <div class="ms-3">
+                                                <h6 class="text-muted mb-0">Veículos</h6>
+                                                <h3 class="mb-0">24</h3>
+                                            </div>
+                                        </div>
+                                        <small class="text-muted">
+                                            <i class="bi bi-arrow-up"></i> 2 novos este mês
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-lg-3">
+                                <div class="card stat-card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="stat-icon bg-success">
+                                                <i class="bi bi-cash-coin"></i>
+                                            </div>
+                                            <div class="ms-3">
+                                                <h6 class="text-muted mb-0">Vendas (Mês)</h6>
+                                                <h3 class="mb-0">R$ 285k</h3>
+                                            </div>
+                                        </div>
+                                        <small class="text-success">
+                                            <i class="bi bi-arrow-up"></i> +15% vs mês anterior
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-lg-3">
+                                <div class="card stat-card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="stat-icon bg-info">
+                                                <i class="bi bi-people-fill"></i>
+                                            </div>
+                                            <div class="ms-3">
+                                                <h6 class="text-muted mb-0">Clientes</h6>
+                                                <h3 class="mb-0">156</h3>
+                                            </div>
+                                        </div>
+                                        <small class="text-muted">
+                                            <i class="bi bi-arrow-up"></i> 8 novos este mês
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-lg-3">
+                                <div class="card stat-card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="stat-icon bg-warning">
+                                                <i class="bi bi-percent"></i>
+                                            </div>
+                                            <div class="ms-3">
+                                                <h6 class="text-muted mb-0">Taxa Conversão</h6>
+                                                <h3 class="mb-0">24.5%</h3>
+                                            </div>
+                                        </div>
+                                        <small class="text-muted">
+                                            <i class="bi bi-arrow-down"></i> -2% vs mês anterior
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gráficos -->
+                        <div class="row g-4 mb-4">
+                            <div class="col-lg-8">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0">Vendas Últimos 12 Meses</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div style="height: 300px; display: flex; align-items: flex-end; gap: 10px; justify-content: space-around; padding: 20px 0;">
+                                            <div style="width: 30px; height: 200px; background: #0d6efd; border-radius: 4px;" title="Jan"></div>
+                                            <div style="width: 30px; height: 180px; background: #0d6efd; border-radius: 4px;" title="Fev"></div>
+                                            <div style="width: 30px; height: 220px; background: #0d6efd; border-radius: 4px;" title="Mar"></div>
+                                            <div style="width: 30px; height: 240px; background: #0d6efd; border-radius: 4px;" title="Abr"></div>
+                                            <div style="width: 30px; height: 260px; background: #0d6efd; border-radius: 4px;" title="Mai"></div>
+                                            <div style="width: 30px; height: 280px; background: #0d6efd; border-radius: 4px;" title="Jun"></div>
+                                            <div style="width: 30px; height: 270px; background: #0d6efd; border-radius: 4px;" title="Jul"></div>
+                                            <div style="width: 30px; height: 290px; background: #0d6efd; border-radius: 4px;" title="Ago"></div>
+                                            <div style="width: 30px; height: 310px; background: #0d6efd; border-radius: 4px;" title="Set"></div>
+                                            <div style="width: 30px; height: 330px; background: #0d6efd; border-radius: 4px;" title="Out"></div>
+                                            <div style="width: 30px; height: 320px; background: #0d6efd; border-radius: 4px;" title="Nov"></div>
+                                            <div style="width: 30px; height: 340px; background: #0d6efd; border-radius: 4px;" title="Dez"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0">Distribução por Marca</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="chart-legend">
+                                            <div class="legend-item">
+                                                <span class="legend-color" style="background: #0d6efd;"></span>
+                                                <span>Toyota</span>
+                                                <span class="ms-auto">8</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <span class="legend-color" style="background: #198754;"></span>
+                                                <span>Honda</span>
+                                                <span class="ms-auto">6</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <span class="legend-color" style="background: #ffc107;"></span>
+                                                <span>Fiat</span>
+                                                <span class="ms-auto">5</span>
+                                            </div>
+                                            <div class="legend-item">
+                                                <span class="legend-color" style="background: #dc3545;"></span>
+                                                <span>Outros</span>
+                                                <span class="ms-auto">5</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Últimas Vendas -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title mb-0">Últimas Vendas</h5>
+                                        <a href="vendas.html" class="btn btn-sm btn-primary">Ver tudo</a>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Cliente</th>
+                                                    <th>Veículo</th>
+                                                    <th>Valor</th>
+                                                    <th>Data</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Carlos Mendes</td>
+                                                    <td>Toyota Corolla 2024</td>
+                                                    <td>R$ 95.000</td>
+                                                    <td>15/02/2024</td>
+                                                    <td><span class="badge bg-success">Concluída</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Maria Silva</td>
+                                                    <td>Honda Civic 2023</td>
+                                                    <td>R$ 87.500</td>
+                                                    <td>14/02/2024</td>
+                                                    <td><span class="badge bg-success">Concluída</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>João Santos</td>
+                                                    <td>Fiat Argo 2022</td>
+                                                    <td>R$ 45.000</td>
+                                                    <td>13/02/2024</td>
+                                                    <td><span class="badge bg-warning">Pendente</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Ana Costa</td>
+                                                    <td>Volkswagen Gol 2021</td>
+                                                    <td>R$ 38.500</td>
+                                                    <td>12/02/2024</td>
+                                                    <td><span class="badge bg-success">Concluída</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/app.js"></script>
+</body>
+
+</html>

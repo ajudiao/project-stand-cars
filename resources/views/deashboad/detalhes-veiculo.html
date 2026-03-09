@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Veículo - AutoVendas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <button id="sidebarToggle" class="btn-toggle-sidebar">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h4 class="mb-0 brand-name">AutoVendas</h4>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="index.html" class="nav-link" data-page="dashboard">
+                        <i class="bi bi-speedometer2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="veiculos.html" class="nav-link active" data-page="veiculos">
+                        <i class="bi bi-car-front"></i>
+                        <span>Veículos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clientes.html" class="nav-link" data-page="clientes">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Clientes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="vendas.html" class="nav-link" data-page="vendas">
+                        <i class="bi bi-graph-up"></i>
+                        <span>Vendas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="relatorios.html" class="nav-link" data-page="relatorios">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                        <span>Relatórios</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="publicacao.html" class="nav-link" data-page="publicacao">
+                        <i class="bi bi-globe"></i>
+                        <span>Publicação Web</span>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="perfil.html" class="nav-link" data-page="perfil">
+                        <i class="bi bi-person-circle"></i>
+                        <span>Meu Perfil</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="configuracoes.html" class="nav-link" data-page="configuracoes">
+                        <i class="bi bi-gear"></i>
+                        <span>Configurações</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" onclick="logout()">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Sair</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="d-flex align-items-center justify-content-between w-100">
+                    <div class="d-flex align-items-center gap-3">
+                        <button class="btn btn-sm btn-outline-secondary d-lg-none" id="mobileToggle">
+                            <i class="bi bi-list"></i>
+                        </button>
+                        <div>
+                            <h5 class="mb-0">Detalhes do Veículo</h5>
+                            <small class="text-muted">Toyota Corolla 2024</small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="dropdown">
+                            <button class="btn btn-sm position-relative" id="notificationsBtn" data-bs-toggle="dropdown">
+                                <i class="bi bi-bell"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsBtn">
+                                <li><a class="dropdown-item" href="#">Novo cliente interessado</a></li>
+                                <li><a class="dropdown-item" href="#">Veículo publicado no site</a></li>
+                                <li><a class="dropdown-item" href="#">Venda realizada</a></li>
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-sm" id="profileBtn" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileBtn">
+                                <li><a class="dropdown-item" href="perfil.html">Meu Perfil</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Sair</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <main class="page-content">
+                <div class="container-fluid">
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb" class="mb-4">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="veiculos.html">Veículos</a></li>
+                            <li class="breadcrumb-item active">Detalhes</li>
+                        </ol>
+                    </nav>
+
+                    <!-- Back Button -->
+                    <div class="mb-3">
+                        <a href="veiculos.html" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Voltar
+                        </a>
+                    </div>
+
+                    <!-- Vehicle Details -->
+                    <div class="row">
+                        <!-- Main Image -->
+                        <div class="col-lg-8 mb-4">
+                            <div class="card">
+                                <div class="card-body p-0">
+                                    <img src="https://via.placeholder.com/800x400?text=Toyota+Corolla+2024" alt="Toyota Corolla" class="img-fluid rounded-top" style="width: 100%; height: 400px; object-fit: cover;">
+                                </div>
+                            </div>
+
+                            <!-- Vehicle Images Gallery -->
+                            <div class="card mt-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Galeria de Fotos</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-2">
+                                        <div class="col-4 col-md-3">
+                                            <img src="https://via.placeholder.com/200x150?text=Foto+1" alt="Foto 1" class="img-fluid rounded cursor-pointer" style="cursor: pointer;">
+                                        </div>
+                                        <div class="col-4 col-md-3">
+                                            <img src="https://via.placeholder.com/200x150?text=Foto+2" alt="Foto 2" class="img-fluid rounded cursor-pointer" style="cursor: pointer;">
+                                        </div>
+                                        <div class="col-4 col-md-3">
+                                            <img src="https://via.placeholder.com/200x150?text=Foto+3" alt="Foto 3" class="img-fluid rounded cursor-pointer" style="cursor: pointer;">
+                                        </div>
+                                        <div class="col-4 col-md-3">
+                                            <img src="https://via.placeholder.com/200x150?text=Foto+4" alt="Foto 4" class="img-fluid rounded cursor-pointer" style="cursor: pointer;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Specifications -->
+                            <div class="card mt-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Especificações</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">Marca e Modelo</label>
+                                            <p>Toyota Corolla 2024</p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">Ano</label>
+                                            <p>2024</p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">Tipo de Combustível</label>
+                                            <p>Gasolina</p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">Transmissão</label>
+                                            <p>Automática</p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">Cor</label>
+                                            <p>Branco</p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">Quilometragem</label>
+                                            <p>5.230 km</p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">Cilindrada</label>
+                                            <p>1.8 L</p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">Potência</label>
+                                            <p>140 cv</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Features -->
+                            <div class="card mt-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Características e Opcionais</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <ul class="list-unstyled">
+                                                <li class="mb-2">
+                                                    <i class="bi bi-check-circle-fill text-success"></i> Ar condicionado
+                                                </li>
+                                                <li class="mb-2">
+                                                    <i class="bi bi-check-circle-fill text-success"></i> Direção hidráulica
+                                                </li>
+                                                <li class="mb-2">
+                                                    <i class="bi bi-check-circle-fill text-success"></i> Vidros elétricos
+                                                </li>
+                                                <li class="mb-2">
+                                                    <i class="bi bi-check-circle-fill text-success"></i> Travas elétricas
+                                                </li>
+                                                <li class="mb-2">
+                                                    <i class="bi bi-check-circle-fill text-success"></i> ABS
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ul class="list-unstyled">
+                                                <li class="mb-2">
+                                                    <i class="bi bi-check-circle-fill text-success"></i> Sistema de freios com ABS
+                                                </li>
+                                                <li class="mb-2">
+                                                    <i class="bi bi-check-circle-fill text-success"></i> Airbags (6)
+                                                </li>
+                                                <li class="mb-2">
+                                                    <i class="bi bi-check-circle-fill text-success"></i> Banco em couro
+                                                </li>
+                                                <li class="mb-2">
+                                                    <i class="bi bi-check-circle-fill text-success"></i> Estéreo MP3
+                                                </li>
+                                                <li class="mb-2">
+                                                    <i class="bi bi-check-circle-fill text-success"></i> Rodão 17"
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar Information -->
+                        <div class="col-lg-4">
+                            <!-- Price Card -->
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title">Preço</h6>
+                                    <h2 class="text-primary mb-3">R$ 95.000</h2>
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-primary">
+                                            <i class="bi bi-pencil"></i> Editar Preço
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Status Card -->
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title mb-3">Status</h6>
+                                    <span class="badge bg-success p-2">Disponível</span>
+                                    <div class="mt-3">
+                                        <button class="btn btn-sm btn-outline-secondary w-100" data-bs-toggle="modal" data-bs-target="#changeStatusModal">
+                                            <i class="bi bi-arrow-repeat"></i> Mudar Status
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Publication Card -->
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title mb-3">Publicação Web</h6>
+                                    <p class="mb-2">
+                                        <strong>Status:</strong><br>
+                                        <span class="badge bg-success">Publicado</span>
+                                    </p>
+                                    <p class="text-muted">
+                                        <small>Data: 15 de Março de 2024</small>
+                                    </p>
+                                    <div class="d-grid gap-2">
+                                        <a href="publicacao.html" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-globe"></i> Gerenciar Publicação
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Historic Card -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Histórico</h6>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="timeline">
+                                        <li>
+                                            <strong>15 de Março</strong><br>
+                                            <small class="text-muted">Veículo adicionado</small>
+                                        </li>
+                                        <li>
+                                            <strong>15 de Março</strong><br>
+                                            <small class="text-muted">Publicado no site</small>
+                                        </li>
+                                        <li>
+                                            <strong>17 de Março</strong><br>
+                                            <small class="text-muted">Cliente interessado</small>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="row mt-4 mb-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="btn-group w-100" role="group">
+                                        <a href="veiculos.html" class="btn btn-outline-secondary">
+                                            <i class="bi bi-arrow-left"></i> Voltar à Lista
+                                        </a>
+                                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editVehicleModal">
+                                            <i class="bi bi-pencil"></i> Editar Veículo
+                                        </button>
+                                        <button class="btn btn-outline-danger" onclick="deleteVehicle(1)">
+                                            <i class="bi bi-trash"></i> Deletar Veículo
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Change Status Modal -->
+    <div class="modal fade" id="changeStatusModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Alterar Status</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="radio" name="status" id="disponivel" value="1" checked>
+                        <label class="form-check-label" for="disponivel">
+                            <span class="badge bg-success">Disponível</span>
+                        </label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="radio" name="status" id="negociacao" value="2">
+                        <label class="form-check-label" for="negociacao">
+                            <span class="badge bg-warning">Em Negociação</span>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="status" id="vendido" value="3">
+                        <label class="form-check-label" for="vendido">
+                            <span class="badge bg-secondary">Vendido</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Salvar Alterações</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Vehicle Modal -->
+    <div class="modal fade" id="editVehicleModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Veículo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editVehicleForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Marca</label>
+                                <input type="text" class="form-control" value="Toyota">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Modelo</label>
+                                <input type="text" class="form-control" value="Corolla">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Ano</label>
+                                <input type="number" class="form-control" value="2024">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Preço</label>
+                                <input type="text" class="form-control" value="95000">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Salvar Alterações</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/app.js"></script>
+    <script>
+        // Delete Vehicle
+        function deleteVehicle(id) {
+            if (confirm('Tem certeza que deseja deletar este veículo?')) {
+                alert('Veículo deletado com sucesso!');
+                window.location.href = 'veiculos.html';
+            }
+        }
+
+        // Logout
+        function logout() {
+            alert('Logout realizado!');
+            window.location.href = '#';
+        }
+    </script>
+</body>
+
+</html>

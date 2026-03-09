@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações do Site - AutoVendas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <button id="sidebarToggle" class="btn-toggle-sidebar">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h4 class="mb-0 brand-name">AutoVendas</h4>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="index.html" class="nav-link" data-page="dashboard">
+                        <i class="bi bi-speedometer2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="veiculos.html" class="nav-link" data-page="veiculos">
+                        <i class="bi bi-car-front"></i>
+                        <span>Veículos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clientes.html" class="nav-link" data-page="clientes">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Clientes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="vendas.html" class="nav-link" data-page="vendas">
+                        <i class="bi bi-graph-up"></i>
+                        <span>Vendas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="relatorios.html" class="nav-link" data-page="relatorios">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                        <span>Relatórios</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="publicacao.html" class="nav-link" data-page="publicacao">
+                        <i class="bi bi-globe"></i>
+                        <span>Publicação Web</span>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="perfil.html" class="nav-link" data-page="perfil">
+                        <i class="bi bi-person-circle"></i>
+                        <span>Meu Perfil</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="configuracoes.html" class="nav-link" data-page="configuracoes">
+                        <i class="bi bi-gear"></i>
+                        <span>Configurações da Conta</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="configuracoes-site.html" class="nav-link active">
+                        <i class="bi bi-globe-americas"></i>
+                        <span>Configurações do Site</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" onclick="logout()">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Sair</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="d-flex align-items-center justify-content-between w-100">
+                    <div class="d-flex align-items-center gap-3">
+                        <button class="btn btn-sm btn-outline-secondary d-lg-none" id="mobileToggle">
+                            <i class="bi bi-list"></i>
+                        </button>
+                        <h5 class="mb-0">Configurações do Site</h5>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="dropdown">
+                            <button class="btn btn-sm position-relative" id="notificationsBtn" data-bs-toggle="dropdown">
+                                <i class="bi bi-bell"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsBtn">
+                                <li><a class="dropdown-item" href="#">Novo cliente interessado</a></li>
+                                <li><a class="dropdown-item" href="#">Veículo publicado no site</a></li>
+                                <li><a class="dropdown-item" href="#">Venda realizada</a></li>
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-sm" id="profileBtn" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileBtn">
+                                <li><a class="dropdown-item" href="perfil.html">Meu Perfil</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Sair</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <main class="page-content">
+                <div class="container-fluid">
+                    <!-- Settings Tabs -->
+                    <ul class="nav nav-tabs mb-4" id="settingsTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button">
+                                <i class="bi bi-gear"></i> Geral
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="appearance-tab" data-bs-toggle="tab" data-bs-target="#appearance" type="button">
+                                <i class="bi bi-paint-bucket"></i> Aparência
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="seo-tab" data-bs-toggle="tab" data-bs-target="#seo" type="button">
+                                <i class="bi bi-search"></i> SEO
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="social-tab" data-bs-toggle="tab" data-bs-target="#social" type="button">
+                                <i class="bi bi-share"></i> Redes Sociais
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="integrations-tab" data-bs-toggle="tab" data-bs-target="#integrations" type="button">
+                                <i class="bi bi-plugin"></i> Integrações
+                            </button>
+                        </li>
+                    </ul>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content" id="settingsTabContent">
+                        <!-- General Settings -->
+                        <div class="tab-pane fade show active" id="general" role="tabpanel">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h6 class="mb-0">Informações Gerais do Site</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <form>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Nome da Concessionária</label>
+                                                    <input type="text" class="form-control" value="AutoVendas Premium">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Tagline</label>
+                                                    <input type="text" class="form-control" value="Seus Carros de Confiança">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Descrição do Site</label>
+                                                    <textarea class="form-control" rows="3">Bem-vindo à AutoVendas Premium! Somos uma concessionária especializada em veículos de qualidade com atendimento de excelência.</textarea>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <label class="form-label">Telefone</label>
+                                                        <input type="tel" class="form-control" value="(21) 3000-0000">
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <label class="form-label">Email de Contato</label>
+                                                        <input type="email" class="form-control" value="contato@autovendas.com.br">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <label class="form-label">Endereço</label>
+                                                        <input type="text" class="form-control" value="Av. Principal, 1000, Centro">
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <label class="form-label">Cidade</label>
+                                                        <input type="text" class="form-control" value="Rio de Janeiro">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Horário de Funcionamento</label>
+                                                    <input type="text" class="form-control" value="Segunda a Sábado: 9h - 18h | Domingo: 10h - 17h">
+                                                </div>
+                                                <div class="form-check mb-3">
+                                                    <input class="form-check-input" type="checkbox" id="enableBlog" checked>
+                                                    <label class="form-check-label" for="enableBlog">
+                                                        Ativar Blog
+                                                    </label>
+                                                </div>
+                                                <div class="form-check mb-3">
+                                                    <input class="form-check-input" type="checkbox" id="enableNewsletter" checked>
+                                                    <label class="form-check-label" for="enableNewsletter">
+                                                        Newsletter
+                                                    </label>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">
+                                                    <i class="bi bi-check-lg"></i> Salvar Configurações
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Appearance Settings -->
+                        <div class="tab-pane fade" id="appearance" role="tabpanel">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h6 class="mb-0">Personalizando a Aparência do Site</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <form>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Logo da Concessionária</label>
+                                                    <div class="input-group mb-3">
+                                                        <input type="file" class="form-control" id="logoInput">
+                                                        <button class="btn btn-outline-secondary" type="button">Upload</button>
+                                                    </div>
+                                                    <small class="text-muted">Recomendado: 300x100px em PNG ou JPG</small>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Cor Principal</label>
+                                                    <input type="color" class="form-control form-control-color" value="#007bff">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Cor Secundária</label>
+                                                    <input type="color" class="form-control form-control-color" value="#6c757d">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Fonte Principal</label>
+                                                    <select class="form-select">
+                                                        <option selected>Roboto</option>
+                                                        <option>Open Sans</option>
+                                                        <option>Lato</option>
+                                                        <option>Montserrat</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Imagem de Fundo</label>
+                                                    <input type="file" class="form-control">
+                                                    <small class="text-muted">Recomendado: 1920x1080px</small>
+                                                </div>
+                                                <div class="form-check mb-3">
+                                                    <input class="form-check-input" type="checkbox" id="darkMode">
+                                                    <label class="form-check-label" for="darkMode">
+                                                        Ativar Modo Escuro
+                                                    </label>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">
+                                                    <i class="bi bi-check-lg"></i> Salvar Aparência
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SEO Settings -->
+                        <div class="tab-pane fade" id="seo" role="tabpanel">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h6 class="mb-0">Otimização para Motores de Busca (SEO)</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <form>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Meta Title</label>
+                                                    <input type="text" class="form-control" value="AutoVendas - Compre Carros de Qualidade">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Meta Description</label>
+                                                    <textarea class="form-control" rows="2">Concessionária de veículos com as melhores opções de carros novos e seminovos</textarea>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Palavras-chave</label>
+                                                    <input type="text" class="form-control" value="carros, veículos, concessionária, compra de carros">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Google Analytics ID</label>
+                                                    <input type="text" class="form-control" placeholder="GA-XXXXXXXXX-X">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Google Search Console</label>
+                                                    <input type="text" class="form-control" placeholder="Código de verificação">
+                                                </div>
+                                                <div class="form-check mb-3">
+                                                    <input class="form-check-input" type="checkbox" id="robotsTxt" checked>
+                                                    <label class="form-check-label" for="robotsTxt">
+                                                        Permitir rastreamento dos motores de busca
+                                                    </label>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">
+                                                    <i class="bi bi-check-lg"></i> Salvar SEO
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Social Media Settings -->
+                        <div class="tab-pane fade" id="social" role="tabpanel">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h6 class="mb-0">Integração com Redes Sociais</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <form>
+                                                <div class="mb-3">
+                                                    <label class="form-label">
+                                                        <i class="bi bi-facebook text-primary"></i> Facebook
+                                                    </label>
+                                                    <input type="url" class="form-control" placeholder="https://facebook.com/autovendas">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">
+                                                        <i class="bi bi-instagram text-danger"></i> Instagram
+                                                    </label>
+                                                    <input type="url" class="form-control" placeholder="https://instagram.com/autovendas">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">
+                                                        <i class="bi bi-twitter text-info"></i> Twitter/X
+                                                    </label>
+                                                    <input type="url" class="form-control" placeholder="https://twitter.com/autovendas">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">
+                                                        <i class="bi bi-youtube text-danger"></i> YouTube
+                                                    </label>
+                                                    <input type="url" class="form-control" placeholder="https://youtube.com/autovendas">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">
+                                                        <i class="bi bi-whatsapp text-success"></i> WhatsApp
+                                                    </label>
+                                                    <input type="tel" class="form-control" placeholder="(21) 98765-4321">
+                                                </div>
+                                                <div class="form-check mb-3">
+                                                    <input class="form-check-input" type="checkbox" id="shareButtons" checked>
+                                                    <label class="form-check-label" for="shareButtons">
+                                                        Mostrar botões de compartilhamento
+                                                    </label>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">
+                                                    <i class="bi bi-check-lg"></i> Salvar Redes Sociais
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Integrations -->
+                        <div class="tab-pane fade" id="integrations" role="tabpanel">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="card mb-3">
+                                        <div class="card-header">
+                                            <h6 class="mb-0">Integrações Disponíveis</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row g-3">
+                                                <div class="col-md-6">
+                                                    <div class="card border">
+                                                        <div class="card-body">
+                                                            <h6 class="card-title">Google Maps</h6>
+                                                            <p class="text-muted small">Integrar mapa de localização</p>
+                                                            <button class="btn btn-sm btn-outline-primary">
+                                                                <i class="bi bi-check-lg"></i> Conectar
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="card border">
+                                                        <div class="card-body">
+                                                            <h6 class="card-title">Stripe / PayPal</h6>
+                                                            <p class="text-muted small">Pagamento online</p>
+                                                            <button class="btn btn-sm btn-outline-primary">
+                                                                <i class="bi bi-check-lg"></i> Conectar
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="card border">
+                                                        <div class="card-body">
+                                                            <h6 class="card-title">Mailchimp</h6>
+                                                            <p class="text-muted small">Email Marketing</p>
+                                                            <button class="btn btn-sm btn-outline-primary">
+                                                                <i class="bi bi-check-lg"></i> Conectar
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="card border">
+                                                        <div class="card-body">
+                                                            <h6 class="card-title">Chatbot</h6>
+                                                            <p class="text-muted small">Atendimento automático</p>
+                                                            <button class="btn btn-sm btn-outline-primary">
+                                                                <i class="bi bi-check-lg"></i> Conectar
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/app.js"></script>
+    <script>
+        // Logout
+        function logout() {
+            alert('Logout realizado!');
+            window.location.href = '#';
+        }
+    </script>
+</body>
+
+</html>

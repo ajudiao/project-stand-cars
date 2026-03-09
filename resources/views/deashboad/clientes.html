@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes - AutoVendas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <button id="sidebarToggle" class="btn-toggle-sidebar">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h4 class="mb-0 brand-name">AutoVendas</h4>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="index.html" class="nav-link" data-page="dashboard">
+                        <i class="bi bi-speedometer2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="veiculos.html" class="nav-link" data-page="veiculos">
+                        <i class="bi bi-car-front"></i>
+                        <span>Veículos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clientes.html" class="nav-link active" data-page="clientes">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Clientes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="vendas.html" class="nav-link" data-page="vendas">
+                        <i class="bi bi-graph-up"></i>
+                        <span>Vendas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="relatorios.html" class="nav-link" data-page="relatorios">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                        <span>Relatórios</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="publicacao.html" class="nav-link" data-page="publicacao">
+                        <i class="bi bi-globe"></i>
+                        <span>Publicação Web</span>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="perfil.html" class="nav-link" data-page="perfil">
+                        <i class="bi bi-person-circle"></i>
+                        <span>Meu Perfil</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="configuracoes.html" class="nav-link" data-page="configuracoes">
+                        <i class="bi bi-gear"></i>
+                        <span>Configurações</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" onclick="logout()">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Sair</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="d-flex align-items-center justify-content-between w-100">
+                    <div class="d-flex align-items-center gap-3">
+                        <button class="btn btn-sm btn-outline-secondary d-lg-none" id="mobileToggle">
+                            <i class="bi bi-list"></i>
+                        </button>
+                        <h5 class="mb-0">Clientes</h5>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="dropdown">
+                            <button class="btn btn-sm position-relative" id="notificationsBtn" data-bs-toggle="dropdown">
+                                <i class="bi bi-bell"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end notifications-dropdown" id="notificationsDropdown">
+                                <li class="dropdown-header">
+                                    Notificações (3)
+                                    <button class="btn btn-sm float-end" onclick="clearNotifications()">
+                                        <i class="bi bi-x"></i>
+                                    </button>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <div class="notification-item">
+                                            <i class="bi bi-car-front text-primary"></i>
+                                            <div>
+                                                <strong>Novo veículo adicionado</strong>
+                                                <p>Toyota Corolla 2024</p>
+                                                <small class="text-muted">há 2 minutos</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <div class="notification-item">
+                                            <i class="bi bi-check-circle text-success"></i>
+                                            <div>
+                                                <strong>Venda realizada</strong>
+                                                <p>Honda Civic - R$ 95.000</p>
+                                                <small class="text-muted">há 15 minutos</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <div class="notification-item">
+                                            <i class="bi bi-exclamation-circle text-warning"></i>
+                                            <div>
+                                                <strong>Documento vencido</strong>
+                                                <p>Seguro do veículo #12345</p>
+                                                <small class="text-muted">há 1 hora</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item text-center small" href="#">Ver todas as notificações</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="dropdown">
+                            <button class="btn btn-sm" id="userBtn" data-bs-toggle="dropdown">
+                                <img src="https://via.placeholder.com/32" class="rounded-circle" alt="User">
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" href="perfil.html">
+                                        <i class="bi bi-person"></i> Meu Perfil
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="configuracoes.html">
+                                        <i class="bi bi-gear"></i> Configurações
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#" onclick="logout()">
+                                        <i class="bi bi-box-arrow-right"></i> Sair
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Página Content -->
+            <main class="page-content">
+                <div class="container-fluid">
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h2>Gerenciar Clientes</h2>
+                                    <p class="text-muted">Lista de clientes cadastrados</p>
+                                </div>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addClientModal">
+                                    <i class="bi bi-plus-circle"></i> Adicionar Cliente
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="row mb-4">
+                        <div class="col-md-6 col-lg-4">
+                            <input type="text" class="form-control" placeholder="Buscar por nome ou CPF...">
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <select class="form-select">
+                                <option value="">Filtrar por Tipo</option>
+                                <option value="1">Pessoa Física</option>
+                                <option value="2">Pessoa Jurídica</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Clients Table -->
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>CPF/CNPJ</th>
+                                        <th>Email</th>
+                                        <th>Telefone</th>
+                                        <th>Última Compra</th>
+                                        <th style="width: 120px;">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <strong>Carlos Mendes</strong><br>
+                                            <small class="text-muted">Rio de Janeiro, RJ</small>
+                                        </td>
+                                        <td>123.456.789-00</td>
+                                        <td>carlos@email.com</td>
+                                        <td>(21) 98765-4321</td>
+                                        <td>15/02/2024</td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <a href="detalhes-cliente.html?id=1" class="btn btn-outline-info" title="Ver Detalhes">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editClientModal">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-outline-danger" onclick="deleteClient(1)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Maria Silva</strong><br>
+                                            <small class="text-muted">São Paulo, SP</small>
+                                        </td>
+                                        <td>987.654.321-00</td>
+                                        <td>maria@email.com</td>
+                                        <td>(11) 97654-3210</td>
+                                        <td>14/02/2024</td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <a href="detalhes-cliente.html?id=2" class="btn btn-outline-info" title="Ver Detalhes">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editClientModal">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-outline-danger" onclick="deleteClient(2)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>João Santos</strong><br>
+                                            <small class="text-muted">Belo Horizonte, MG</small>
+                                        </td>
+                                        <td>456.789.123-00</td>
+                                        <td>joao@email.com</td>
+                                        <td>(31) 96543-2109</td>
+                                        <td>13/02/2024</td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <a href="detalhes-cliente.html?id=3" class="btn btn-outline-info" title="Ver Detalhes">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editClientModal">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-outline-danger" onclick="deleteClient(3)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Ana Costa</strong><br>
+                                            <small class="text-muted">Brasília, DF</small>
+                                        </td>
+                                        <td>789.123.456-00</td>
+                                        <td>ana@email.com</td>
+                                        <td>(61) 95432-1098</td>
+                                        <td>12/02/2024</td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <a href="detalhes-cliente.html?id=4" class="btn btn-outline-info" title="Ver Detalhes">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editClientModal">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-outline-danger" onclick="deleteClient(4)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add Client Modal -->
+    <div class="modal fade" id="addClientModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Adicionar Novo Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addClientForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nome</label>
+                                <input type="text" class="form-control" placeholder="Nome completo" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" placeholder="email@example.com" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">CPF</label>
+                                <input type="text" class="form-control" placeholder="000.000.000-00" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Telefone</label>
+                                <input type="tel" class="form-control" placeholder="(00) 98765-4321" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Cidade</label>
+                                <input type="text" class="form-control" placeholder="São Paulo" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Estado</label>
+                                <input type="text" class="form-control" placeholder="SP" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Endereço</label>
+                            <input type="text" class="form-control" placeholder="Rua, número, complemento" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveClient()">Adicionar Cliente</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Client Modal -->
+    <div class="modal fade" id="editClientModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editClientForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nome</label>
+                                <input type="text" class="form-control" placeholder="Nome completo">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" placeholder="email@example.com">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">CPF</label>
+                                <input type="text" class="form-control" placeholder="000.000.000-00">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Telefone</label>
+                                <input type="tel" class="form-control" placeholder="(00) 98765-4321">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Cidade</label>
+                                <input type="text" class="form-control" placeholder="São Paulo">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Estado</label>
+                                <input type="text" class="form-control" placeholder="SP">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Endereço</label>
+                            <input type="text" class="form-control" placeholder="Rua, número, complemento">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="updateClient()">Salvar Alterações</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar Exclusão</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja excluir este cliente? Esta ação não pode ser desfeita.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmDelete()">Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/app.js"></script>
+</body>
+
+</html>

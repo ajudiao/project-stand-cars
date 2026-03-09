@@ -3,11 +3,11 @@
 namespace App\Controllers\Public;
 use App\Core\Controller;
 
-class ContatoController extends Controller
+class SobreController extends Controller
 {
     public function index()
     {
-        $this->view('site/contato', [
+        $this->view('site/sobre', [
             'message' => 'Olá Mundo com Twig'
         ]);
     }

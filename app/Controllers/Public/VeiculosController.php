@@ -1,13 +1,14 @@
 <?php
+// app/Controllers/Public/HomeController.php
 
 namespace App\Controllers\Public;
 use App\Core\Controller;
 
-class ContatoController extends Controller
+class VeiculosController extends Controller
 {
     public function index()
     {
-        $this->view('site/contato', [
+        $this->view('site/veiculos', [
             'message' => 'Olá Mundo com Twig'
         ]);
     }

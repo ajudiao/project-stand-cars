@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendas - AutoVendas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <button id="sidebarToggle" class="btn-toggle-sidebar">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h4 class="mb-0 brand-name">AutoVendas</h4>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="index.html" class="nav-link" data-page="dashboard">
+                        <i class="bi bi-speedometer2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="veiculos.html" class="nav-link" data-page="veiculos">
+                        <i class="bi bi-car-front"></i>
+                        <span>Veículos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clientes.html" class="nav-link" data-page="clientes">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Clientes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="vendas.html" class="nav-link active" data-page="vendas">
+                        <i class="bi bi-graph-up"></i>
+                        <span>Vendas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="relatorios.html" class="nav-link" data-page="relatorios">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                        <span>Relatórios</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="publicacao.html" class="nav-link" data-page="publicacao">
+                        <i class="bi bi-globe"></i>
+                        <span>Publicação Web</span>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="perfil.html" class="nav-link" data-page="perfil">
+                        <i class="bi bi-person-circle"></i>
+                        <span>Meu Perfil</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="configuracoes.html" class="nav-link" data-page="configuracoes">
+                        <i class="bi bi-gear"></i>
+                        <span>Configurações</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" onclick="logout()">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Sair</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="d-flex align-items-center justify-content-between w-100">
+                    <div class="d-flex align-items-center gap-3">
+                        <button class="btn btn-sm btn-outline-secondary d-lg-none" id="mobileToggle">
+                            <i class="bi bi-list"></i>
+                        </button>
+                        <h5 class="mb-0">Vendas</h5>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="dropdown">
+                            <button class="btn btn-sm position-relative" id="notificationsBtn" data-bs-toggle="dropdown">
+                                <i class="bi bi-bell"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end notifications-dropdown" id="notificationsDropdown">
+                                <li class="dropdown-header">
+                                    Notificações (3)
+                                    <button class="btn btn-sm float-end" onclick="clearNotifications()">
+                                        <i class="bi bi-x"></i>
+                                    </button>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <div class="notification-item">
+                                            <i class="bi bi-car-front text-primary"></i>
+                                            <div>
+                                                <strong>Novo veículo adicionado</strong>
+                                                <p>Toyota Corolla 2024</p>
+                                                <small class="text-muted">há 2 minutos</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <div class="notification-item">
+                                            <i class="bi bi-check-circle text-success"></i>
+                                            <div>
+                                                <strong>Venda realizada</strong>
+                                                <p>Honda Civic - R$ 95.000</p>
+                                                <small class="text-muted">há 15 minutos</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <div class="notification-item">
+                                            <i class="bi bi-exclamation-circle text-warning"></i>
+                                            <div>
+                                                <strong>Documento vencido</strong>
+                                                <p>Seguro do veículo #12345</p>
+                                                <small class="text-muted">há 1 hora</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item text-center small" href="#">Ver todas as notificações</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="dropdown">
+                            <button class="btn btn-sm" id="userBtn" data-bs-toggle="dropdown">
+                                <img src="https://via.placeholder.com/32" class="rounded-circle" alt="User">
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" href="perfil.html">
+                                        <i class="bi bi-person"></i> Meu Perfil
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="configuracoes.html">
+                                        <i class="bi bi-gear"></i> Configurações
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#" onclick="logout()">
+                                        <i class="bi bi-box-arrow-right"></i> Sair
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Página Content -->
+            <main class="page-content">
+                <div class="container-fluid">
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h2>Histórico de Vendas</h2>
+                                    <p class="text-muted">Acompanhe todas as vendas realizadas</p>
+                                </div>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSaleModal">
+                                    <i class="bi bi-plus-circle"></i> Registrar Venda
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6 col-lg-3">
+                            <div class="card stat-card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="stat-icon bg-success">
+                                            <i class="bi bi-check-circle"></i>
+                                        </div>
+                                        <div class="ms-3">
+                                            <h6 class="text-muted mb-0">Vendas Concluídas</h6>
+                                            <h3 class="mb-0">18</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="card stat-card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="stat-icon bg-info">
+                                            <i class="bi bi-hourglass-split"></i>
+                                        </div>
+                                        <div class="ms-3">
+                                            <h6 class="text-muted mb-0">Em Negociação</h6>
+                                            <h3 class="mb-0">5</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="card stat-card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="stat-icon bg-warning">
+                                            <i class="bi bi-calendar-event"></i>
+                                        </div>
+                                        <div class="ms-3">
+                                            <h6 class="text-muted mb-0">Este Mês</h6>
+                                            <h3 class="mb-0">6</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="card stat-card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="stat-icon bg-primary">
+                                            <i class="bi bi-cash-coin"></i>
+                                        </div>
+                                        <div class="ms-3">
+                                            <h6 class="text-muted mb-0">Faturamento</h6>
+                                            <h3 class="mb-0">R$ 1.2M</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="row mb-4">
+                        <div class="col-md-6 col-lg-4">
+                            <input type="date" class="form-control" placeholder="Data">
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <select class="form-select">
+                                <option value="">Filtrar por Status</option>
+                                <option value="1">Concluída</option>
+                                <option value="2">Pendente</option>
+                                <option value="3">Cancelada</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Sales Table -->
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Cliente</th>
+                                        <th>Veículo</th>
+                                        <th>Valor</th>
+                                        <th>Data</th>
+                                        <th>Status</th>
+                                        <th style="width: 100px;">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#001</td>
+                                        <td>Carlos Mendes</td>
+                                        <td>Toyota Corolla 2024</td>
+                                        <td>R$ 95.000</td>
+                                        <td>15/02/2024</td>
+                                        <td><span class="badge bg-success">Concluída</span></td>
+                                        <td>
+                                            <a href="detalhes-venda.html?id=1" class="btn btn-sm btn-outline-info">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#002</td>
+                                        <td>Maria Silva</td>
+                                        <td>Honda Civic 2023</td>
+                                        <td>R$ 87.500</td>
+                                        <td>14/02/2024</td>
+                                        <td><span class="badge bg-success">Concluída</span></td>
+                                        <td>
+                                            <a href="detalhes-venda.html?id=2" class="btn btn-sm btn-outline-info">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#003</td>
+                                        <td>João Santos</td>
+                                        <td>Fiat Argo 2022</td>
+                                        <td>R$ 45.000</td>
+                                        <td>13/02/2024</td>
+                                        <td><span class="badge bg-warning">Pendente</span></td>
+                                        <td>
+                                            <a href="detalhes-venda.html?id=3" class="btn btn-sm btn-outline-info">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#004</td>
+                                        <td>Ana Costa</td>
+                                        <td>Volkswagen Gol 2021</td>
+                                        <td>R$ 38.500</td>
+                                        <td>12/02/2024</td>
+                                        <td><span class="badge bg-success">Concluída</span></td>
+                                        <td>
+                                            <a href="detalhes-venda.html?id=4" class="btn btn-sm btn-outline-info">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add Sale Modal -->
+    <div class="modal fade" id="addSaleModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Registrar Nova Venda</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addSaleForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Cliente</label>
+                                <select class="form-select" required>
+                                    <option value="">Selecione um cliente</option>
+                                    <option value="1">Carlos Mendes</option>
+                                    <option value="2">Maria Silva</option>
+                                    <option value="3">João Santos</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Veículo</label>
+                                <select class="form-select" required>
+                                    <option value="">Selecione um veículo</option>
+                                    <option value="1">Toyota Corolla 2024</option>
+                                    <option value="2">Honda Civic 2023</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Valor (R$)</label>
+                                <input type="number" class="form-control" placeholder="0.00" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Data da Venda</label>
+                                <input type="date" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <select class="form-select" required>
+                                <option value="1">Concluída</option>
+                                <option value="2">Pendente</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Observações</label>
+                            <textarea class="form-control" rows="3" placeholder="Notas da venda..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveSale()">Registrar Venda</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Sale Modal -->
+    <div class="modal fade" id="editSaleModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalhes da Venda</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editSaleForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Cliente</label>
+                                <input type="text" class="form-control" value="Carlos Mendes" disabled>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Veículo</label>
+                                <input type="text" class="form-control" value="Toyota Corolla 2024" disabled>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Valor (R$)</label>
+                                <input type="number" class="form-control" value="95000" placeholder="0.00">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Data da Venda</label>
+                                <input type="date" class="form-control" value="2024-02-15">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <select class="form-select">
+                                <option value="1" selected>Concluída</option>
+                                <option value="2">Pendente</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Observações</label>
+                            <textarea class="form-control" rows="3" placeholder="Notas da venda..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" onclick="updateSale()">Salvar Alterações</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/app.js"></script>
+</body>
+
+</html>
