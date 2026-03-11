@@ -2,11 +2,14 @@
 
 namespace App\Controllers\Admin;
 
-class DashboardController
+use App\Core\Controller;
+
+class DashboardController extends Controller
 {
     public function index()
     {
-        echo "<h1>Painel Admin</h1>";
-        echo '<a href="/admin/logout">Sair</a>';
+        echo $this->view('deashboad/index', [
+            'message' => 'Olá Mundo com Twig'
+        ]);
     }
 }

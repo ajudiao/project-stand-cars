@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Recuperar Senha - AutoStand</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f6f8;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .card-recuperar {
+            max-width: 420px;
+            width: 100%;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            background: white;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="card-recuperar">
+
+        <div class="text-center mb-4">
+            <h4 class="logo">
+                <i class="bi bi-car-front-fill"></i> AutoStand
+            </h4>
+            <p class="text-muted">
+                Digite o seu email para recuperar a senha
+            </p>
+        </div>
+
+        <form>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-envelope"></i>
+                    </span>
+
+                    <input type="email" class="form-control" placeholder="Digite o seu email">
+                </div>
+
+            </div>
+
+            <button class="btn btn-dark w-100 mb-3">
+                <i class="bi bi-send"></i> Enviar link de recuperação
+            </button>
+
+            <div class="text-center">
+                <a href="login.html" class="text-decoration-none">
+                    <i class="bi bi-arrow-left"></i> Voltar ao login
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>

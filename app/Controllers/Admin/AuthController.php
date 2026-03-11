@@ -2,18 +2,15 @@
 
 namespace App\Controllers\Admin;
 
-class AuthController
+use App\Core\Controller;
+
+class AuthController extends Controller
 {
     public function loginForm()
     {
-        echo '
-        <h2>Login Admin</h2>
-        <form method="POST" action="/admin/login">
-            <input type="text" name="email" placeholder="Email"><br><br>
-            <input type="password" name="password" placeholder="Senha"><br><br>
-            <button type="submit">Entrar</button>
-        </form>
-        ';
+        $this->view('deashboad/login', [
+            'message' => 'Olá Mundo com Twig'
+        ]);
     }
 
     public function login()
@@ -24,6 +21,9 @@ class AuthController
 
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
+
+        var_dump($email, $password); // Verificar os dados recebidos
+       
 
         // Exemplo simples (depois você liga ao banco)
         if ($email === 'admin@stand.com' && $password === '123456') {

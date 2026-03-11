@@ -1,38 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relatórios - AutoVendas</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-
-<body>
-    <div class="wrapper">
-        <nav id="sidebar" class="sidebar">
-            <div class="sidebar-header">
-                <button id="sidebarToggle" class="btn-toggle-sidebar">
-                    <i class="bi bi-list"></i>
-                </button>
-                <h4 class="mb-0 brand-name">AutoVendas</h4>
-            </div>
-
-            <ul class="sidebar-menu">
-                <li><a href="index.html" class="nav-link" data-page="dashboard"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a></li>
-                <li><a href="veiculos.html" class="nav-link" data-page="veiculos"><i class="bi bi-car-front"></i><span>Veículos</span></a></li>
-                <li><a href="clientes.html" class="nav-link" data-page="clientes"><i class="bi bi-people-fill"></i><span>Clientes</span></a></li>
-                <li><a href="vendas.html" class="nav-link" data-page="vendas"><i class="bi bi-graph-up"></i><span>Vendas</span></a></li>
-                <li><a href="relatorios.html" class="nav-link active" data-page="relatorios"><i class="bi bi-file-earmark-pdf"></i><span>Relatórios</span></a></li>
-                <li><a href="publicacao.html" class="nav-link" data-page="publicacao"><i class="bi bi-globe"></i><span>Publicação Web</span></a></li>
-                <li class="divider"></li>
-                <li><a href="perfil.html" class="nav-link" data-page="perfil"><i class="bi bi-person-circle"></i><span>Meu Perfil</span></a></li>
-                <li><a href="configuracoes.html" class="nav-link" data-page="configuracoes"><i class="bi bi-gear"></i><span>Configurações</span></a></li>
-                <li><a href="#" class="nav-link" onclick="logout()"><i class="bi bi-box-arrow-right"></i><span>Sair</span></a></li>
-            </ul>
-        </nav>
+{% extends "layouts/admin.twig" %}
+    {% block content %}
 
         <div class="main-content">
             <header class="top-bar">
@@ -201,7 +169,6 @@
                 </div>
             </main>
         </div>
-    </div>
 
     <!-- Custom Report Modal -->
     <div class="modal fade" id="customReportModal" tabindex="-1">
@@ -257,8 +224,4 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../js/app.js"></script>
-</body>
-
-</html>
+{% endblock %}
