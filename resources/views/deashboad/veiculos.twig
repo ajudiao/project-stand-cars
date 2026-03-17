@@ -1,436 +1,606 @@
 {% extends "layouts/admin.twig" %}
-    {% block content %}
+{% block content %}
+    {{ veiculos.marca }}
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <div class="d-flex align-items-center justify-content-between w-100">
+                <div class="d-flex align-items-center gap-3">
+                    <button class="btn btn-sm btn-outline-secondary d-lg-none" id="mobileToggle">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <h5 class="mb-0">
+                        Veículos
+                    </h5>
+                </div>
 
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Top Bar -->
-            <header class="top-bar">
-                <div class="d-flex align-items-center justify-content-between w-100">
-                    <div class="d-flex align-items-center gap-3">
-                        <button class="btn btn-sm btn-outline-secondary d-lg-none" id="mobileToggle">
-                            <i class="bi bi-list"></i>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="dropdown">
+                        <button class="btn btn-sm position-relative" id="notificationsBtn" data-bs-toggle="dropdown">
+                            <i class="bi bi-bell"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                3
+                            </span>
                         </button>
-                        <h5 class="mb-0">aVeículos</h5>
-                    </div>
-
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="dropdown">
-                            <button class="btn btn-sm position-relative" id="notificationsBtn" data-bs-toggle="dropdown">
-                                <i class="bi bi-bell"></i>
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    3
-                                </span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end notifications-dropdown" id="notificationsDropdown">
-                                <li class="dropdown-header">
-                                    Notificações (3)
-                                    <button class="btn btn-sm float-end" onclick="clearNotifications()">
-                                        <i class="bi bi-x"></i>
-                                    </button>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                        <div class="notification-item">
-                                            <i class="bi bi-car-front text-primary"></i>
-                                            <div>
-                                                <strong>Novo veículo adicionado</strong>
-                                                <p>Toyota Corolla 2024</p>
-                                                <small class="text-muted">há 2 minutos</small>
-                                            </div>
+                        <ul class="dropdown-menu dropdown-menu-end notifications-dropdown" id="notificationsDropdown">
+                            <li class="dropdown-header">
+                                Notificações (3)
+                                <button class="btn btn-sm float-end" onclick="clearNotifications()">
+                                    <i class="bi bi-x"></i>
+                                </button>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <div class="notification-item">
+                                        <i class="bi bi-car-front text-primary"></i>
+                                        <div>
+                                            <strong>
+                                                Novo veículo adicionado
+                                            </strong>
+                                            <p>
+                                                Toyota Corolla 2024
+                                            </p>
+                                            <small class="text-muted">
+                                                há 2 minutos
+                                            </small>
                                         </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                        <div class="notification-item">
-                                            <i class="bi bi-check-circle text-success"></i>
-                                            <div>
-                                                <strong>Venda realizada</strong>
-                                                <p>Honda Civic - R$ 95.000</p>
-                                                <small class="text-muted">há 15 minutos</small>
-                                            </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <div class="notification-item">
+                                        <i class="bi bi-check-circle text-success"></i>
+                                        <div>
+                                            <strong>
+                                                Venda realizada
+                                            </strong>
+                                            <p>
+                                                Honda Civic - R$ 95.000
+                                            </p>
+                                            <small class="text-muted">
+                                                há 15 minutos
+                                            </small>
                                         </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                        <div class="notification-item">
-                                            <i class="bi bi-exclamation-circle text-warning"></i>
-                                            <div>
-                                                <strong>Documento vencido</strong>
-                                                <p>Seguro do veículo #12345</p>
-                                                <small class="text-muted">há 1 hora</small>
-                                            </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <div class="notification-item">
+                                        <i class="bi bi-exclamation-circle text-warning"></i>
+                                        <div>
+                                            <strong>
+                                                Documento vencido
+                                            </strong>
+                                            <p>
+                                                Seguro do veículo #12345
+                                            </p>
+                                            <small class="text-muted">
+                                                há 1 hora
+                                            </small>
                                         </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item text-center small" href="#">
+                                        Ver todas as notificações
                                     </a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <a class="dropdown-item text-center small" href="#">Ver todas as notificações</a>
                                 </li>
                             </ul>
                         </div>
 
                         <div class="dropdown">
                             <button class="btn btn-sm" id="userBtn" data-bs-toggle="dropdown">
-                                <img src="https://via.placeholder.com/32" class="rounded-circle" alt="User">
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li>
-                                    <a class="dropdown-item" href="perfil.html">
-                                        <i class="bi bi-person"></i> Meu Perfil
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="configuracoes.html">
-                                        <i class="bi bi-gear"></i> Configurações
-                                    </a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#" onclick="logout()">
-                                        <i class="bi bi-box-arrow-right"></i> Sair
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Página Content -->
-            <main class="page-content">
-                <div class="container-fluid">
-                    <div class="row mb-4">
-                        <div class="col-12">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h2>Gerenciar Veículos</h2>
-                                    <p class="text-muted">Controle de inventário de veículos</p>
+                                <img src="https://via.placeholder.com/32" class="rounded-circle" alt="User"></button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" href="perfil.html">
+                                            <i class="bi bi-person"></i>
+                                            Meu Perfil
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="configuracoes.html">
+                                            <i class="bi bi-gear"></i>
+                                            Configurações
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider"></li>
+                                        <li>
+                                            <a class="dropdown-item" href="#" onclick="logout()">
+                                                <i class="bi bi-box-arrow-right"></i>
+                                                Sair
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addVehicleModal">
-                                    <i class="bi bi-plus-circle"></i> Adicionar Veículo
-                                </button>
                             </div>
                         </div>
-                    </div>
+                    </header>
 
-                    <!-- Filters -->
-                    <div class="row mb-4">
-                        <div class="col-md-4 col-lg-3">
-                            <input type="text" class="form-control" placeholder="Buscar por marca/modelo...">
-                        </div>
-                        <div class="col-md-4 col-lg-3">
-                            <select class="form-select">
-                                <option value="">Filtrar por Status</option>
-                                <option value="1">Disponível</option>
-                                <option value="2">Vendido</option>
-                                <option value="3">Em Negociação</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4 col-lg-3">
-                            <select class="form-select">
-                                <option value="">Filtrar por Marca</option>
-                                <option value="1">Toyota</option>
-                                <option value="2">Honda</option>
-                                <option value="3">Fiat</option>
-                                <option value="4">Volkswagen</option>
-                            </select>
-                        </div>
-                    </div>
+                    <!-- Página Content -->
+                    <main class="page-content">
+                        <div class="container-fluid">
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h2>
+                                                Gerenciar Veículos
+                                            </h2>
+                                            <p class="text-muted">
+                                                Controle de inventário de veículos
+                                            </p>
+                                        </div>
+                                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addVehicleModal">
+                                            <i class="bi bi-plus-circle"></i>
+                                            Adicionar Veículo
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
 
-                    <!-- Vehicles Table -->
-                    <div class="card">
-                        <div class="table-responsive">
-                            <table class="table mb-0">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 100px;">Foto</th>
-                                        <th>Modelo</th>
-                                        <th>Ano</th>
-                                        <th>Preço</th>
-                                        <th>Status</th>
-                                        <th style="width: 120px;">Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <img src="https://via.placeholder.com/80x60?text=Carro" alt="Toyota" class="rounded" style="width: 80px; height: 60px; object-fit: cover;">
-                                        </td>
-                                        <td>
-                                            <strong>Toyota Corolla 2024</strong><br>
-                                            <small class="text-muted">Automático | Branco</small>
-                                        </td>
-                                        <td>2024</td>
-                                        <td>R$ 95.000</td>
-                                        <td><span class="badge bg-success">Disponível</span></td>
-                                        <td>
-                                            <div class="btn-group btn-group-sm" role="group">
-                                                <a href="detalhes-veiculo.html?id=1" class="btn btn-outline-info" title="Ver Detalhes">
-                                                    <i class="bi bi-eye"></i>
-                                                </a>
-                                                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editVehicleModal" onclick="editVehicle(1)">
-                                                    <i class="bi bi-pencil"></i>
-                                                </button>
-                                                <button class="btn btn-outline-danger" onclick="deleteVehicle(1)">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
+                            <!-- Filters -->
+                            <div class="row mb-4">
+                                <div class="col-md-4 col-lg-3">
+                                    <input type="text" class="form-control" placeholder="Buscar por marca/modelo..."></div>
+                                    <div class="col-md-4 col-lg-3">
+                                        <select class="form-select">
+                                            <option value="">
+                                                Filtrar por Status
+                                            </option>
+                                            <option value="1">
+                                                Disponível
+                                            </option>
+                                            <option value="2">
+                                                Vendido
+                                            </option>
+                                            <option value="3">
+                                                Em Negociação
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 col-lg-3">
+                                        <select class="form-select">
+                                            <option value="">
+                                                Filtrar por Marca
+                                            </option>
+                                            <option value="1">
+                                                Toyota
+                                            </option>
+                                            <option value="2">
+                                                Honda
+                                            </option>
+                                            <option value="3">
+                                                Fiat
+                                            </option>
+                                            <option value="4">
+                                                Volkswagen
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Vehicles Table -->
+                                <div class="card">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 100px;">
+                                                        Foto
+                                                    </th>
+                                                    <th>
+                                                        Modelo
+                                                    </th>
+                                                    <th>
+                                                        Ano
+                                                    </th>
+                                                    <th>
+                                                        Preço (AOA)
+                                                    </th>
+                                                    <th>
+                                                        Status
+                                                    </th>
+                                                    <th style="width: 120px;">
+                                                        Ações
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tbody>
+                                                    {% for veiculo in veiculos %}
+                                                    
+                                                        <tr>
+                                                            <td>
+                                                                <!-- Imagem principal do veículo -->
+                                                                <img src="{{ carImage(veiculo.foto) }}" alt="{{ veiculo.modelo }}" class="rounded" style="width: 80px; height: 60px; object-fit: cover;"></td>
+                                                                <td>
+                                                                    <strong>
+                                                                        {{ veiculo.modelo }}
+                                                                    </strong>
+                                                                    <br>
+                                                                        <small class="text-muted">
+                                                                            {{ veiculo.transmissao }}
+                                                                            |
+                                                                            {{ veiculo.cor }}
+                                                                        </small>
+                                                                    </td>
+                                                                    <td>
+                                                                        {{ veiculo.ano }}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{ veiculo.preco|number_format(2, ',', '.') }}
+                                                                    </td>
+                                                                    <td>
+                                                                        {% if veiculo.status|lower == 'disponivel' %}
+                                                                            <span class="badge bg-success">
+                                                                                {{ veiculo.status }}
+                                                                            </span>
+                                                                        {% else %}
+                                                                            <span class="badge bg-secondary">
+                                                                                {{ veiculo.status }}
+                                                                            </span>
+                                                                        {% endif %}
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="btn-group btn-group-sm" role="group">
+                                                                            <a href="veiculo/show/{{ veiculo.id }}" class="btn btn-outline-info" title="Ver Detalhes">
+                                                                                <i class="bi bi-eye"></i>
+                                                                            </a>
+                                                                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editVehicleModal" onclick="editVehicle({{ veiculo.id }})">
+                                                                                <i class="bi bi-pencil"></i>
+                                                                            </button>
+                                                                            <button class="btn btn-outline-danger" onclick="deleteVehicle({{ veiculo.id }})">
+                                                                                <i class="bi bi-trash"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            {% else %}
+                                                                <tr>
+                                                                    <td colspan="6" class="text-center">
+                                                                        Nenhum veículo encontrado.
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="https://via.placeholder.com/80x60?text=Carro" alt="Honda" class="rounded" style="width: 80px; height: 60px; object-fit: cover;">
-                                        </td>
-                                        <td>
-                                            <strong>Honda Civic 2023</strong><br>
-                                            <small class="text-muted">Manual | Preto</small>
-                                        </td>
-                                        <td>2023</td>
-                                        <td>R$ 87.500</td>
-                                        <td><span class="badge bg-warning">Em Negociação</span></td>
-                                        <td>
-                                            <div class="btn-group btn-group-sm" role="group">
-                                                <a href="detalhes-veiculo.html?id=2" class="btn btn-outline-info" title="Ver Detalhes">
-                                                    <i class="bi bi-eye"></i>
-                                                </a>
-                                                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editVehicleModal" onclick="editVehicle(2)">
-                                                    <i class="bi bi-pencil"></i>
-                                                </button>
-                                                <button class="btn btn-outline-danger" onclick="deleteVehicle(2)">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
+                                        </div>
+                                    </main>
+                                </div>
+
+                                <!-- Add Vehicle Modal -->
+                                <div class="modal fade" id="addVehicleModal" tabindex="-1">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">
+                                                    Adicionar Novo Veículo
+                                                </h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="https://via.placeholder.com/80x60?text=Carro" alt="Fiat" class="rounded" style="width: 80px; height: 60px; object-fit: cover;">
-                                        </td>
-                                        <td>
-                                            <strong>Fiat Argo 2022</strong><br>
-                                            <small class="text-muted">Automático | Prata</small>
-                                        </td>
-                                        <td>2022</td>
-                                        <td>R$ 45.000</td>
-                                        <td><span class="badge bg-success">Disponível</span></td>
-                                        <td>
-                                            <div class="btn-group btn-group-sm" role="group">
-                                                <a href="detalhes-veiculo.html?id=3" class="btn btn-outline-info" title="Ver Detalhes">
-                                                    <i class="bi bi-eye"></i>
-                                                </a>
-                                                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editVehicleModal" onclick="editVehicle(3)">
-                                                    <i class="bi bi-pencil"></i>
-                                                </button>
-                                                <button class="btn btn-outline-danger" onclick="deleteVehicle(3)">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="https://via.placeholder.com/80x60?text=Carro" alt="VW" class="rounded" style="width: 80px; height: 60px; object-fit: cover;">
-                                        </td>
-                                        <td>
-                                            <strong>Volkswagen Gol 2021</strong><br>
-                                            <small class="text-muted">Manual | Vermelho</small>
-                                        </td>
-                                        <td>2021</td>
-                                        <td>R$ 38.500</td>
-                                        <td><span class="badge bg-secondary">Vendido</span></td>
-                                        <td>
-                                            <div class="btn-group btn-group-sm" role="group">
-                                                <a href="detalhes-veiculo.html?id=4" class="btn btn-outline-info" title="Ver Detalhes">
-                                                    <i class="bi bi-eye"></i>
-                                                </a>
-                                                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editVehicleModal" onclick="editVehicle(4)">
-                                                    <i class="bi bi-pencil"></i>
-                                                </button>
-                                                <button class="btn btn-outline-danger" onclick="deleteVehicle(4)">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </div>
+                                            <div class="modal-body">
+                                                <form action="/admin/veiculos" method="POST" enctype="multipart/form-data">
 
-    <!-- Add Vehicle Modal -->
-    <div class="modal fade" id="addVehicleModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Adicionar Novo Veículo</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="addVehicleForm">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Marca</label>
-                                <input type="text" class="form-control" placeholder="Ex: Toyota" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Modelo</label>
-                                <input type="text" class="form-control" placeholder="Ex: Corolla" required>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Ano</label>
-                                <input type="number" class="form-control" placeholder="2024" required>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Cor</label>
-                                <input type="text" class="form-control" placeholder="Branco" required>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Tipo</label>
-                                <select class="form-select" required>
-                                    <option value="">Selecione</option>
-                                    <option value="1">Automático</option>
-                                    <option value="2">Manual</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Preço (R$)</label>
-                                <input type="number" class="form-control" placeholder="0.00" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Status</label>
-                                <select class="form-select" required>
-                                    <option value="1">Disponível</option>
-                                    <option value="2">Em Negociação</option>
-                                    <option value="3">Vendido</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Quilometragem</label>
-                            <input type="number" class="form-control" placeholder="15000" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Descrição</label>
-                            <textarea class="form-control" rows="3" placeholder="Detalhes adicionais..."></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Foto do Veículo</label>
-                            <input type="file" class="form-control" accept="image/*">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" onclick="saveVehicle()">Adicionar Veículo</button>
-                </div>
-            </div>
-        </div>
-    </div>
+                                                    <div class="row">
 
-    <!-- Edit Vehicle Modal -->
-    <div class="modal fade" id="editVehicleModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Editar Veículo</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="editVehicleForm">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Marca</label>
-                                <input type="text" class="form-control" placeholder="Ex: Toyota">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Modelo</label>
-                                <input type="text" class="form-control" placeholder="Ex: Corolla">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Ano</label>
-                                <input type="number" class="form-control" placeholder="2024">
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Cor</label>
-                                <input type="text" class="form-control" placeholder="Branco">
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Tipo</label>
-                                <select class="form-select">
-                                    <option value="">Selecione</option>
-                                    <option value="1">Automático</option>
-                                    <option value="2">Manual</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Preço (R$)</label>
-                                <input type="number" class="form-control" placeholder="0.00">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Status</label>
-                                <select class="form-select">
-                                    <option value="1">Disponível</option>
-                                    <option value="2">Em Negociação</option>
-                                    <option value="3">Vendido</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Quilometragem</label>
-                            <input type="number" class="form-control" placeholder="15000">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Descrição</label>
-                            <textarea class="form-control" rows="3" placeholder="Detalhes adicionais..."></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Foto do Veículo</label>
-                            <input type="file" class="form-control" accept="image/*">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" onclick="updateVehicle()">Salvar Alterações</button>
-                </div>
-            </div>
-        </div>
-    </div>
+                                                        <!-- MARCA -->
+                                                        <div class="col-md-6 mb-3">
+                                                            <label class="form-label">
+                                                                Marca
+                                                            </label>
 
-    <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteConfirmModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirmar Exclusão</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Tem certeza que deseja excluir este veículo? Esta ação não pode ser desfeita.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger" onclick="confirmDelete()">Excluir</button>
-                </div>
-            </div>
-        </div>
-    </div>
+                                                            <select name="id_marca" class="form-select" required>
+                                                                <option value="">
+                                                                    Selecione a marca
+                                                                </option>
 
-    {% endblock %}
+                                                                {% for marca in marcas %}
+                                                                    <option value="{{ marca.id }}">
+                                                                        {{ marca.nome }}
+                                                                    </option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+
+                                                        <!-- Categoria -->
+                                                        <div class="col-md-6 mb-3">
+                                                            <label class="form-label">
+                                                                Categoria
+                                                            </label>
+
+                                                            <select name="id_categoria" class="form-select" required>
+                                                                <option value="">
+                                                                    Selecione a categoria
+                                                                </option>
+
+                                                                {% for categoria in categorias %}
+                                                                    <option value="{{ categoria.id }}">
+                                                                        {{ categoria.nome }}
+                                                                    </option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+
+                                                        <!-- MODELO -->
+                                                        <div class="col-md-6 mb-3">
+                                                            <label class="form-label">
+                                                                Modelo
+                                                            </label>
+                                                            <input type="text" name="modelo" class="form-control" placeholder="Ex: Corolla" required></div>
+                                                        </div>
+
+                                                        <div class="row">
+
+                                                            <!-- ANO -->
+                                                            <div class="col-md-4 mb-3">
+                                                                <label class="form-label">
+                                                                    Ano
+                                                                </label>
+                                                                <input type="number" name="ano" class="form-control" placeholder="2024" required></div>
+
+                                                                <!-- COR -->
+                                                                <div class="col-md-4 mb-3">
+                                                                    <label class="form-label">
+                                                                        Cor
+                                                                    </label>
+                                                                    <input type="text" name="cor" class="form-control" placeholder="Branco" required></div>
+
+                                                                    <!-- TRANSMISSÃO -->
+                                                                    <div class="col-md-4 mb-3">
+                                                                        <label class="form-label">
+                                                                            Transmissão
+                                                                        </label>
+                                                                        <select name="transmissao" class="form-select" required>
+                                                                            <option value="">
+                                                                                Selecione
+                                                                            </option>
+                                                                            <option value="Automatica">
+                                                                                Automática
+                                                                            </option>
+                                                                            <option value="Manual">
+                                                                                Manual
+                                                                            </option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row">
+
+                                                                    <!-- PREÇO -->
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label class="form-label">
+                                                                            Preço (AOA)
+                                                                        </label>
+                                                                        <input type="number" name="preco" class="form-control" placeholder="0.00" step="0.01" required></div>
+
+                                                                        <!-- STATUS -->
+                                                                        <div class="col-md-6 mb-3">
+                                                                            <label class="form-label">
+                                                                                Status
+                                                                            </label>
+                                                                            <select name="status" class="form-select" required>
+                                                                                <option value="">
+                                                                                    Selecione
+                                                                                </option>
+                                                                                <option value="Disponivel">
+                                                                                    Disponível
+                                                                                </option>
+                                                                                <option value="Negociacao">
+                                                                                    Em Negociação
+                                                                                </option>
+                                                                                <option value="Vendido">
+                                                                                    Vendido
+                                                                                </option>
+                                                                            </select>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                    <!-- QUILOMETRAGEM -->
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">
+                                                                            Quilometragem
+                                                                        </label>
+                                                                        <input type="number" name="quilometragem" class="form-control" placeholder="15000" required></div>
+
+                                                                        <!-- COMBUSTIVEL -->
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label">
+                                                                                Combustível
+                                                                            </label>
+                                                                            <select name="combustivel" class="form-select" required>
+                                                                                <option value="">
+                                                                                    Selecione
+                                                                                </option>
+                                                                                <option value="Gasolina">
+                                                                                    Gasolina
+                                                                                </option>
+                                                                                <option value="Diesel">
+                                                                                    Diesel
+                                                                                </option>
+                                                                                <option value="Eletrico">
+                                                                                    Elétrico
+                                                                                </option>
+                                                                                <option value="Hibrido">
+                                                                                    Híbrido
+                                                                                </option>
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <!-- DESCRIÇÃO -->
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label">
+                                                                                Descrição
+                                                                            </label>
+                                                                            <textarea name="descricao" class="form-control" rows="3" placeholder="Detalhes adicionais..." required></textarea>
+                                                                        </div>
+
+                                                                        <!-- FOTO -->
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label">
+                                                                                Foto do Veículo
+                                                                            </label>
+                                                                            <input type="file" name="fotos[]" class="form-control" multiple accept="image/*" required></div>
+
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                                                Cancelar
+                                                                            </button>
+                                                                            <!-- BOTÃO -->
+                                                                            <button type="submit" class="btn btn-primary">
+                                                                                Cadastrar Veículo
+                                                                            </button>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                        <!-- Edit Vehicle Modal -->
+                                                        <div class="modal fade" id="editVehicleModal" tabindex="-1">
+                                                            <div class="modal-dialog modal-lg">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">
+                                                                            Editar Veículo
+                                                                        </h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form id="editVehicleForm">
+                                                                            <div class="row">
+                                                                                <div class="col-md-6 mb-3">
+                                                                                    <label class="form-label">
+                                                                                        Marca
+                                                                                    </label>
+                                                                                    <input type="text" class="form-control" placeholder="Ex: Toyota"></div>
+                                                                                    <div class="col-md-6 mb-3">
+                                                                                        <label class="form-label">
+                                                                                            Modelo
+                                                                                        </label>
+                                                                                        <input type="text" class="form-control" placeholder="Ex: Corolla"></div>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-4 mb-3">
+                                                                                            <label class="form-label">
+                                                                                                Ano
+                                                                                            </label>
+                                                                                            <input type="number" class="form-control" placeholder="2024"></div>
+                                                                                            <div class="col-md-4 mb-3">
+                                                                                                <label class="form-label">
+                                                                                                    Cor
+                                                                                                </label>
+                                                                                                <input type="text" class="form-control" placeholder="Branco"></div>
+                                                                                                <div class="col-md-4 mb-3">
+                                                                                                    <label class="form-label">
+                                                                                                        Tipo
+                                                                                                    </label>
+                                                                                                    <select class="form-select">
+                                                                                                        <option value="">
+                                                                                                            Selecione
+                                                                                                        </option>
+                                                                                                        <option value="1">
+                                                                                                            Automático
+                                                                                                        </option>
+                                                                                                        <option value="2">
+                                                                                                            Manual
+                                                                                                        </option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-6 mb-3">
+                                                                                                    <label class="form-label">
+                                                                                                        Preço (AOA)
+                                                                                                    </label>
+                                                                                                    <input type="number" class="form-control" placeholder="0.00"></div>
+                                                                                                    <div class="col-md-6 mb-3">
+                                                                                                        <label class="form-label">
+                                                                                                            Status
+                                                                                                        </label>
+                                                                                                        <select class="form-select">
+                                                                                                            <option value="1">
+                                                                                                                Disponível
+                                                                                                            </option>
+                                                                                                            <option value="2">
+                                                                                                                Em Negociação
+                                                                                                            </option>
+                                                                                                            <option value="3">
+                                                                                                                Vendido
+                                                                                                            </option>
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="mb-3">
+                                                                                                    <label class="form-label">
+                                                                                                        Quilometragem
+                                                                                                    </label>
+                                                                                                    <input type="number" class="form-control" placeholder="15000"></div>
+                                                                                                    <div class="mb-3">
+                                                                                                        <label class="form-label">
+                                                                                                            Descrição
+                                                                                                        </label>
+                                                                                                        <textarea class="form-control" rows="3" placeholder="Detalhes adicionais..."></textarea>
+                                                                                                    </div>
+                                                                                                    <div class="mb-3">
+                                                                                                        <label class="form-label">
+                                                                                                            Foto do Veículo
+                                                                                                        </label>
+                                                                                                        <input type="file" class="form-control" accept="image/*"></div>
+
+                                                                                                    </div>
+                                                                                                </form>
+                                                                                                <div class="modal-footer">
+                                                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                                                                        Cancelar
+                                                                                                    </button>
+                                                                                                    <button type="button" class="btn btn-primary" onclick="updateVehicle()">
+                                                                                                        Salvar Alterações
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <!-- Delete Confirmation Modal -->
+                                                                                    <div class="modal fade" id="deleteConfirmModal" tabindex="-1">
+                                                                                        <div class="modal-dialog">
+                                                                                            <div class="modal-content">
+                                                                                                <div class="modal-header">
+                                                                                                    <h5 class="modal-title">
+                                                                                                        Confirmar Exclusão
+                                                                                                    </h5>
+                                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                                                                </div>
+                                                                                                <div class="modal-body">
+                                                                                                    <p>
+                                                                                                        Tem certeza que deseja excluir este veículo? Esta ação não pode ser desfeita.
+                                                                                                    </p>
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                                                                        Cancelar
+                                                                                                    </button>
+                                                                                                    <button type="button" class="btn btn-danger" onclick="confirmDelete()">
+                                                                                                        Excluir
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                {% endblock %}
+                                                                                

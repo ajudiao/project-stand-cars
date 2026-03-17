@@ -138,95 +138,30 @@
                                 <thead>
                                     <tr>
                                         <th>Nome</th>
-                                        <th>CPF/CNPJ</th>
+                                        <th>Identidade</th>
                                         <th>Email</th>
                                         <th>Telefone</th>
-                                        <th>Última Compra</th>
+                                        <th>Cidade</th>
+                                        <th>Municipio</th>
+                                        <th>Endereço</th>
+                                        <th>Data de Cadastro</th>
                                         <th style="width: 120px;">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <strong>Carlos Mendes</strong><br>
-                                            <small class="text-muted">Rio de Janeiro, RJ</small>
-                                        </td>
-                                        <td>123.456.789-00</td>
-                                        <td>carlos@email.com</td>
-                                        <td>(21) 98765-4321</td>
-                                        <td>15/02/2024</td>
-                                        <td>
+                                     {% for cliente in clientes %}
+            <tr>
+                <td>{{ cliente.nome_completo }}</td>
+                <td>{{ cliente.indentidade }}</td>
+                <td>{{ cliente.email }}</td>    
+                <td>{{ cliente.telefone }}</td>
+                <td>{{ cliente.cidade }}</td>
+                <td>{{ cliente.municipio }}</td>
+                <td>{{ cliente.endereco }}</td>
+                <td>{{ cliente.created_at|date("d/m/Y H:i") }}</td>
+                    <td>
                                             <div class="btn-group btn-group-sm" role="group">
-                                                <a href="detalhes-cliente.html?id=1" class="btn btn-outline-info" title="Ver Detalhes">
-                                                    <i class="bi bi-eye"></i>
-                                                </a>
-                                                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editClientModal">
-                                                    <i class="bi bi-pencil"></i>
-                                                </button>
-                                                <button class="btn btn-outline-danger" onclick="deleteClient(1)">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <strong>Maria Silva</strong><br>
-                                            <small class="text-muted">São Paulo, SP</small>
-                                        </td>
-                                        <td>987.654.321-00</td>
-                                        <td>maria@email.com</td>
-                                        <td>(11) 97654-3210</td>
-                                        <td>14/02/2024</td>
-                                        <td>
-                                            <div class="btn-group btn-group-sm" role="group">
-                                                <a href="detalhes-cliente.html?id=2" class="btn btn-outline-info" title="Ver Detalhes">
-                                                    <i class="bi bi-eye"></i>
-                                                </a>
-                                                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editClientModal">
-                                                    <i class="bi bi-pencil"></i>
-                                                </button>
-                                                <button class="btn btn-outline-danger" onclick="deleteClient(2)">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <strong>João Santos</strong><br>
-                                            <small class="text-muted">Belo Horizonte, MG</small>
-                                        </td>
-                                        <td>456.789.123-00</td>
-                                        <td>joao@email.com</td>
-                                        <td>(31) 96543-2109</td>
-                                        <td>13/02/2024</td>
-                                        <td>
-                                            <div class="btn-group btn-group-sm" role="group">
-                                                <a href="detalhes-cliente.html?id=3" class="btn btn-outline-info" title="Ver Detalhes">
-                                                    <i class="bi bi-eye"></i>
-                                                </a>
-                                                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editClientModal">
-                                                    <i class="bi bi-pencil"></i>
-                                                </button>
-                                                <button class="btn btn-outline-danger" onclick="deleteClient(3)">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <strong>Ana Costa</strong><br>
-                                            <small class="text-muted">Brasília, DF</small>
-                                        </td>
-                                        <td>789.123.456-00</td>
-                                        <td>ana@email.com</td>
-                                        <td>(61) 95432-1098</td>
-                                        <td>12/02/2024</td>
-                                        <td>
-                                            <div class="btn-group btn-group-sm" role="group">
-                                                <a href="detalhes-cliente.html?id=4" class="btn btn-outline-info" title="Ver Detalhes">
+                                                <a href="clientes/{{ cliente.id }}" class="btn btn-outline-info" title="Ver Detalhes">
                                                     <i class="bi bi-eye"></i>
                                                 </a>
                                                 <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editClientModal">
@@ -237,7 +172,15 @@
                                                 </button>
                                             </div>
                                         </td>
-                                    </tr>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9" class="text-center">Nenhum cliente encontrado</td>
+            </tr>
+        {% endfor %}
+
+                                
+                                
                                 </tbody>
                             </table>
                         </div>
@@ -256,46 +199,46 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="addClientForm">
+                    <form action="/admin/clientes" method="POST">
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Nome</label>
-                                <input type="text" class="form-control" placeholder="Nome completo" required>
+                                <input type="text" class="form-control" name="nome_completo" placeholder="Nome completo" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Email</label>
-                                <input type="email" class="form-control" placeholder="email@example.com" required>
+                                <input type="email" class="form-control" name="email" placeholder="email@example.com" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">CPF</label>
-                                <input type="text" class="form-control" placeholder="000.000.000-00" required>
+                                <label class="form-label">Identidade</label>
+                                <input type="text" class="form-control" name="identidade" placeholder="Bi ou Passaporte" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Telefone</label>
-                                <input type="tel" class="form-control" placeholder="(00) 98765-4321" required>
+                                <input type="tel" class="form-control" name="telefone" placeholder="(00) 98765-4321" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Cidade</label>
-                                <input type="text" class="form-control" placeholder="São Paulo" required>
+                                <input type="text" class="form-control" name="cidade" placeholder="Luanda" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Estado</label>
-                                <input type="text" class="form-control" placeholder="SP" required>
+                                <label class="form-label">Municipio</label>
+                                <input type="text" class="form-control" name="municipio" placeholder="Kilamba Kiaxi" required>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Endereço</label>
-                            <input type="text" class="form-control" placeholder="Rua, número, complemento" required>
+                            <input type="text" class="form-control" name="endereco" placeholder="Rua, número, complemento" required>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
+                        <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" onclick="saveClient()">Adicionar Cliente</button>
+                    <button type="submit" class="btn btn-primary">Adicionar Cliente</button>
+                </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -310,7 +253,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editClientForm">
+                    <form id="editClientForm" action="/clientes" method="POST">
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Nome</label>
@@ -328,7 +271,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Telefone</label>
-                                <input type="tel" class="form-control" placeholder="(00) 98765-4321">
+                                <input type="tel" class="form-control" placeholder="(+244) 98765-4321">
                             </div>
                         </div>
                         <div class="row">
