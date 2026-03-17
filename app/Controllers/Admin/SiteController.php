@@ -13,4 +13,11 @@ class SiteController extends Controller
             // Aqui você pode passar dados para a view, como estatísticas do site, etc.
         ]);
     }
+
+    public function configuracoes()
+    {
+        $this->view('deashboad/configuracoes-site', [
+            // Aqui você pode passar dados para a view, como estatísticas do site, etc.
+        ]);
+    }
 }
