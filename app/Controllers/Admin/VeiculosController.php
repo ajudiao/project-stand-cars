@@ -15,16 +15,17 @@ class VeiculosController extends Controller
         $this->carRepo = new CarRepository();
     }
 
-    // Listar veículos
+    // Listar veículos com todas as imagens
     public function index()
     {
-        $veiculos = $this->carRepo->getAll();
-        $marcas = (new \App\Repositories\MarcaRepository())->getAll(); // Para exibir as marcas na view
-        $categorias = (new \App\Repositories\CategoriaRepository())->getAll(); // Para exibir as categorias na view
+        $veiculos = $this->carRepo->getAllWithImages(); // já traz imagens e foto principal
+        $marcas = (new \App\Repositories\MarcaRepository())->getAll();
+        $categorias = (new \App\Repositories\CategoriaRepository())->getAll();
+
         $this->view('deashboad/veiculos', [
-            'veiculos' => $veiculos, // Aqui você pode passar os dados dos veículos para a view
-            'marcas' => $marcas, // Passa as marcas para a view
-            'categorias' => $categorias // Passa as categorias para a view
+            'veiculos'   => $veiculos,   // Veículos com todas as imagens
+            'marcas'     => $marcas,
+            'categorias' => $categorias
         ]);
     }
 
@@ -51,9 +52,6 @@ class VeiculosController extends Controller
         $car = new Car($data);
         $carId = $this->carRepo->create($car);
 
-        echo "Carro criado com ID: $carId" . $carId; // Debug: exibe o ID do carro criado
-        exit; // Interrompe a execução para verificar o ID retornado
-
         if (!$carId) {
             echo "Erro ao criar veículo.";
             return;
@@ -75,7 +73,7 @@ class VeiculosController extends Controller
 
     private function uploadImages($images, $carId)
     {
-        $uploadDir = __DIR__ . '/../../../../storage/uploads/cars/';
+        $uploadDir = __DIR__ . '/../../../public/uploads/cars/';
 
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
