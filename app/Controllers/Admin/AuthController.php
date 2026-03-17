@@ -42,7 +42,11 @@ class AuthController extends Controller
         $user = $this->usuarioRepo->findByEmail($email);
 
         if (!$user || !password_verify($senha, $user->senha)) {
-            echo "Email ou senha inválidos.";
+            $error = "Email ou senha inválidos.";
+            $this->view('deashboad/login', [
+                'error' => $error
+            ]);
+            unset($error);
             return;
         }
 
