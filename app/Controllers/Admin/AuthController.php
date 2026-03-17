@@ -3,9 +3,17 @@
 namespace App\Controllers\Admin;
 
 use App\Core\Controller;
+use App\Repositories\UsuarioRepository;
 
 class AuthController extends Controller
 {
+    private UsuarioRepository $usuarioRepo;
+
+    public function __construct()
+    {
+        $this->usuarioRepo = new UsuarioRepository();
+    }
+
     public function loginForm()
     {
         $this->view('deashboad/login', [
@@ -15,26 +23,25 @@ class AuthController extends Controller
 
     public function login()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
+        session_start();
 
         $email = $_POST['email'] ?? '';
-        $password = $_POST['password'] ?? '';
+        $senha = $_POST['password'] ?? '';
 
-        var_dump($email, $password); // Verificar os dados recebidos
-       
+        $user = $this->usuarioRepo->findByEmail($email);
 
-        // Exemplo simples (depois você liga ao banco)
-        if ($email === 'admin@stand.com' && $password === '123456') {
-
-            $_SESSION['admin_logged'] = true;
-
-            header('Location: /admin');
-            exit;
+        if (!$user || !password_verify($senha, $user->senha)) {
+            echo "Email ou senha inválidos.";
+            return;
         }
 
-        echo "Login inválido";
+        $_SESSION['admin_logged'] = true;
+        $_SESSION['user_id'] = $user->id;
+        $_SESSION['user_nome'] = $user->nome;
+        $_SESSION['user_perfil'] = $user->perfil;
+
+        header('Location: /admin');
+        exit;
     }
 
     public function logout()

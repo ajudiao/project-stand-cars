@@ -12,4 +12,13 @@ class VeiculosController extends Controller
             'message' => 'Olá Mundo com Twig'
         ]);
     }
+
+    public function show($id)
+    {
+        echo "teste";
+        exit;
+        $this->view('site/veiculo-detalhes', [
+            'message' => "Detalhes do veículo com ID: $id"
+        ]);
+    }
 }

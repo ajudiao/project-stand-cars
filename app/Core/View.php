@@ -66,7 +66,7 @@ class View
 
         return self::$twig;
     }
-
+    
     public static function render(string $template, array $data = [])
     {
         $twig = self::init();
