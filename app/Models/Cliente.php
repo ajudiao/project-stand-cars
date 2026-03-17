@@ -8,7 +8,7 @@ class Cliente
     public string $nome_completo;
     public string $email;
     public string $telefone;
-    public string $indentidade;
+    public string $identidade;
     public string $cidade;
     public string $municipio;
     public string $endereco;
@@ -20,7 +20,7 @@ class Cliente
         $this->nome_completo  = $data['nome_completo'] ?? '';
         $this->email          = $data['email'] ?? '';
         $this->telefone       = $data['telefone'] ?? '';
-        $this->indentidade    = $data['indentidade'] ?? '';
+        $this->identidade    = $data['identidade'] ?? '';
         $this->cidade         = $data['cidade'] ?? '';
         $this->municipio      = $data['municipio'] ?? '';
         $this->endereco       = $data['endereco'] ?? '';

@@ -3,11 +3,13 @@
 namespace App\Controllers\Admin;
 
 use App\Core\Controller;
+use App\Models\Cliente;
 use App\Repositories\ClienteRepository;
+use App\Models\Clientes;
 
 class ClientesController extends Controller
 {
-     private ClienteRepository $clienteRepo;
+    private ClienteRepository $clienteRepo;
 
     public function __construct()
     {
@@ -21,5 +23,38 @@ class ClientesController extends Controller
         $this->view('deashboad/clientes', [
             'clientes' => $clientes // Aqui você pode passar os dados dos clientes para a view
         ]);
+    }
+
+    public function store()
+    {
+        $data = $_POST;
+
+        // Cria o cliente
+        $cliente = new Cliente($data);
+
+        // Verifica duplicados (email ou BI)
+        if ($this->clienteRepo->existsByEmailOrBI($cliente->email, $cliente->identidade)) {
+            echo "Já existe um cliente com este email ou BI.";
+            return;
+        }
+
+        try {
+            // Salva no banco e retorna o ID
+            $clienteId = $this->clienteRepo->create($cliente);
+
+            if ($clienteId) {
+                // Redireciona para a lista de clientes
+                header('Location: /admin/clientes');
+                exit;
+            } else {
+                echo "Erro ao criar cliente.";
+            }
+        } catch (\PDOException $e) {
+            // Loga o erro para debug
+            error_log($e->getMessage());
+
+            // Mensagem amigável para o usuário
+            echo "Não foi possível criar o cliente. Verifique os dados e tente novamente.";
+        }
     }
 }

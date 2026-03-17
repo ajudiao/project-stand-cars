@@ -48,10 +48,10 @@ class ClienteRepository
     public function create(Cliente $cliente): int
     {
         $sql = "INSERT INTO clientes (
-                    nome_completo, email, telefone, indentidade, 
+                    nome_completo, email, telefone, identidade, 
                     cidade, municipio, endereco, created_at
                 ) VALUES (
-                    :nome_completo, :email, :telefone, :indentidade,
+                    :nome_completo, :email, :telefone, :identidade,
                     :cidade, :municipio, :endereco, :created_at
                 )";
 
@@ -60,14 +60,27 @@ class ClienteRepository
             'nome_completo' => $cliente->nome_completo,
             'email'         => $cliente->email,
             'telefone'      => $cliente->telefone,
-            'indentidade'   => $cliente->indentidade,
+            'identidade'   => $cliente->identidade,
             'cidade'        => $cliente->cidade,
             'municipio'     => $cliente->municipio,
             'endereco'      => $cliente->endereco,
-            'created_at'    => $cliente->created_at
+            'created_at'    => $cliente->created_at ?? date('Y-m-d H:i:s')
         ]);
 
         return (int)$this->conn->lastInsertId();
+    }
+
+    public function existsByEmailOrBI(string $email, string $identidade): bool
+    {
+        $sql = "SELECT COUNT(*) FROM clientes WHERE email = :email OR identidade = :identidade";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            'email' => $email,
+            'identidade'    => $identidade
+        ]);
+
+        // Retorna true se já existir algum registro
+        return (int)$stmt->fetchColumn() > 0;
     }
 
     /**
@@ -81,7 +94,7 @@ class ClienteRepository
                     nome_completo = :nome_completo,
                     email = :email,
                     telefone = :telefone,
-                    indentidade = :indentidade,
+                    identidade = :identidade,
                     cidade = :cidade,
                     municipio = :municipio,
                     endereco = :endereco
@@ -92,7 +105,7 @@ class ClienteRepository
             'nome_completo' => $cliente->nome_completo,
             'email'         => $cliente->email,
             'telefone'      => $cliente->telefone,
-            'indentidade'   => $cliente->indentidade,
+            'identidade'   => $cliente->identidade,
             'cidade'        => $cliente->cidade,
             'municipio'     => $cliente->municipio,
             'endereco'      => $cliente->endereco,
