@@ -16,6 +16,17 @@ class AuthController extends Controller
 
     public function loginForm()
     {
+         // Se já estiver logado, redireciona para o painel
+        if (!empty($_SESSION['admin_logged'])) {
+            header('Location: /admin');
+            exit;
+        }
+
+        // Se já estiver logado, redireciona para o painel
+        if (!empty($_SESSION['admin_logged'])) {
+            header('Location: /admin');
+            exit;
+        }
         $this->view('deashboad/login', [
             'message' => 'Olá Mundo com Twig'
         ]);
