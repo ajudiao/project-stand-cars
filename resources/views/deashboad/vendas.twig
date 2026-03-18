@@ -127,7 +127,9 @@
                                         </div>
                                         <div class="ms-3">
                                             <h6 class="text-muted mb-0">Vendas Concluídas</h6>
-                                            <h3 class="mb-0">18</h3>
+                                            <h3 class="mb-0">
+                                                {{ total_concluidas }}
+                                            </h3>
                                         </div>
                                     </div>
                                 </div>
@@ -201,7 +203,6 @@
                             <table class="table mb-0">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
                                         <th>Cliente</th>
                                         <th>Veículo</th>
                                         <th>Valor</th>
@@ -211,59 +212,45 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>#001</td>
-                                        <td>Carlos Mendes</td>
-                                        <td>Toyota Corolla 2024</td>
-                                        <td>R$ 95.000</td>
-                                        <td>15/02/2024</td>
-                                        <td><span class="badge bg-success">Concluída</span></td>
-                                        <td>
-                                            <a href="detalhes-venda.html?id=1" class="btn btn-sm btn-outline-info">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#002</td>
-                                        <td>Maria Silva</td>
-                                        <td>Honda Civic 2023</td>
-                                        <td>R$ 87.500</td>
-                                        <td>14/02/2024</td>
-                                        <td><span class="badge bg-success">Concluída</span></td>
-                                        <td>
-                                            <a href="detalhes-venda.html?id=2" class="btn btn-sm btn-outline-info">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#003</td>
-                                        <td>João Santos</td>
-                                        <td>Fiat Argo 2022</td>
-                                        <td>R$ 45.000</td>
-                                        <td>13/02/2024</td>
-                                        <td><span class="badge bg-warning">Pendente</span></td>
-                                        <td>
-                                            <a href="detalhes-venda.html?id=3" class="btn btn-sm btn-outline-info">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#004</td>
-                                        <td>Ana Costa</td>
-                                        <td>Volkswagen Gol 2021</td>
-                                        <td>R$ 38.500</td>
-                                        <td>12/02/2024</td>
-                                        <td><span class="badge bg-success">Concluída</span></td>
-                                        <td>
-                                            <a href="detalhes-venda.html?id=4" class="btn btn-sm btn-outline-info">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                    <tbody>
+    {% for venda in vendas %}
+        <tr>
+            <td>{{ venda.cliente_nome ?? venda.id_cliente }}</td>
+            <td>{{ venda.veiculo_nome ?? venda.id_veiculo }}</td>
+            <td>{{ venda.preco_venda|number_format(2, ',', '.') }}</td>
+            <td>{{ venda.data_venda }}</td>
+            <td>
+                <span class="badge 
+                    {% if venda.status == 'Concluido' %}
+                        bg-success
+                    {% elseif venda.status == 'Pendente' %}
+                        bg-warning
+                    {% else %}
+                        bg-secondary
+                    {% endif %}
+                ">
+                    {{ venda.status }}
+                </span>
+            </td>
+            <td class="d-flex gap-2">
+                <a href="detalhes-venda/{{ venda.id }}" class="btn btn-sm btn-outline-info">
+                    <i class="bi bi-eye"></i>
+                </a>
+
+                <a href="deletar/{{ venda.id }}" 
+                class="btn btn-sm btn-outline-danger"
+                onclick="return confirm('Tem certeza que deseja excluir esta venda?')">
+                    <i class="bi bi-trash"></i>
+                </a>
+            </td>
+        
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="6" class="text-center">Nenhuma venda encontrada</td>
+        </tr>
+    {% endfor %}
+</tbody>
                             </table>
                         </div>
                     </div>
