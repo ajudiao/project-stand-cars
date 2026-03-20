@@ -174,7 +174,7 @@
                                         </div>
                                         <div class="ms-3">
                                             <h6 class="text-muted mb-0">Faturamento</h6>
-                                            <h3 class="mb-0">R$ 1.2M</h3>
+                                            <h3 class="mb-0">1.2M Kzs</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -215,8 +215,8 @@
                                     <tbody>
     {% for venda in vendas %}
         <tr>
-            <td>{{ venda.cliente_nome ?? venda.id_cliente }}</td>
-            <td>{{ venda.veiculo_nome ?? venda.id_veiculo }}</td>
+            <td>{{ venda.cliente ?? venda.id_cliente }}</td>
+            <td>{{ venda.marca }} {{ venda.modelo }}</td>
             <td>{{ venda.preco_venda|number_format(2, ',', '.') }}</td>
             <td>{{ venda.data_venda }}</td>
             <td>
@@ -267,52 +267,56 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="addSaleForm">
+                    <form id="addSaleForm" action="/admin/vendas" method="POST">
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Cliente</label>
-                                <select class="form-select" required>
+                                <select class="form-select" name="id_cliente" required>
                                     <option value="">Selecione um cliente</option>
-                                    <option value="1">Carlos Mendes</option>
-                                    <option value="2">Maria Silva</option>
-                                    <option value="3">João Santos</option>
+                                    {% for cliente in clientes %}
+                                    <option value="{{ cliente.id }}">{{ cliente.nome_completo }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Veículo</label>
-                                <select class="form-select" required>
+                                <select class="form-select" name="id_veiculo" required>
                                     <option value="">Selecione um veículo</option>
-                                    <option value="1">Toyota Corolla 2024</option>
-                                    <option value="2">Honda Civic 2023</option>
+                                    {% for veiculo in veiculos %}
+                                    <option value="{{ veiculo.id }}">
+                                         {{ veiculo.marca }} {{ veiculo.modelo }} ({{ veiculo.ano }})
+                                      </option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Valor (R$)</label>
-                                <input type="number" class="form-control" placeholder="0.00" required>
+                                <label class="form-label">Valor</label>
+                                <input type="number" name="valor" class="form-control" placeholder="0.00" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Data da Venda</label>
-                                <input type="date" class="form-control" required>
+                                <input type="date" name="data_venda" value="{{ "now"|date("Y-m-d") }}" class="form-control" required>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Status</label>
-                            <select class="form-select" required>
-                                <option value="1">Concluída</option>
-                                <option value="2">Pendente</option>
+                            <select class="form-select" name="status" required>
+                                <option value="Concluida">Concluída</option>
+                                <option value="Pendente">Pendente</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Observações</label>
-                            <textarea class="form-control" rows="3" placeholder="Notas da venda..."></textarea>
+                            <textarea class="form-control" name="observacoes" rows="3" placeholder="Notas da venda..."></textarea>
+                        </div>
+                                
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Registrar Venda</button>
                         </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" onclick="saveSale()">Registrar Venda</button>
                 </div>
             </div>
         </div>
@@ -340,7 +344,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Valor (R$)</label>
+                                <label class="form-label">Valor</label>
                                 <input type="number" class="form-control" value="95000" placeholder="0.00">
                             </div>
                             <div class="col-md-6 mb-3">

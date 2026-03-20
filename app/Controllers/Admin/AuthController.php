@@ -41,6 +41,7 @@ class AuthController extends Controller
 
         $user = $this->usuarioRepo->findByEmail($email);
 
+
         if (!$user || !password_verify($senha, $user->senha)) {
             $error = "Email ou senha inválidos.";
             $this->view('deashboad/login', [
@@ -50,10 +51,12 @@ class AuthController extends Controller
             return;
         }
 
+        
         $_SESSION['admin_logged'] = true;
         $_SESSION['user_id'] = $user->id;
         $_SESSION['user_nome'] = $user->nome;
         $_SESSION['user_perfil'] = $user->perfil;
+
 
         header('Location: /admin');
         exit;

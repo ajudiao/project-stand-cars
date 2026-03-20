@@ -19,15 +19,23 @@ class VendaRepository
 
     public function findAllWithClient(): array
     {
-        $stmt = $this->conn->query("
-        SELECT v.*, c.nome_completo AS cliente_nome, ve.id_marca AS veiculo_marca, u.nome AS vendedor_nome
-        FROM vendas v
-        JOIN clientes c ON v.id_cliente = c.id
-        JOIN veiculos ve ON v.id_veiculo = ve.id
-        JOIN usuarios u ON v.id_vendedor = u.id
-        ORDER BY v.data_venda DESC
+        $stmt = $this->conn->query("SELECT 
+        cl.nome_completo AS cliente, 
+        ma.nome AS marca, 
+        ve.modelo, 
+        us.nome AS vendedor, 
+        ven.preco_venda, 
+        ven.data_venda, 
+        ven.status, 
+        ven.observacoes 
+        FROM vendas ven 
+        JOIN clientes cl ON ven.id_cliente = cl.id 
+        JOIN veiculos ve ON ven.id_veiculo = ve.id 
+        JOIN usuarios us ON ven.id_vendedor = us.id 
+        JOIN marcas ma ON ma.id = ve.id_marca
+        ORDER BY ven.data_venda DESC
     ");
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // 🔎 Buscar por ID
@@ -42,24 +50,31 @@ class VendaRepository
         return $data ? new Venda($data) : null;
     }
 
-    // ➕ Criar nova venda
-    public function create(Venda $venda): bool
+    // Criar nova venda
+    public function create(Venda $venda): int|false
     {
         $stmt = $this->conn->prepare("
-            INSERT INTO venda 
-            (id_cliente, id_veiculo, id_vendedor, preco_venda, data_venda, observacoes)
-            VALUES 
-            (:id_cliente, :id_veiculo, :id_vendedor, :preco_venda, :data_venda, :observacoes)
+        INSERT INTO vendas 
+        (id_cliente, id_veiculo, id_vendedor, preco_venda, data_venda, status, observacoes)
+        VALUES 
+        (:id_cliente, :id_veiculo, :id_vendedor, :preco_venda, :data_venda, :status, :observacoes)
         ");
 
-        return $stmt->execute([
+        $success = $stmt->execute([
             ':id_cliente'   => $venda->id_cliente,
             ':id_veiculo'   => $venda->id_veiculo,
-            ':id_vendedor'  => $venda->id_vendedor,
+            ':id_vendedor'  => (int)$_SESSION['user_id'],
             ':preco_venda'  => $venda->preco_venda,
             ':data_venda'   => $venda->data_venda,
+            ':status' => $venda->status,
             ':observacoes'  => $venda->observacoes
         ]);
+
+        if ($success) {
+            return (int) $this->conn->lastInsertId();
+        }
+
+        return false;
     }
 
     // ✏️ Atualizar venda
@@ -92,5 +107,15 @@ class VendaRepository
     {
         $stmt = $this->conn->prepare("DELETE FROM venda WHERE id = :id");
         return $stmt->execute([':id' => $id]);
+    }
+
+    public function carroJaVendido(int $carroId): bool
+    {
+        $sql = "SELECT COUNT(*) FROM vendas WHERE id_veiculo = :carro_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':carro_id', $carroId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchColumn() > 0;
     }
 }

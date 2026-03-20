@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Core\Controller;
 use App\Repositories\VendaRepository;
+use App\Models\Venda;
 
 class VendasController extends Controller
 {
@@ -31,9 +32,38 @@ class VendasController extends Controller
         ]);
     }
 
-    public function create()
+    public function store()
     {
-        // Lógica para exibir o formulário de criação de venda
-        echo "Formulário para criar uma nova venda (Admin)";
+        $data = $_POST;
+
+        // Validação básica
+        if (!isset($data['id_veiculo'])) {
+            echo "Carro não informado.";
+            return;
+        }
+
+        $carroId = (int) $data['id_veiculo'];
+
+        // Verifica se o carro já pertence a alguém
+        if ($this->vendasRep->carroJaVendido($carroId)) {
+            echo "Este carro já está associado a um cliente.";
+            return;
+        }
+
+        $venda = new Venda($data);        
+        
+        try {
+            $vendaId = $this->vendasRep->create($venda);
+
+            if ($vendaId) {
+                header('Location: /admin/vendas');
+                exit;
+            } else {
+                echo "Erro ao criar venda.";
+            }
+        } catch (\PDOException $e) {
+            error_log($e->getMessage());
+            echo "Não foi possível criar a venda. Verifique os dados e tente novamente.";
+        }
     }
 }

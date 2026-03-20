@@ -95,6 +95,7 @@ Router::group([
     // OUTROS
     //
     Router::get('/vendas', 'VendasController@index');
+    Router::post('/vendas', 'VendasController@store');
     Router::get('/relatorios', 'RelatoriosController@index');
 
     Router::get('/website', 'SiteController@index');
