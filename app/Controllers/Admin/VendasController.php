@@ -23,7 +23,7 @@ class VendasController extends Controller
         $clientes = new \App\Repositories\ClienteRepository();
         $veiculos = new \App\Repositories\CarRepository();
 
-        $this->view('deashboad/vendas', [
+        $this->view('dashboard/vendas', [
             'vendas' => $vendas,
             'total_concluidas' => count($total_concluidas),
             'total_pendetes' => count($total_pendetes),

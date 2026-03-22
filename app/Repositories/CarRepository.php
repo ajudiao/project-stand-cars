@@ -60,6 +60,51 @@ class CarRepository
         return $data ? new Car($data) : null;
     }
 
+    public function getByIdWithImages(int $id): ?Car
+    {
+        $sql = "SELECT 
+                v.*, 
+                vi.url_imagem,
+                c.nome AS categoria_nome,
+                m.nome AS marca_nome
+            FROM veiculos v
+            LEFT JOIN veiculo_imagens vi 
+                ON vi.id_veiculo = v.id
+            LEFT JOIN categorias c 
+                ON c.id = v.id_categoria
+            LEFT JOIN marcas m 
+                ON m.id = v.id_marca
+            WHERE v.id = :id
+            ORDER BY vi.created_at ASC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($rows)) {
+            return null;
+        }
+
+        // Cria o veículo com a primeira linha
+        $car = new Car($rows[0]);
+
+        // adiciona propriedades extras
+        $car->categoria_nome = $rows[0]['categoria_nome'] ?? null;
+        $car->marca_nome     = $rows[0]['marca_nome'] ?? null;
+
+        $car->imagens = [];
+
+        foreach ($rows as $row) {
+            if (!empty($row['url_imagem'])) {
+                $car->imagens[] = $row['url_imagem'];
+            }
+        }
+
+        return $car;
+    }
+
     public function create(Car $car): int
     {
         $sql = "INSERT INTO veiculos (

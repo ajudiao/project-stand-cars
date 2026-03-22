@@ -9,7 +9,7 @@ class RelatoriosController extends Controller
     public function index()
     {
         // Lógica para listar os relatórios
-        $this->view('deashboad/relatorios', [
+        $this->view('dashboard/relatorios', [
             'relatorios' => [] // Aqui você pode passar os dados dos relatórios para a view
         ]);
     }

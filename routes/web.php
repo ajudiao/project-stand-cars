@@ -66,8 +66,8 @@ Router::group([
     //
     Router::get('/veiculos', 'VeiculosController@index');          // listar
     Router::get('/veiculos/create', 'VeiculosController@create');  // form (opcional)
-    Router::post('/veiculos', 'VeiculosController@store');         // salvar
-    Router::get('/veiculos/{id}', 'VeiculosController@show');      // detalhes
+    Router::post('/veiculos/', 'VeiculosController@store');         // salvar
+    Router::get('/veiculos/show/{id}', 'VeiculosController@show');      // detalhes
     Router::get('/veiculos/{id}/edit', 'VeiculosController@edit'); // editar form
     Router::put('/veiculos/{id}', 'VeiculosController@update');    // atualizar
     Router::delete('/veiculos/{id}', 'VeiculosController@delete'); // deletar
@@ -78,6 +78,7 @@ Router::group([
     Router::get('/clientes', 'ClientesController@index');
     Router::post('/clientes', 'ClientesController@store');
     Router::get('/clientes/{id}/edit', 'ClientesController@edit');
+    Router::get('/clientes/show/{id}', 'ClientesController@show');
     Router::put('/clientes/{id}', 'ClientesController@update');
     Router::delete('/clientes/{id}', 'ClientesController@delete');
 

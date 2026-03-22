@@ -209,7 +209,7 @@ ID: 1
 Marca: Toyota
 Modelo: Corolla
 Ano: 2024
-Preço: R$ 95.000
+Preço: 95.000.000
 Cor: Branco
 Combustível: Gasolina
 Transmissão: Automática
@@ -237,7 +237,7 @@ Histórico: 1 compra (Toyota Corolla)
 ID: #001
 Cliente: Carlos Mendes
 Veículo: Toyota Corolla 2024
-Valor Base: R$ 95.000
+Valor Base: 95.000.000
 Desconto: -R$ 5.000
 Taxas: R$ 500
 Total: R$ 90.500

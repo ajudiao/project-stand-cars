@@ -22,7 +22,7 @@ class VeiculosController extends Controller
         $marcas = (new \App\Repositories\MarcaRepository())->getAll();
         $categorias = (new \App\Repositories\CategoriaRepository())->getAll();
 
-        $this->view('deashboad/veiculos', [
+        $this->view('dashboard/veiculos', [
             'veiculos'   => $veiculos,   // Veículos com todas as imagens
             'marcas'     => $marcas,
             'categorias' => $categorias
@@ -111,12 +111,13 @@ class VeiculosController extends Controller
 
     public function show($id)
     {
-        $veiculo = $this->carRepo->findById($id);
+        $veiculo = $this->carRepo->getByIdWithImages($id);
         if (!$veiculo) {
             echo "Veículo não encontrado.";
             return;
         }
-        $this->view('deashboad/detalhes-veiculo', [
+        
+        $this->view('dashboard/detalhes-veiculo', [
             'veiculo' => $veiculo
         ]);
     }

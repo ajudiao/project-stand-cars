@@ -18,6 +18,9 @@ class Car
     public ?string $descricao;
     public string $created_at;
 
+    public string $categoria_nome;
+    public string $marca_nome;
+
     // Propriedades extras para imagens
     public array $imagens = [];
     public ?string $foto = null;

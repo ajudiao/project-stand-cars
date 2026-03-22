@@ -25,7 +25,7 @@ VEÍCULOS (Tabela)
         ├─ Galeria de Fotos (4 imagens)
         ├─ Especificações (Marca, Modelo, Ano, etc)
         ├─ Características (checklist com ✓)
-        ├─ Preço (R$ 95.000)
+        ├─ Preço (95.000.000)
         ├─ Status (Disponível / Em Negociação / Vendido)
         ├─ Publicação Web
         ├─ Histórico
@@ -69,7 +69,7 @@ CLIENTES (Tabela)
         │  └─ Estado: RJ
         │
         ├─ Histórico de Compras (Tabela)
-        │  └─ Toyota Corolla 2024 | 15/02/2024 | R$ 95.000
+        │  └─ Toyota Corolla 2024 | 15/02/2024 | 95.000.000
         │
         ├─ Contato Rápido
         │  ├─ 📞 Ligar
@@ -78,7 +78,7 @@ CLIENTES (Tabela)
         │
         ├─ Estatísticas
         │  ├─ Total de Compras: 1
-        │  └─ Total Gasto: R$ 95.000
+        │  └─ Total Gasto: 95.000.000
         │
         ├─ Interações Recentes
         │  ├─ Hoje: Acessou o site
@@ -127,7 +127,7 @@ VENDAS (Tabela)
         │  └─ Transmissão: Automática
         │
         ├─ Detalhamento de Pagamento (Tabela)
-        │  ├─ Valor do Veículo:     R$ 95.000,00
+        │  ├─ Valor do Veículo:     95.000.000,00
         │  ├─ Desconto:              -R$ 5.000,00
         │  ├─ Taxas e Emolumentos:   R$ 500,00
         │  └─ TOTAL:                 R$ 90.500,00

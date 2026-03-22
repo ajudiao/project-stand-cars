@@ -8,7 +8,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        echo $this->view('deashboad/index', [
+        echo $this->view('dashboard/index', [
             'message' => 'Olá Mundo com Twig'
         ]);
     }

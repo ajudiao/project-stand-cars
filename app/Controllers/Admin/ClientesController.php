@@ -20,7 +20,7 @@ class ClientesController extends Controller
         // Pegar os clientes do banco de dados (ainda não implementado)
         $clientes = $this->clienteRepo->getAll(); // Aqui você pode implementar a lógica para buscar os clientes do banco de dados
         // Lógica para listar os clientes
-        $this->view('deashboad/clientes', [
+        $this->view('dashboard/clientes', [
             'clientes' => $clientes // Aqui você pode passar os dados dos clientes para a view
         ]);
     }
@@ -56,5 +56,21 @@ class ClientesController extends Controller
             // Mensagem amigável para o usuário
             echo "Não foi possível criar o cliente. Verifique os dados e tente novamente.";
         }
+    }
+
+    public function show($id)
+    {
+        if (!is_numeric($id)) {
+            echo "Parametro invalido";
+            return ;
+        }
+        
+        $cliente = $this->clienteRepo->getById($id);
+    
+
+        $this->view('dashboard/detalhes-cliente', [
+            "cliente" => $cliente,
+        ]);
+
     }
 }

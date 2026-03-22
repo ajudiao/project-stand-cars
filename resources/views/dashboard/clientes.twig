@@ -44,7 +44,7 @@
                                             <i class="bi bi-check-circle text-success"></i>
                                             <div>
                                                 <strong>Venda realizada</strong>
-                                                <p>Honda Civic - R$ 95.000</p>
+                                                <p>Honda Civic - 95.000.000</p>
                                                 <small class="text-muted">há 15 minutos</small>
                                             </div>
                                         </div>
@@ -161,7 +161,7 @@
                 <td>{{ cliente.created_at|date("d/m/Y H:i") }}</td>
                     <td>
                                             <div class="btn-group btn-group-sm" role="group">
-                                                <a href="clientes/{{ cliente.id }}" class="btn btn-outline-info" title="Ver Detalhes">
+                                                <a href="/admin/clientes/show/{{ cliente.id }}" class="btn btn-outline-info" title="Ver Detalhes">
                                                     <i class="bi bi-eye"></i>
                                                 </a>
                                                 <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editClientModal">

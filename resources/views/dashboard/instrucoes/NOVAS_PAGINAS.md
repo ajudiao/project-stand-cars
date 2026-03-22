@@ -153,7 +153,7 @@ Todos os exemplos usam dados fictícios:
 **Veículo de Exemplo:**
 - Marca: Toyota
 - Modelo: Corolla 2024
-- Preço: R$ 95.000
+- Preço: 95.000.000
 - Status: Disponível
 - Especificações completas incluídas
 

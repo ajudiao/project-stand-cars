@@ -27,7 +27,7 @@ class AuthController extends Controller
             header('Location: /admin');
             exit;
         }
-        $this->view('deashboad/login', [
+        $this->view('dashboard/login', [
             'message' => 'Olá Mundo com Twig'
         ]);
     }
@@ -44,7 +44,7 @@ class AuthController extends Controller
 
         if (!$user || !password_verify($senha, $user->senha)) {
             $error = "Email ou senha inválidos.";
-            $this->view('deashboad/login', [
+            $this->view('dashboard/login', [
                 'error' => $error
             ]);
             unset($error);
