@@ -70,7 +70,8 @@ Router::group([
     Router::get('/veiculos/show/{id}', 'VeiculosController@show');      // detalhes
     Router::get('/veiculos/{id}/edit', 'VeiculosController@edit'); // editar form
     Router::put('/veiculos/{id}', 'VeiculosController@update');    // atualizar
-    Router::delete('/veiculos/{id}', 'VeiculosController@delete'); // deletar
+    Router::get('/veiculos/delete/{id}', 'VeiculosController@delete'); // deletar
+    Router::get('/veiculos/busca/', 'VeiculosController@buscar');
 
     //
     // CLIENTES (REST)

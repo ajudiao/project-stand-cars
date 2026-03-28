@@ -216,10 +216,98 @@ class CarRepository
         ]);
     }
 
+    public function getTheNumberOfVehicles(): int
+    {
+        $stmt = $this->conn->query("SELECT COUNT(*) FROM veiculos");
+        return (int) $stmt->fetchColumn();
+    }
+
 
     public function delete(int $id): bool
     {
-        $stmt = $this->conn->prepare("DELETE FROM veiculos WHERE id = :id");
+        $stmt = $this->conn->prepare("UPDATE veiculos SET status = 'Indisponível' WHERE id = :id");
         return $stmt->execute(['id' => $id]);
+    }
+
+    public function buscarVeiculos(?string $modelo, ?string $status, ?int $idMarca): array
+    {
+        $sql = "SELECT 
+                v.*, 
+                vi.url_imagem,
+                c.nome AS categoria_nome,
+                m.nome AS marca_nome
+            FROM veiculos v
+            LEFT JOIN veiculo_imagens vi 
+                ON vi.id_veiculo = v.id
+            LEFT JOIN categorias c 
+                ON c.id = v.id_categoria
+            LEFT JOIN marcas m 
+                ON m.id = v.id_marca
+            WHERE 1=1";
+
+        $params = [];
+
+        // --------------------------
+        // FILTRO NOME (modelo)
+        // --------------------------
+        if (!empty($modelo)) {
+            $sql .= " AND v.modelo LIKE :modelo";
+            $params[':modelo'] = '%' . $modelo . '%';
+        }
+
+        // --------------------------
+        // FILTRO STATUS
+        // --------------------------
+        if (!empty($status)) {
+            $sql .= " AND v.status = :status";
+            $params[':status'] = $status;
+        }
+
+        // --------------------------
+        // FILTRO MARCA
+        // --------------------------
+        if (!empty($idMarca)) {
+            $sql .= " AND v.id_marca = :marca";
+            $params[':marca'] = $idMarca;
+        }
+
+        $sql .= " ORDER BY v.id DESC, vi.created_at ASC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($params);
+
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($rows)) {
+            return [];
+        }
+
+        // --------------------------
+        // AGRUPAR VEÍCULOS
+        // --------------------------
+        $veiculos = [];
+
+        foreach ($rows as $row) {
+            $id = $row['id'];
+
+            // se ainda não existe, cria
+            if (!isset($veiculos[$id])) {
+                $car = new Car($row);
+
+                $car->categoria_nome = $row['categoria_nome'] ?? null;
+                $car->marca_nome     = $row['marca_nome'] ?? null;
+                $car->imagens        = [];
+
+                $veiculos[$id] = $car;
+            }
+
+            // adiciona imagens
+            if (!empty($row['url_imagem'])) {
+                $veiculos[$id]->imagens[] = $row['url_imagem'];
+            }
+        }
+
+       // resetar índices (importante para view)
+       return array_values($veiculos);
     }
 }

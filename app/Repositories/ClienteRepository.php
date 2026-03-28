@@ -30,6 +30,12 @@ class ClienteRepository
         return $clientes;
     }
 
+    public function getTheNumbersClients(): int
+    {
+        $stmt = $this->conn->query("SELECT COUNT(*) FROM clientes");
+        return (int) $stmt->fetchColumn();
+    }
+
     /**
      * Retorna um cliente pelo ID
      */

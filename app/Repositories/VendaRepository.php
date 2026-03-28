@@ -102,7 +102,13 @@ class VendaRepository
         ]);
     }
 
-    // ❌ Deletar venda
+    public function getTheNumbersSeles(): int
+    {
+        $stmt = $this->conn->query("SELECT COUNT(*) FROM vendas");
+        return (int) $stmt->fetchColumn();
+    }
+
+    // Deletar venda
     public function delete(int $id): bool
     {
         $stmt = $this->conn->prepare("DELETE FROM venda WHERE id = :id");

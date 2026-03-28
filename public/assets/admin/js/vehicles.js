@@ -2,6 +2,14 @@
 // GERENCIAMENTO DE VEÍCULOS
 // ============================================
 
+function confirmDelete(id) {
+    const confirmar = confirm("Tem certeza que deseja apagar este veículo?");
+
+    if (confirmar) {
+        deleteVehicle(id);
+    }
+}
+
 // Dados fictícios de veículos
 const vehicles = [
     {

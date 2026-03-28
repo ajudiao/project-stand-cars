@@ -147,44 +147,67 @@
                             </div>
 
                             <!-- Filters -->
-                            <div class="row mb-4">
-                                <div class="col-md-4 col-lg-3">
-                                    <input type="text" class="form-control" placeholder="Buscar por marca/modelo..."></div>
-                                    <div class="col-md-4 col-lg-3">
-                                        <select class="form-select">
-                                            <option value="">
-                                                Filtrar por Status
-                                            </option>
-                                            <option value="1">
-                                                Disponível
-                                            </option>
-                                            <option value="2">
-                                                Vendido
-                                            </option>
-                                            <option value="3">
-                                                Em Negociação
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4 col-lg-3">
-                                        <select class="form-select">
-                                            <option value="">
-                                                Filtrar por Marca
-                                            </option>
-                                            <option value="1">
-                                                Toyota
-                                            </option>
-                                            <option value="2">
-                                                Honda
-                                            </option>
-                                            <option value="3">
-                                                Fiat
-                                            </option>
-                                            <option value="4">
-                                                Volkswagen
-                                            </option>
-                                        </select>
-                                    </div>
+                            <div class="card card-body mb-4 border-0 shadow-sm">
+                                <form action="/admin/veiculos/busca/" method="get" class="row g-3 align-items-end">
+                                    <!-- BUSCA -->
+                                    <div class="col-md-4 col-lg-4">
+                                        <label class="form-label small fw-bold">
+                                            Pesquisa
+                                        </label>
+                                        <input type="text" class="form-control" name="nome" value=" {{ filtros.nome }} " placeholder="Modelo"></div>
+
+                                        <!-- STATUS -->
+                                        <div class="col-md-3 col-lg-2">
+                                            <label class="form-label small fw-bold">
+                                                Status
+                                            </label>
+                                            <select name="status" class="form-select">
+                                                <option value="">
+                                                    Todos
+                                                </option>
+                                                <option value="Disponivel" {{ filtros.status == 'Disponivel' ? 'selected' : '' }}>
+                                                    Disponível
+                                                </option>
+                                                <option value="Negociacao" {{ filtros.status == 'Negociacao' ? 'selected' : '' }}>
+                                                    Em Negociação
+                                                </option>
+                                                <option value="Vendido" {{ filtros.status == 'Vendido' ? 'selected' : '' }}>
+                                                    Vendido
+                                                </option>
+                                                <option value="Publicado" {{ filtros.status == 'Public' ? 'selected' : '' }}>
+                                                    Publicado
+                                                </option>
+                                                 <option value="indisponivel" {{ filtros.status == 'indisponivel' ? 'selected' : '' }}>
+                                                    Indisponível
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <!-- MARCA -->
+                                        <div class="col-md-3 col-lg-3">
+                                            <label class="form-label small fw-bold">
+                                                Marca
+                                            </label>
+                                            <select name="id_marca" class="form-control">
+                                                <option value="">
+                                                    Filtrar por Marca
+                                                </option>
+                                                {% for marca in marcas %}
+                                                    <option value="{{ marca.id }}" {{ filtros.id_marca == marca.id ? 'selected' : '' }}>
+                                                        {{ marca.nome }}
+                                                    </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+
+                                        <!-- BOTÃO -->
+                                        <div class="col-md-2 col-lg-3">
+                                            <button type="submit" class="btn btn-primary w-100">
+                                                <i class="bi bi-search"></i>
+                                                Buscar
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
 
                                 <!-- Vehicles Table -->
@@ -217,11 +240,11 @@
 
                                                 <tbody>
                                                     {% for veiculo in veiculos %}
-                                                    
+
                                                         <tr>
                                                             <td>
                                                                 <!-- Imagem principal do veículo -->
-                                                                <img src="{{ carImage(veiculo.foto) }}" alt="{{ veiculo.modelo }}" class="rounded" style="width: 80px; height: 60px; object-fit: cover;"></td>
+                                                                <img src="{{ carImage(veiculo.imagens[0] ?? 'default.jpg') }}" alt="{{ veiculo.modelo }}" class="rounded" style="width: 80px; height: 60px; object-fit: cover;"></td>
                                                                 <td>
                                                                     <strong>
                                                                         {{ veiculo.modelo }}
@@ -258,9 +281,9 @@
                                                                             <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editVehicleModal" onclick="editVehicle({{ veiculo.id }})">
                                                                                 <i class="bi bi-pencil"></i>
                                                                             </button>
-                                                                            <button class="btn btn-outline-danger" onclick="deleteVehicle({{ veiculo.id }})">
+                                                                            <a href="/admin/veiculos/delete/{{ veiculo.id }}" class="btn btn-outline-danger" onclick="return confirm('Tem certeza que deseja apagar este veículo?')">
                                                                                 <i class="bi bi-trash"></i>
-                                                                            </button>
+                                                                            </a>
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -401,6 +424,9 @@
                                                                                 </option>
                                                                                 <option value="Vendido">
                                                                                     Vendido
+                                                                                </option>
+                                                                                <option value="Publicado">
+                                                                                    Publicado
                                                                                 </option>
                                                                             </select>
                                                                         </div>

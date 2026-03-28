@@ -116,9 +116,62 @@ class VeiculosController extends Controller
             echo "Veículo não encontrado.";
             return;
         }
-        
+
         $this->view('dashboard/detalhes-veiculo', [
             'veiculo' => $veiculo
+        ]);
+    }
+
+    public function delete($id)
+    {
+        if (!is_numeric($id)) {
+            echo "Parametro Invalido";
+            return;
+        }
+        if ($this->carRepo->delete($id)) {
+            header("Location: /admin/veiculos/");
+            exit;
+        } else {
+            echo "Veiculo nao encontrado";
+        }
+    }
+
+    public function buscar()
+    {
+        // --------------------------
+        // CAPTURAR FILTROS (GET)
+        // --------------------------
+        $nome     = $_GET['nome'] ?? null;
+        $status   = $_GET['status'] ?? null;
+        $idMarca  = $_GET['id_marca'] ?? null;
+
+        // limpar valores vazios
+        $nome    = !empty($nome) ? trim($nome) : null;
+        $status  = !empty($status) ? $status : null;
+        $idMarca = !empty($idMarca) ? (int)$idMarca : null;
+
+        // --------------------------
+        // BUSCAR NO REPOSITORY
+        // --------------------------
+        $veiculos = $this->carRepo->buscarVeiculos($nome, $status, $idMarca);
+        // --------------------------   
+        // DADOS AUXILIARES
+        // --------------------------
+        $marcas = (new \App\Repositories\MarcaRepository())->getAll();
+        $categorias = (new \App\Repositories\CategoriaRepository())->getAll();
+
+        // --------------------------
+        // RETORNAR VIEW
+        // --------------------------
+        $this->view('dashboard/veiculos', [
+            'veiculos'   => $veiculos,
+            'marcas'     => $marcas,
+            'categorias' => $categorias,
+            'filtros'    => [
+                'nome'     => $nome,
+                'status'   => $status,
+                'id_marca' => $idMarca
+            ]
         ]);
     }
 }
