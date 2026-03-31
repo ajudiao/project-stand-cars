@@ -200,20 +200,22 @@ class CarRepository
 
         $stmt = $this->conn->prepare($sql);
 
-        return $stmt->execute([
-            'id_marca'      => $car->id_marca,
-            'id_categoria'  => $car->id_categoria,
+        $stmt->execute([
+            'id_marca'      => (int) $car->id_marca,
+            'id_categoria'  => (int) $car->id_categoria,
             'modelo'        => $car->modelo,
-            'ano'           => $car->ano,
+            'ano'           => (int) $car->ano,
             'cor'           => $car->cor,
-            'preco'         => $car->preco,
-            'quilometragem' => $car->quilometragem,
+            'preco'         => (float) $car->preco,
+            'quilometragem' => (int) $car->quilometragem,
             'combustivel'   => $car->combustivel,
             'transmissao'   => $car->transmissao,
             'status'        => $car->status,
             'descricao'     => $car->descricao,
-            'id'            => $car->id
+            'id'            => (int) $car->id
         ]);
+
+        return $stmt->rowCount() > 0;
     }
 
     public function getTheNumberOfVehicles(): int
@@ -307,7 +309,7 @@ class CarRepository
             }
         }
 
-       // resetar índices (importante para view)
-       return array_values($veiculos);
+        // resetar índices (importante para view)
+        return array_values($veiculos);
     }
 }

@@ -111,14 +111,22 @@ class VeiculosController extends Controller
 
     public function show($id)
     {
+        if (!is_numeric($id)) {
+            echo "Parametro Invalido";
+            return;
+        }
         $veiculo = $this->carRepo->getByIdWithImages($id);
         if (!$veiculo) {
             echo "Veículo não encontrado.";
             return;
         }
+        $marcas = (new \App\Repositories\MarcaRepository())->getAll();
+        $categorias = (new \App\Repositories\CategoriaRepository())->getAll();
 
         $this->view('dashboard/detalhes-veiculo', [
-            'veiculo' => $veiculo
+            'veiculo' => $veiculo,
+            'marcas' => $marcas,
+            'categorias' => $categorias
         ]);
     }
 
@@ -150,13 +158,7 @@ class VeiculosController extends Controller
         $status  = !empty($status) ? $status : null;
         $idMarca = !empty($idMarca) ? (int)$idMarca : null;
 
-        // --------------------------
-        // BUSCAR NO REPOSITORY
-        // --------------------------
         $veiculos = $this->carRepo->buscarVeiculos($nome, $status, $idMarca);
-        // --------------------------   
-        // DADOS AUXILIARES
-        // --------------------------
         $marcas = (new \App\Repositories\MarcaRepository())->getAll();
         $categorias = (new \App\Repositories\CategoriaRepository())->getAll();
 
@@ -173,5 +175,40 @@ class VeiculosController extends Controller
                 'id_marca' => $idMarca
             ]
         ]);
+    }
+
+    public function update($id)
+    {
+        $data = $_POST;
+
+        // --------------------------
+        // VALIDAÇÃO
+        // --------------------------
+        if (empty($data['modelo']) || empty($data['preco'])) {
+            echo "Modelo e preço são obrigatórios.";
+            return;
+        }
+
+        if (!is_numeric($data['ano']) || $data['ano'] < 1900 || $data['ano'] > date('Y') + 1) {
+            echo "Ano inválido.";
+            return;
+        }
+
+        // --------------------------
+        // ATUALIZAR VEÍCULO
+        // --------------------------
+        $car = new Car($data);
+        $car->id = $id;
+
+        if (!$this->carRepo->update($car)) {
+            echo "Erro ao atualizar veículo.";
+            return;
+        }
+
+        // --------------------------
+        // REDIRECT
+        // --------------------------
+        header('Location: /admin/veiculos');
+        exit;
     }
 }

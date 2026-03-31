@@ -72,6 +72,7 @@ Router::group([
     Router::put('/veiculos/{id}', 'VeiculosController@update');    // atualizar
     Router::get('/veiculos/delete/{id}', 'VeiculosController@delete'); // deletar
     Router::get('/veiculos/busca/', 'VeiculosController@buscar');
+    Router::post('/veiculos/update/{id}', 'VeiculosController@update');
 
     //
     // CLIENTES (REST)
