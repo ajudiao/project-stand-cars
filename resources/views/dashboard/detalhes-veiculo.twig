@@ -560,7 +560,28 @@
                                                                                     Modelo
                                                                                 </label>
                                                                                 <input type="text" class="form-control" placeholder="Ex: Corolla" value="{{ veiculo.modelo }}" name="modelo"></div>
+                                                                                 <!-- COMBUSTIVEL -->
+                                                                            <div class="col-md-6 mb-3">
+                                                                                <label class="form-label">
+                                                                                    Combustível
+                                                                                </label>
+                                                                                <select name="combustivel" class="form-select" required>
+                                                                                    <option value="Gasolina" {% if veiculo.combustivel == "Gasolina" %} selected {% endif %}>
+                                                                                        Gasolina
+                                                                                    </option>
+                                                                                    <option value="Diesel" {% if veiculo.combustivel == "Diesel" %} selected {% endif %}>
+                                                                                        Diesel
+                                                                                    </option>
+                                                                                    <option value="Eletrico" {% if veiculo.combustivel == "Eletrico" %} selected {% endif %}>
+                                                                                        Elétrico
+                                                                                    </option>
+                                                                                    <option value="Hibrido" {% if veiculo.combustivel == "Hibrido" %} selected {% endif %}>
+                                                                                        Híbrido
+                                                                                    </option>
+                                                                                </select>
                                                                             </div>
+                                                                            </div>
+                                                                           
                                                                             <div class="row">
                                                                                 <div class="col-md-4 mb-3">
                                                                                     <label class="form-label">
@@ -576,14 +597,11 @@
                                                                                             <label class="form-label">
                                                                                                 Tipo
                                                                                             </label>
-                                                                                            <select class="form-select" name="tipo">
-                                                                                                <option value="">
-                                                                                                    Selecione
-                                                                                                </option>
-                                                                                                <option value="Automatica" {{ veiculo.transmissao == 'Automatica' ? 'selected' : '' }}>
+                                                                                            <select class="form-select" name="transmissao">
+                                                                                                <option value="Automatica" {% if veiculo.transmissao == "Automatica" %} selected {% endif %}>
                                                                                                     Automática
                                                                                                 </option>
-                                                                                                <option value="Manual" {{ veiculo.transmissao == 'Manual' ? 'selected' : '' }}>
+                                                                                                <option value="Manual" {% if veiculo.transmissao == "Manual" %} selected {% endif %}>
                                                                                                     Manual
                                                                                                 </option>
                                                                                             </select>
@@ -599,16 +617,26 @@
                                                                                                 <label class="form-label">
                                                                                                     Status
                                                                                                 </label>
-                                                                                                <select class="form-select">
-                                                                                                    <option value="disponivel" {{ veiculo.status == 'Disponível' ? 'selected' : '' }}>
+                                                                                                <select class="form-select" name="status">
+                                                                                                    <option value="disponivel" {% if veiculo.status == "disponivel" %} selected {% endif %}>
                                                                                                         Disponível
                                                                                                     </option>
-                                                                                                    <option value="em-negociacao" {{ veiculo.status == 'Em Negociação' ? 'selected' : '' }}>
+                                                                                                    <option value="em-negociacao" {% if veiculo.status == "em-negociacao" %} selected {% endif %}>
                                                                                                         Em Negociação
                                                                                                     </option>
-                                                                                                    <option value="vendido" {{ veiculo.status == 'Vendido' ? 'selected' : '' }}>
+                                                                                                    <option value="vendido" {% if veiculo.status == "vendido" %} selected {% endif %}>
                                                                                                         Vendido
                                                                                                     </option>
+                                                                                                    <option value="publicado" {% if veiculo.status == "publicado" %} selected {% endif %}>
+                                                                                                        Publicado
+                                                                                                    </option>
+                                                                                                    <option value="indisponivel" {% if veiculo.status == "indisponivel" %} selected {% endif %}>
+                                                                                                        Indisponível
+                                                                                                    </option>
+                                                                                                     <option value="reservado" {% if veiculo.status == "reservado" %} selected {% endif %}>
+                                                                                                        Reservado
+                                                                                                    </option>
+                                                                                                    
                                                                                                 </select>
                                                                                             </div>
                                                                                         </div>
@@ -626,6 +654,7 @@
                                                                                                 </textarea>
                                                                                             </div>
                                                                                         </div>
+
                                                                                         <div class="modal-footer">
                                                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                                                                                 Cancelar
