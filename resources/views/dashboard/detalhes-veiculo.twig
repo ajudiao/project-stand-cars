@@ -94,10 +94,10 @@
 
                     <!-- Back Button -->
                     <div class="mb-3">
-                        <a href="veiculos.html" class="btn btn-outline-secondary">
+                        <button type="button" class="btn btn-outline-secondary" onclick="voltarPagina()">
                             <i class="bi bi-arrow-left"></i>
                             Voltar
-                        </a>
+                        </button>
                     </div>
 
                     <!-- Vehicle Details -->
@@ -297,8 +297,7 @@
 
                                             <!-- EDIÇÃO -->
                                             <div id="preco-edit" class="d-none">
-                                                <form method="POST" action="/admin/veiculos/update/">
-                                                    <input type="hidden" name="id" value="{{ veiculo.id }}">
+                                                <form method="POST" action="/admin/veiculos/update/{{ veiculo.id }}">
                                                         <input type="number" name="preco" class="form-control mb-2" value="{{ veiculo.preco }}" required>
 
                                                             <div class="d-flex gap-2">
@@ -410,296 +409,311 @@
                                                                 </li>
                                                                 <li>
                                                                     <strong>
-                                                                        {{ veiculo.data_publicacao }}
+                                                                        {{ veiculo.updated_at }}
                                                                     </strong>
                                                                     <br>
                                                                         <small class="text-muted">
-                                                                            Publicado no site
+                                                                            Última atualização
                                                                         </small>
                                                                     </li>
+
                                                                     <li>
                                                                         <strong>
-                                                                            17 de Março
+                                                                            {{ veiculo.data_publicacao }}
                                                                         </strong>
                                                                         <br>
                                                                             <small class="text-muted">
-                                                                                Cliente interessado
+                                                                                Publicado no site
                                                                             </small>
                                                                         </li>
-                                                                    </ul>
+                                                                        <li>
+                                                                            <strong>
+                                                                                17 de Março
+                                                                            </strong>
+                                                                            <br>
+                                                                                <small class="text-muted">
+                                                                                    Cliente interessado
+                                                                                </small>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
-                                                    <!-- Action Buttons -->
-                                                    <div class="row mt-4 mb-4">
-                                                        <div class="col-12">
-                                                            <div class="card">
-                                                                <div class="card-body">
-                                                                    <div class="btn-group w-100" role="group">
-                                                                        <a href="veiculos.html" class="btn btn-outline-secondary">
-                                                                            <i class="bi bi-arrow-left"></i>
-                                                                            Voltar à Lista
-                                                                        </a>
-                                                                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editVehicleModal">
-                                                                            <i class="bi bi-pencil"></i>
-                                                                            Editar Veículo
-                                                                        </button>
-                                                                        <button class="btn btn-outline-danger" onclick="deleteVehicle(1)">
-                                                                            <i class="bi bi-trash"></i>
-                                                                            Deletar Veículo
-                                                                        </button>
+                                                        <!-- Action Buttons -->
+                                                        <div class="row mt-4 mb-4">
+                                                            <div class="col-12">
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <div class="btn-group w-100" role="group">
+                                                                            <button type="button" href="veiculos.html" class="btn btn-outline-secondary" onclick="voltarPagina()">
+                                                                                <i class="bi bi-arrow-left"></i>
+                                                                                Voltar à Lista
+                                                                            </button>
+                                                                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editVehicleModal">
+                                                                                <i class="bi bi-pencil"></i>
+                                                                                Editar Veículo
+                                                                            </button>
+                                                                            <button class="btn btn-outline-danger" onclick="deleteVehicle(1)">
+                                                                                <i class="bi bi-trash"></i>
+                                                                                Deletar Veículo
+                                                                            </button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </main>
-                                        </div>
+                                                </main>
+                                            </div>
 
-                                        <!-- Change Status Modal -->
-                                        <div class="modal fade" id="changeStatusModal" tabindex="-1">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">
-                                                            Alterar Status
-                                                        </h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="form-check mb-3">
-                                                            <input class="form-check-input" type="radio" name="status" id="disponivel" value="1" checked>
-                                                                <label class="form-check-label" for="disponivel">
-                                                                    <span class="badge bg-success">
-                                                                        Disponível
-                                                                    </span>
-                                                                </label>
-                                                            </div>
+                                            <!-- Change Status Modal -->
+                                            <div class="modal fade" id="changeStatusModal" tabindex="-1">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">
+                                                                Alterar Status
+                                                            </h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                        </div>
+                                                        <div class="modal-body">
                                                             <div class="form-check mb-3">
-                                                                <input class="form-check-input" type="radio" name="status" id="negociacao" value="2">
-                                                                    <label class="form-check-label" for="negociacao">
-                                                                        <span class="badge bg-warning">
-                                                                            Em Negociação
+                                                                <input class="form-check-input" type="radio" name="status" id="disponivel" value="1" checked>
+                                                                    <label class="form-check-label" for="disponivel">
+                                                                        <span class="badge bg-success">
+                                                                            Disponível
                                                                         </span>
                                                                     </label>
                                                                 </div>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="status" id="vendido" value="3">
-                                                                        <label class="form-check-label" for="vendido">
-                                                                            <span class="badge bg-secondary">
-                                                                                Vendido
+                                                                <div class="form-check mb-3">
+                                                                    <input class="form-check-input" type="radio" name="status" id="negociacao" value="2">
+                                                                        <label class="form-check-label" for="negociacao">
+                                                                            <span class="badge bg-warning">
+                                                                                Em Negociação
                                                                             </span>
                                                                         </label>
                                                                     </div>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                                        Cancelar
-                                                                    </button>
-                                                                    <button type="button" class="btn btn-primary">
-                                                                        Salvar Alterações
-                                                                    </button>
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="status" id="vendido" value="3">
+                                                                            <label class="form-check-label" for="vendido">
+                                                                                <span class="badge bg-secondary">
+                                                                                    Vendido
+                                                                                </span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                                            Cancelar
+                                                                        </button>
+                                                                        <button type="button" class="btn btn-primary">
+                                                                            Salvar Alterações
+                                                                        </button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
-                                                    <!-- Edit Vehicle Modal -->
-                                                    <div class="modal fade" id="editVehicleModal" tabindex="-1">
-                                                        <div class="modal-dialog modal-lg">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title">
-                                                                        Editar Veículo
-                                                                    </h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <form id="editVehicleForm" action="/admin/veiculos/update/{{ veiculo.id }}" method="POST" enctype="multipart/form-data">
-                                                                        <div class="row">
-                                                                            <div class="col-md-6 mb-3">
-
-                                                                                <label class="form-label">
-                                                                                    Marca
-                                                                                </label>
-                                                                                <select name="id_marca" class="form-select form-control" required>
-                                                                                    <option value="">
-                                                                                        Selecione a marca
-                                                                                    </option>
-
-                                                                                    {% for marca in marcas %}
-                                                                                        <option value="{{ marca.id }}" {% if veiculo.id_marca == marca.id %} selected {% endif %}>
-                                                                                            {{ marca.nome }}
-                                                                                        </option>
-                                                                                    {% endfor %}
-                                                                                </select>
-                                                                            </div>
-                                                                            <!-- Categoria -->
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label class="form-label">
-                                                                                    Categoria
-                                                                                </label>
-
-                                                                                <select name="id_categoria" class="form-select" required>
-                                                                                    <option value="">
-                                                                                        Selecione a categoria
-                                                                                    </option>
-
-                                                                                    {% for categoria in categorias %}
-                                                                                        <option value="{{ categoria.id }}" {% if veiculo.id_categoria == categoria.id %} selected {% endif %}>
-                                                                                            {{ categoria.nome }}
-                                                                                        </option>
-                                                                                    {% endfor %}
-                                                                                </select>
-                                                                            </div>
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label class="form-label">
-                                                                                    Modelo
-                                                                                </label>
-                                                                                <input type="text" class="form-control" placeholder="Ex: Corolla" value="{{ veiculo.modelo }}" name="modelo"></div>
-                                                                                 <!-- COMBUSTIVEL -->
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label class="form-label">
-                                                                                    Combustível
-                                                                                </label>
-                                                                                <select name="combustivel" class="form-select" required>
-                                                                                    <option value="Gasolina" {% if veiculo.combustivel == "Gasolina" %} selected {% endif %}>
-                                                                                        Gasolina
-                                                                                    </option>
-                                                                                    <option value="Diesel" {% if veiculo.combustivel == "Diesel" %} selected {% endif %}>
-                                                                                        Diesel
-                                                                                    </option>
-                                                                                    <option value="Eletrico" {% if veiculo.combustivel == "Eletrico" %} selected {% endif %}>
-                                                                                        Elétrico
-                                                                                    </option>
-                                                                                    <option value="Hibrido" {% if veiculo.combustivel == "Hibrido" %} selected {% endif %}>
-                                                                                        Híbrido
-                                                                                    </option>
-                                                                                </select>
-                                                                            </div>
-                                                                            </div>
-                                                                           
+                                                        <!-- Edit Vehicle Modal -->
+                                                        <div class="modal fade" id="editVehicleModal" tabindex="-1">
+                                                            <div class="modal-dialog modal-lg">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">
+                                                                            Editar Veículo
+                                                                        </h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form id="editVehicleForm" action="/admin/veiculos/update/{{ veiculo.id }}" method="POST" enctype="multipart/form-data">
                                                                             <div class="row">
-                                                                                <div class="col-md-4 mb-3">
+                                                                                <div class="col-md-6 mb-3">
+
                                                                                     <label class="form-label">
-                                                                                        Ano
+                                                                                        Marca
                                                                                     </label>
-                                                                                    <input type="number" class="form-control" placeholder="2024" value="{{ veiculo.ano }}" name="ano"></div>
+                                                                                    <select name="id_marca" class="form-select form-control" required>
+                                                                                        <option value="">
+                                                                                            Selecione a marca
+                                                                                        </option>
+
+                                                                                        {% for marca in marcas %}
+                                                                                            <option value="{{ marca.id }}" {% if veiculo.id_marca == marca.id %} selected {% endif %}>
+                                                                                                {{ marca.nome }}
+                                                                                            </option>
+                                                                                        {% endfor %}
+                                                                                    </select>
+                                                                                </div>
+                                                                                <!-- Categoria -->
+                                                                                <div class="col-md-6 mb-3">
+                                                                                    <label class="form-label">
+                                                                                        Categoria
+                                                                                    </label>
+
+                                                                                    <select name="id_categoria" class="form-select" required>
+                                                                                        <option value="">
+                                                                                            Selecione a categoria
+                                                                                        </option>
+
+                                                                                        {% for categoria in categorias %}
+                                                                                            <option value="{{ categoria.id }}" {% if veiculo.id_categoria == categoria.id %} selected {% endif %}>
+                                                                                                {{ categoria.nome }}
+                                                                                            </option>
+                                                                                        {% endfor %}
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="col-md-6 mb-3">
+                                                                                    <label class="form-label">
+                                                                                        Modelo
+                                                                                    </label>
+                                                                                    <input type="text" class="form-control" placeholder="Ex: Corolla" value="{{ veiculo.modelo }}" name="modelo"></div>
+                                                                                    <!-- COMBUSTIVEL -->
+                                                                                    <div class="col-md-6 mb-3">
+                                                                                        <label class="form-label">
+                                                                                            Combustível
+                                                                                        </label>
+                                                                                        <select name="combustivel" class="form-select" required>
+                                                                                            <option value="Gasolina" {% if veiculo.combustivel == "Gasolina" %} selected {% endif %}>
+                                                                                                Gasolina
+                                                                                            </option>
+                                                                                            <option value="Diesel" {% if veiculo.combustivel == "Diesel" %} selected {% endif %}>
+                                                                                                Diesel
+                                                                                            </option>
+                                                                                            <option value="Eletrico" {% if veiculo.combustivel == "Eletrico" %} selected {% endif %}>
+                                                                                                Elétrico
+                                                                                            </option>
+                                                                                            <option value="Hibrido" {% if veiculo.combustivel == "Hibrido" %} selected {% endif %}>
+                                                                                                Híbrido
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row">
                                                                                     <div class="col-md-4 mb-3">
                                                                                         <label class="form-label">
-                                                                                            Cor
+                                                                                            Ano
                                                                                         </label>
-                                                                                        <input type="text" class="form-control" placeholder="Branco" value="{{ veiculo.cor }}" name="cor"></div>
+                                                                                        <input type="number" class="form-control" placeholder="2024" value="{{ veiculo.ano }}" name="ano"></div>
                                                                                         <div class="col-md-4 mb-3">
                                                                                             <label class="form-label">
-                                                                                                Tipo
+                                                                                                Cor
                                                                                             </label>
-                                                                                            <select class="form-select" name="transmissao">
-                                                                                                <option value="Automatica" {% if veiculo.transmissao == "Automatica" %} selected {% endif %}>
-                                                                                                    Automática
-                                                                                                </option>
-                                                                                                <option value="Manual" {% if veiculo.transmissao == "Manual" %} selected {% endif %}>
-                                                                                                    Manual
-                                                                                                </option>
-                                                                                            </select>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-6 mb-3">
-                                                                                            <label class="form-label">
-                                                                                                Preço (AOA)
-                                                                                            </label>
-                                                                                            <input type="number" class="form-control" placeholder="0.00" value="{{ veiculo.preco }}" name="preco"></div>
-                                                                                            <div class="col-md-6 mb-3">
+                                                                                            <input type="text" class="form-control" placeholder="Branco" value="{{ veiculo.cor }}" name="cor"></div>
+                                                                                            <div class="col-md-4 mb-3">
                                                                                                 <label class="form-label">
-                                                                                                    Status
+                                                                                                    Tipo
                                                                                                 </label>
-                                                                                                <select class="form-select" name="status">
-                                                                                                    <option value="disponivel" {% if veiculo.status == "disponivel" %} selected {% endif %}>
-                                                                                                        Disponível
+                                                                                                <select class="form-select" name="transmissao">
+                                                                                                    <option value="Automatica" {% if veiculo.transmissao == "Automatica" %} selected {% endif %}>
+                                                                                                        Automática
                                                                                                     </option>
-                                                                                                    <option value="em-negociacao" {% if veiculo.status == "em-negociacao" %} selected {% endif %}>
-                                                                                                        Em Negociação
+                                                                                                    <option value="Manual" {% if veiculo.transmissao == "Manual" %} selected {% endif %}>
+                                                                                                        Manual
                                                                                                     </option>
-                                                                                                    <option value="vendido" {% if veiculo.status == "vendido" %} selected {% endif %}>
-                                                                                                        Vendido
-                                                                                                    </option>
-                                                                                                    <option value="publicado" {% if veiculo.status == "publicado" %} selected {% endif %}>
-                                                                                                        Publicado
-                                                                                                    </option>
-                                                                                                    <option value="indisponivel" {% if veiculo.status == "indisponivel" %} selected {% endif %}>
-                                                                                                        Indisponível
-                                                                                                    </option>
-                                                                                                     <option value="reservado" {% if veiculo.status == "reservado" %} selected {% endif %}>
-                                                                                                        Reservado
-                                                                                                    </option>
-                                                                                                    
                                                                                                 </select>
                                                                                             </div>
                                                                                         </div>
-                                                                                        <div class="mb-3">
-                                                                                            <label class="form-label">
-                                                                                                Quilometragem
-                                                                                            </label>
-                                                                                            <input type="number" class="form-control" placeholder="15000" value="{{ veiculo.quilometragem }}" name="quilometragem"></div>
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-6 mb-3">
+                                                                                                <label class="form-label">
+                                                                                                    Preço (AOA)
+                                                                                                </label>
+                                                                                                <input type="number" class="form-control" placeholder="0.00" value="{{ veiculo.preco }}" name="preco"></div>
+                                                                                                <div class="col-md-6 mb-3">
+                                                                                                    <label class="form-label">
+                                                                                                        Status
+                                                                                                    </label>
+                                                                                                    <select class="form-select" name="status">
+                                                                                                        <option value="disponivel" {% if veiculo.status == "disponivel" %} selected {% endif %}>
+                                                                                                            Disponível
+                                                                                                        </option>
+                                                                                                        <option value="em-negociacao" {% if veiculo.status == "em-negociacao" %} selected {% endif %}>
+                                                                                                            Em Negociação
+                                                                                                        </option>
+                                                                                                        <option value="vendido" {% if veiculo.status == "vendido" %} selected {% endif %}>
+                                                                                                            Vendido
+                                                                                                        </option>
+                                                                                                        <option value="publicado" {% if veiculo.status == "publicado" %} selected {% endif %}>
+                                                                                                            Publicado
+                                                                                                        </option>
+                                                                                                        <option value="indisponivel" {% if veiculo.status == "indisponivel" %} selected {% endif %}>
+                                                                                                            Indisponível
+                                                                                                        </option>
+                                                                                                        <option value="reservado" {% if veiculo.status == "reservado" %} selected {% endif %}>
+                                                                                                            Reservado
+                                                                                                        </option>
+
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
                                                                                             <div class="mb-3">
                                                                                                 <label class="form-label">
-                                                                                                    Descrição
+                                                                                                    Quilometragem
                                                                                                 </label>
-                                                                                                <textarea class="form-control" rows="3" placeholder="Detalhes adicionais...">
-                                                                                                    {{ veiculo.descricao }}
-                                                                                                </textarea>
+                                                                                                <input type="number" class="form-control" placeholder="15000" value="{{ veiculo.quilometragem }}" name="quilometragem"></div>
+                                                                                                <div class="mb-3">
+                                                                                                    <label class="form-label">
+                                                                                                        Descrição
+                                                                                                    </label>
+                                                                                                    <textarea class="form-control" rows="3" placeholder="Detalhes adicionais...">
+                                                                                                        {{ veiculo.descricao }}
+                                                                                                    </textarea>
+                                                                                                </div>
+                                                                                                <div class="form-check">
+                                                                                                    <input type="checkbox" name="destaque" id="destaqueSim" value="1" class="form-check-input" {% if veiculo.destaque == 1 %} checked {% endif %}>
+                                                                                                        <label class="form-check-label" for="destaqueSim">
+                                                                                                            Destacar Veículo
+                                                                                                        </label>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="modal-footer">
+                                                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                                                                        Cancelar
+                                                                                                    </button>
+                                                                                                    <button type="submit" class="btn btn-primary" onclick="updateVehicle()">
+                                                                                                        Salvar Alterações
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                            </form>
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <!-- Delete Confirmation Modal -->
+                                                                                <div class="modal fade" id="deleteConfirmModal" tabindex="-1">
+                                                                                    <div class="modal-dialog">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header">
+                                                                                                <h5 class="modal-title">
+                                                                                                    Confirmar Exclusão
+                                                                                                </h5>
+                                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                                                            </div>
+                                                                                            <div class="modal-body">
+                                                                                                <p>
+                                                                                                    Tem certeza que deseja excluir este veículo? Esta ação não pode ser desfeita.
+                                                                                                </p>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                                                                    Cancelar
+                                                                                                </button>
+                                                                                                <button type="button" class="btn btn-danger" onclick="confirmDelete()">
+                                                                                                    Excluir
+                                                                                                </button>
                                                                                             </div>
                                                                                         </div>
-
-                                                                                        <div class="modal-footer">
-                                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                                                                Cancelar
-                                                                                            </button>
-                                                                                            <button type="submit" class="btn btn-primary" onclick="updateVehicle()">
-                                                                                                Salvar Alterações
-                                                                                            </button>
-                                                                                        </div>
-                                                                                    </form>
-
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <!-- Delete Confirmation Modal -->
-                                                                        <div class="modal fade" id="deleteConfirmModal" tabindex="-1">
-                                                                            <div class="modal-dialog">
-                                                                                <div class="modal-content">
-                                                                                    <div class="modal-header">
-                                                                                        <h5 class="modal-title">
-                                                                                            Confirmar Exclusão
-                                                                                        </h5>
-                                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                                                    </div>
-                                                                                    <div class="modal-body">
-                                                                                        <p>
-                                                                                            Tem certeza que deseja excluir este veículo? Esta ação não pode ser desfeita.
-                                                                                        </p>
-                                                                                    </div>
-                                                                                    <div class="modal-footer">
-                                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                                                            Cancelar
-                                                                                        </button>
-                                                                                        <button type="button" class="btn btn-danger" onclick="confirmDelete()">
-                                                                                            Excluir
-                                                                                        </button>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
-                                                                        </div>
 
-                                                                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-                                                                        <script src="../js/app.js"></script>
+                                                                
 
-                                                                        <script>
+                                                                                <script>
         function editarPreco() {
             document.getElementById('preco-view').classList.add('d-none');
             document.getElementById('preco-edit').classList.remove('d-none');
@@ -721,5 +735,5 @@
         }
     </script>
 
-                                                                    {% endblock %}
-                                                                    
+                                                                            {% endblock %}
+                                                                            

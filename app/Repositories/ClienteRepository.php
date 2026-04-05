@@ -47,6 +47,36 @@ class ClienteRepository
         return $data ? new Cliente($data) : null;
     }
 
+    public function getHistoricoCompras(int $clienteId): array
+    {
+        $stmt = $this->conn->prepare("SELECT 
+    hc.id AS historico_id,
+    c.nome_completo AS cliente,
+    
+    v.modelo AS carro,
+    v.ano,
+    m.nome AS marca,
+    
+    hc.data_compra,
+    hc.preco_compra,
+    hc.metodo_pagamento
+
+FROM historico_compras hc
+JOIN clientes c ON hc.cliente_id = c.id
+JOIN veiculos v ON hc.carro_id = v.id
+JOIN marcas m ON v.id_marca = m.id
+
+    WHERE hc.cliente_id = :cliente_id
+ORDER BY hc.data_compra DESC;
+    ");
+
+        $stmt->execute(['cliente_id' => $clienteId]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+
     /**
      * Cria um novo cliente
      * @return int ID do cliente criado
@@ -89,6 +119,20 @@ class ClienteRepository
         return (int)$stmt->fetchColumn() > 0;
     }
 
+    public function existsByEmailOrBIExcludingId(string $email, string $identidade, int $excludeId): bool
+    {
+        $sql = "SELECT COUNT(*) FROM clientes WHERE (email = :email OR identidade = :identidade) AND id != :excludeId";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            'email' => $email,
+            'identidade'    => $identidade,
+            'excludeId'     => $excludeId
+        ]);
+
+        // Retorna true se já existir algum registro (excluindo o ID atual)
+        return (int)$stmt->fetchColumn() > 0;   
+    }   
+
     /**
      * Atualiza um cliente existente
      */
@@ -102,8 +146,7 @@ class ClienteRepository
                     telefone = :telefone,
                     identidade = :identidade,
                     cidade = :cidade,
-                    municipio = :municipio,
-                    endereco = :endereco
+                    municipio = :municipio
                 WHERE id = :id";
 
         $stmt = $this->conn->prepare($sql);
@@ -114,9 +157,33 @@ class ClienteRepository
             'identidade'   => $cliente->identidade,
             'cidade'        => $cliente->cidade,
             'municipio'     => $cliente->municipio,
-            'endereco'      => $cliente->endereco,
             'id'            => $cliente->id
         ]);
+    }
+
+    public function search(array $filters): array
+    {
+        $sql = "SELECT * FROM clientes WHERE 1=1";
+        $params = [];
+
+        if (!empty($filters['nome_busca'])) {
+            $sql .= " AND (nome_completo LIKE :nome_completo OR identidade LIKE :identidade OR cidade LIKE :cidade)";
+            $params[':nome_completo'] = '%' . $filters['nome_busca'] . '%';
+            $params[':identidade']   = '%' . $filters['nome_busca'] . '%';
+            $params[':cidade']       = '%' . $filters['nome_busca'] . '%';
+        }
+
+        $sql .= " ORDER BY id DESC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($params);
+
+        $clientes = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $clientes[] = new Cliente($row);
+        }
+
+        return $clientes;
     }
 
     /**

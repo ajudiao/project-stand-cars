@@ -50,8 +50,8 @@ class VendasController extends Controller
             return;
         }
 
-        $venda = new Venda($data);        
-        
+        $venda = new Venda($data);
+
         try {
             $vendaId = $this->vendasRep->create($venda);
 
@@ -63,7 +63,44 @@ class VendasController extends Controller
             }
         } catch (\PDOException $e) {
             error_log($e->getMessage());
-            echo "Não foi possível criar a venda. Verifique os dados e tente novamente.";
+            echo "Não foi possível criar a venda. Verifique os dados e tente novamente." . $e->getMessage();
         }
+    }
+
+    public function buscar()
+    {
+        $filtros = [
+            'nome'   => $_GET['nome'] ?? '',
+            'status' => $_GET['status'] ?? ''
+        ];
+
+        try {
+            $vendas = $this->vendasRep->search($filtros);
+        } catch (\PDOException $e) {
+            echo "Erro ao buscar vendas: " . $e->getMessage();
+            exit;
+        }
+        $this->view('dashboard/vendas', [
+            'vendas'  => $vendas,
+            'filtros' => $filtros
+        ]);
+    }
+
+    public function show($id)
+    {
+        if (!is_numeric($id)) {
+            echo "Parâmetro inválido";
+            return;
+        }
+
+        $venda = $this->vendasRep->findVendaById((int)$id);
+        if (!$venda) {
+            echo "Venda não encontrada";
+            return;
+        }
+
+        $this->view('dashboard/detalhes-venda', [
+            'venda' => $venda
+        ]);
     }
 }

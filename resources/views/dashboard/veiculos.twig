@@ -177,7 +177,7 @@
                                                 <option value="Publicado" {{ filtros.status == 'Public' ? 'selected' : '' }}>
                                                     Publicado
                                                 </option>
-                                                 <option value="indisponivel" {{ filtros.status == 'indisponivel' ? 'selected' : '' }}>
+                                                <option value="indisponivel" {{ filtros.status == 'indisponivel' ? 'selected' : '' }}>
                                                     Indisponível
                                                 </option>
                                             </select>
@@ -278,207 +278,210 @@
                                                                             <a href="/admin/veiculos/show/{{ veiculo.id }}" class="btn btn-outline-info" title="Ver Detalhes">
                                                                                 <i class="bi bi-eye"></i>
                                                                             </a>
-                                                                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editVehicleModal" onclick="editVehicle({{ veiculo.id }})">
-                                                                                <i class="bi bi-pencil"></i>
-                                                                            </button>
-                                                                            <a href="/admin/veiculos/delete/{{ veiculo.id }}" class="btn btn-outline-danger" onclick="return confirm('Tem certeza que deseja apagar este veículo?')">
-                                                                                <i class="bi bi-trash"></i>
-                                                                            </a>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            {% else %}
-                                                                <tr>
-                                                                    <td colspan="6" class="text-center">
-                                                                        Nenhum veículo encontrado.
-                                                                    </td>
-                                                                </tr>
-                                                            {% endfor %}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                                        </button>
+                                                                        <a href="/admin/veiculos/delete/{{ veiculo.id }}" class="btn btn-outline-danger" onclick="return confirm('Tem certeza que deseja apagar este veículo?')">
+                                                                            <i class="bi bi-trash"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        {% else %}
+                                                            <tr>
+                                                                <td colspan="6" class="text-center">
+                                                                    Nenhum veículo encontrado.
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
-                                    </main>
-                                </div>
+                                    </div>
+                                </main>
+                            </div>
 
-                                <!-- Add Vehicle Modal -->
-                                <div class="modal fade" id="addVehicleModal" tabindex="-1">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">
-                                                    Adicionar Novo Veículo
-                                                </h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="/admin/veiculos" method="POST" enctype="multipart/form-data">
+                            <!-- Add Vehicle Modal -->
+                            <div class="modal fade" id="addVehicleModal" tabindex="-1">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">
+                                                Adicionar Novo Veículo
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/admin/veiculos" method="POST" enctype="multipart/form-data">
+
+                                                <div class="row">
+
+                                                    <!-- MARCA -->
+                                                    <div class="col-md-6 mb-3">
+                                                        <label class="form-label">
+                                                            Marca
+                                                        </label>
+
+                                                        <select name="id_marca" class="form-select" required>
+                                                            <option value="">
+                                                                Selecione a marca
+                                                            </option>
+
+                                                            {% for marca in marcas %}
+                                                                <option value="{{ marca.id }}">
+                                                                    {{ marca.nome }}
+                                                                </option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+
+                                                    <!-- Categoria -->
+                                                    <div class="col-md-6 mb-3">
+                                                        <label class="form-label">
+                                                            Categoria
+                                                        </label>
+
+                                                        <select name="id_categoria" class="form-select" required>
+                                                            <option value="">
+                                                                Selecione a categoria
+                                                            </option>
+
+                                                            {% for categoria in categorias %}
+                                                                <option value="{{ categoria.id }}">
+                                                                    {{ categoria.nome }}
+                                                                </option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+
+                                                    <!-- MODELO -->
+                                                    <div class="col-md-6 mb-3">
+                                                        <label class="form-label">
+                                                            Modelo
+                                                        </label>
+                                                        <input type="text" name="modelo" class="form-control" placeholder="Ex: Corolla" required></div>
+                                                    </div>
 
                                                     <div class="row">
 
-                                                        <!-- MARCA -->
-                                                        <div class="col-md-6 mb-3">
+                                                        <!-- ANO -->
+                                                        <div class="col-md-4 mb-3">
                                                             <label class="form-label">
-                                                                Marca
+                                                                Ano
                                                             </label>
+                                                            <input type="number" name="ano" class="form-control" placeholder="2024" required></div>
 
-                                                            <select name="id_marca" class="form-select" required>
-                                                                <option value="">
-                                                                    Selecione a marca
-                                                                </option>
-
-                                                                {% for marca in marcas %}
-                                                                    <option value="{{ marca.id }}">
-                                                                        {{ marca.nome }}
-                                                                    </option>
-                                                                {% endfor %}
-                                                            </select>
-                                                        </div>
-
-                                                        <!-- Categoria -->
-                                                        <div class="col-md-6 mb-3">
-                                                            <label class="form-label">
-                                                                Categoria
-                                                            </label>
-
-                                                            <select name="id_categoria" class="form-select" required>
-                                                                <option value="">
-                                                                    Selecione a categoria
-                                                                </option>
-
-                                                                {% for categoria in categorias %}
-                                                                    <option value="{{ categoria.id }}">
-                                                                        {{ categoria.nome }}
-                                                                    </option>
-                                                                {% endfor %}
-                                                            </select>
-                                                        </div>
-
-                                                        <!-- MODELO -->
-                                                        <div class="col-md-6 mb-3">
-                                                            <label class="form-label">
-                                                                Modelo
-                                                            </label>
-                                                            <input type="text" name="modelo" class="form-control" placeholder="Ex: Corolla" required></div>
-                                                        </div>
-
-                                                        <div class="row">
-
-                                                            <!-- ANO -->
+                                                            <!-- COR -->
                                                             <div class="col-md-4 mb-3">
                                                                 <label class="form-label">
-                                                                    Ano
+                                                                    Cor
                                                                 </label>
-                                                                <input type="number" name="ano" class="form-control" placeholder="2024" required></div>
+                                                                <input type="text" name="cor" class="form-control" placeholder="Branco" required></div>
 
-                                                                <!-- COR -->
+                                                                <!-- TRANSMISSÃO -->
                                                                 <div class="col-md-4 mb-3">
                                                                     <label class="form-label">
-                                                                        Cor
+                                                                        Transmissão
                                                                     </label>
-                                                                    <input type="text" name="cor" class="form-control" placeholder="Branco" required></div>
+                                                                    <select name="transmissao" class="form-select" required>
+                                                                        <option value="">
+                                                                            Selecione
+                                                                        </option>
+                                                                        <option value="Automatica">
+                                                                            Automática
+                                                                        </option>
+                                                                        <option value="Manual">
+                                                                            Manual
+                                                                        </option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
 
-                                                                    <!-- TRANSMISSÃO -->
-                                                                    <div class="col-md-4 mb-3">
+                                                            <div class="row">
+
+                                                                <!-- PREÇO -->
+                                                                <div class="col-md-6 mb-3">
+                                                                    <label class="form-label">
+                                                                        Preço (AOA)
+                                                                    </label>
+                                                                    <input type="number" name="preco" class="form-control" placeholder="0.00" step="0.01" required></div>
+
+                                                                    <!-- STATUS -->
+                                                                    <div class="col-md-6 mb-3">
                                                                         <label class="form-label">
-                                                                            Transmissão
+                                                                            Status
                                                                         </label>
-                                                                        <select name="transmissao" class="form-select" required>
+                                                                        <select name="status" class="form-select" required>
                                                                             <option value="">
                                                                                 Selecione
                                                                             </option>
-                                                                            <option value="Automatica">
-                                                                                Automática
+                                                                            <option value="Disponivel">
+                                                                                Disponível
                                                                             </option>
-                                                                            <option value="Manual">
-                                                                                Manual
+                                                                            <option value="Negociacao">
+                                                                                Em Negociação
+                                                                            </option>
+                                                                            <option value="Vendido">
+                                                                                Vendido
+                                                                            </option>
+                                                                            <option value="Publicado">
+                                                                                Publicado
                                                                             </option>
                                                                         </select>
                                                                     </div>
+
                                                                 </div>
 
-                                                                <div class="row">
+                                                                <!-- QUILOMETRAGEM -->
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">
+                                                                        Quilometragem
+                                                                    </label>
+                                                                    <input type="number" name="quilometragem" class="form-control" placeholder="15000" required></div>
 
-                                                                    <!-- PREÇO -->
-                                                                    <div class="col-md-6 mb-3">
-                                                                        <label class="form-label">
-                                                                            Preço (AOA)
-                                                                        </label>
-                                                                        <input type="number" name="preco" class="form-control" placeholder="0.00" step="0.01" required></div>
-
-                                                                        <!-- STATUS -->
-                                                                        <div class="col-md-6 mb-3">
-                                                                            <label class="form-label">
-                                                                                Status
-                                                                            </label>
-                                                                            <select name="status" class="form-select" required>
-                                                                                <option value="">
-                                                                                    Selecione
-                                                                                </option>
-                                                                                <option value="Disponivel">
-                                                                                    Disponível
-                                                                                </option>
-                                                                                <option value="Negociacao">
-                                                                                    Em Negociação
-                                                                                </option>
-                                                                                <option value="Vendido">
-                                                                                    Vendido
-                                                                                </option>
-                                                                                <option value="Publicado">
-                                                                                    Publicado
-                                                                                </option>
-                                                                            </select>
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <!-- QUILOMETRAGEM -->
+                                                                    <!-- COMBUSTIVEL -->
                                                                     <div class="mb-3">
                                                                         <label class="form-label">
-                                                                            Quilometragem
+                                                                            Combustível
                                                                         </label>
-                                                                        <input type="number" name="quilometragem" class="form-control" placeholder="15000" required></div>
+                                                                        <select name="combustivel" class="form-select" required>
+                                                                            <option value="">
+                                                                                Selecione
+                                                                            </option>
+                                                                            <option value="Gasolina">
+                                                                                Gasolina
+                                                                            </option>
+                                                                            <option value="Diesel">
+                                                                                Diesel
+                                                                            </option>
+                                                                            <option value="Eletrico">
+                                                                                Elétrico
+                                                                            </option>
+                                                                            <option value="Hibrido">
+                                                                                Híbrido
+                                                                            </option>
+                                                                        </select>
+                                                                    </div>
 
-                                                                        <!-- COMBUSTIVEL -->
-                                                                        <div class="mb-3">
-                                                                            <label class="form-label">
-                                                                                Combustível
-                                                                            </label>
-                                                                            <select name="combustivel" class="form-select" required>
-                                                                                <option value="">
-                                                                                    Selecione
-                                                                                </option>
-                                                                                <option value="Gasolina">
-                                                                                    Gasolina
-                                                                                </option>
-                                                                                <option value="Diesel">
-                                                                                    Diesel
-                                                                                </option>
-                                                                                <option value="Eletrico">
-                                                                                    Elétrico
-                                                                                </option>
-                                                                                <option value="Hibrido">
-                                                                                    Híbrido
-                                                                                </option>
-                                                                            </select>
-                                                                        </div>
+                                                                    <!-- DESCRIÇÃO -->
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">
+                                                                            Descrição
+                                                                        </label>
+                                                                        <textarea name="descricao" class="form-control" rows="3" placeholder="Detalhes adicionais..." required></textarea>
+                                                                    </div>
 
-                                                                        <!-- DESCRIÇÃO -->
-                                                                        <div class="mb-3">
-                                                                            <label class="form-label">
-                                                                                Descrição
-                                                                            </label>
-                                                                            <textarea name="descricao" class="form-control" rows="3" placeholder="Detalhes adicionais..." required></textarea>
-                                                                        </div>
-
-                                                                        <!-- FOTO -->
-                                                                        <div class="mb-3">
-                                                                            <label class="form-label">
-                                                                                Foto do Veículo
-                                                                            </label>
-                                                                            <input type="file" name="fotos[]" class="form-control" multiple accept="image/*" required></div>
-
+                                                                    <!-- FOTO -->
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">
+                                                                            Foto do Veículo
+                                                                        </label>
+                                                                        <input type="file" name="fotos[]" class="form-control" multiple accept="image/*" required></div>
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input" type="checkbox" name="destaque" id="destaqueCheck">
+                                                                                <label class="form-check-label" for="destaqueCheck">
+                                                                                    Destacar este veículo
+                                                                                </label>
+                                                                            </div>
                                                                         </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -495,5 +498,5 @@
                                                             </form>
                                                         </div>
 
-                                                                                {% endblock %}
-                                                                                
+                                                    {% endblock %}
+                                                    

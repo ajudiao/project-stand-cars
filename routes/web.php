@@ -83,6 +83,9 @@ Router::group([
     Router::get('/clientes/show/{id}', 'ClientesController@show');
     Router::put('/clientes/{id}', 'ClientesController@update');
     Router::delete('/clientes/{id}', 'ClientesController@delete');
+    Router::get('/clientes/busca/', 'ClientesController@buscar');
+    Router::get('/clientes/delete/{id}', 'ClientesController@delete');
+    Router::post('/clientes/update/{id}', 'ClientesController@update');
 
     //
     // NOTÍCIAS (REST)
@@ -100,6 +103,10 @@ Router::group([
     Router::get('/vendas', 'VendasController@index');
     Router::post('/vendas', 'VendasController@store');
     Router::get('/relatorios', 'RelatoriosController@index');
+    Router::get('/vendas/busca/', 'VendasController@buscar');
+    Router::get('/vendas/delete/{id}', 'VendasController@delete');
+    Router::get('/vendas/show/{id}', 'VendasController@show');
+    Router::post('/vendas/update/{id}', 'VendasController@update');
 
     Router::get('/website', 'SiteController@index');
     Router::get('/website/configuracoes', 'SiteController@configuracoes');

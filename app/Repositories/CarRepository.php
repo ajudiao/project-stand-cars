@@ -110,11 +110,11 @@ class CarRepository
         $sql = "INSERT INTO veiculos (
                 id_marca, id_categoria, modelo, ano, cor, 
                 preco, quilometragem, combustivel, transmissao, 
-                status, descricao, created_at
+                status, descricao, destaque, updated_at, created_at
             ) VALUES (
                 :id_marca, :id_categoria, :modelo, :ano, :cor, 
                 :preco, :quilometragem, :combustivel, :transmissao, 
-                :status, :descricao, :created_at
+                :status, :descricao, :destaque, :updated_at, :created_at
             )";
 
         $stmt = $this->conn->prepare($sql);
@@ -131,8 +131,10 @@ class CarRepository
             'transmissao'   => $car->transmissao,
             'status'        => $car->status,
             'descricao'     => $car->descricao,
+            'destaque'      => $car->destaque,
             // Se o banco não gerar o timestamp sozinho, enviamos agora:
-            'created_at'    => $car->created_at ?? date('Y-m-d H:i:s')
+            'created_at'    => $car->created_at ?? date('Y-m-d'),
+            'updated_at'    => $car->updated_at ?? date('Y-m-d H:i:s')
         ]);
 
         if ($success)
@@ -195,7 +197,9 @@ class CarRepository
                 combustivel = :combustivel, 
                 transmissao = :transmissao, 
                 status = :status, 
-                descricao = :descricao
+                descricao = :descricao,
+                destaque = :destaque,
+                updated_at = :updated_at
             WHERE id = :id";
 
         $stmt = $this->conn->prepare($sql);
@@ -212,6 +216,8 @@ class CarRepository
             'transmissao'   => $car->transmissao,
             'status'        => $car->status,
             'descricao'     => $car->descricao,
+            'destaque'      => $car->destaque,
+            'updated_at'    => date('Y-m-d H:i:s'),
             'id'            => (int) $car->id
         ]);
 

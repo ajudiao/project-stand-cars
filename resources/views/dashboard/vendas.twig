@@ -182,20 +182,45 @@
                         </div>
                     </div>
 
-                    <!-- Filters -->
-                    <div class="row mb-4">
-                        <div class="col-md-6 col-lg-4">
-                            <input type="date" class="form-control" placeholder="Data">
-                        </div>
-                        <div class="col-md-6 col-lg-4">
-                            <select class="form-select">
-                                <option value="">Filtrar por Status</option>
-                                <option value="1">Concluída</option>
-                                <option value="2">Pendente</option>
-                                <option value="3">Cancelada</option>
-                            </select>
-                        </div>
-                    </div>
+                       <!-- Filters -->
+                            <div class="card card-body mb-4 border-0 shadow-sm">
+                                <form action="/admin/vendas/busca/" method="get" class="row g-3 align-items-end">
+                                    <!-- BUSCA -->
+                                    <div class="col-md-4 col-lg-4">
+                                        <label class="form-label small fw-bold">
+                                            Pesquisa
+                                        </label>
+                                        <input type="text" class="form-control" name="nome" placeholder="Nome do cliente ou veiculo" value="{{ filtros.nome ?? '' }}">
+                                    </div>
+
+                                        <!-- STATUS -->
+                                        <div class="col-md-3 col-lg-4">
+                                            <label class="form-label small fw-bold">
+                                                Status
+                                            </label>
+                                            <select name="status" class="form-select">
+                                                <option value="">
+                                                    Todos
+                                                </option>
+                                                <option value="Concluido" {{ filtros.status == 'Concluido' ? 'selected' : '' }}>
+                                                    Concluído
+                                                </option>
+                                                <option value="Pendente" {{ filtros.status == 'Pendente' ? 'selected' : '' }}>
+                                                    Pendente
+                                                </option>
+                                
+                                            </select>
+                                        </div>
+
+                                        <!-- BOTÃO -->
+                                        <div class="col-md-2 col-lg-4">
+                                            <button type="submit" class="btn btn-primary w-100">
+                                                <i class="bi bi-search"></i>
+                                                Buscar
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
 
                     <!-- Sales Table -->
                     <div class="card">
@@ -213,8 +238,8 @@
                                 </thead>
                                 <tbody>
                                     <tbody>
-    {% for venda in vendas %}
-        <tr>
+            {% for venda in vendas %}
+                <tr>
             <td>{{ venda.cliente ?? venda.id_cliente }}</td>
             <td>{{ venda.marca }} {{ venda.modelo }}</td>
             <td>{{ venda.preco_venda|number_format(2, ',', '.') }}</td>
@@ -233,11 +258,11 @@
                 </span>
             </td>
             <td class="d-flex gap-2">
-                <a href="detalhes-venda/{{ venda.id }}" class="btn btn-sm btn-outline-info">
+                <a href="/admin/vendas/show/{{ venda.id }}" class="btn btn-sm btn-outline-info">
                     <i class="bi bi-eye"></i>
                 </a>
 
-                <a href="deletar/{{ venda.id }}" 
+                <a href="/admin/vendas/delete/{{ venda.id }}" 
                 class="btn btn-sm btn-outline-danger"
                 onclick="return confirm('Tem certeza que deseja excluir esta venda?')">
                     <i class="bi bi-trash"></i>
@@ -292,14 +317,16 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
+                                <label class="form-label">Desconto</label>
+                                <input type="number" name="desconto" class="form-control" value="0.00" placeholder="0.00">
+                            </div>
+                            <div class="col-md-6 mb-3">
                                 <label class="form-label">Valor</label>
                                 <input type="number" name="valor" class="form-control" placeholder="0.00" required>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Data da Venda</label>
-                                <input type="date" name="data_venda" value="{{ "now"|date("Y-m-d") }}" class="form-control" required>
-                            </div>
+                            
                         </div>
+                         
                         <div class="mb-3">
                             <label class="form-label">Status</label>
                             <select class="form-select" name="status" required>

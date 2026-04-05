@@ -22,6 +22,14 @@ class VeiculosController extends Controller
         $marcas = (new \App\Repositories\MarcaRepository())->getAll();
         $categorias = (new \App\Repositories\CategoriaRepository())->getAll();
 
+        /*
+        echo "<pre>";
+        var_dump($veiculos[1]->destaque);
+        var_dump(gettype($veiculos[1]->destaque));
+        echo "</pre>";
+        exit;
+        */
+        
         $this->view('dashboard/veiculos', [
             'veiculos'   => $veiculos,   // Veículos com todas as imagens
             'marcas'     => $marcas,
@@ -40,7 +48,6 @@ class VeiculosController extends Controller
             echo "Modelo e preço são obrigatórios.";
             return;
         }
-
         if (!is_numeric($data['ano']) || $data['ano'] < 1900 || $data['ano'] > date('Y') + 1) {
             echo "Ano inválido.";
             return;
@@ -188,11 +195,11 @@ class VeiculosController extends Controller
             echo "Modelo e preço são obrigatórios.";
             return;
         }
-
         if (!is_numeric($data['ano']) || $data['ano'] < 1900 || $data['ano'] > date('Y') + 1) {
             echo "Ano inválido.";
             return;
         }
+        $data['destaque'] = isset($data['destaque']) && $data['destaque'] == '1' ? 1 : 0;
 
         // --------------------------
         // ATUALIZAR VEÍCULO

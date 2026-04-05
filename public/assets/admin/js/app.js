@@ -7,7 +7,14 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeMobileToggle();
     initializeTooltips();
     loadNotifications();
+    console.log('Dashboard AutoVendas carregado com sucesso!');
 });
+
+
+
+function voltarPagina(page) {
+    window.history.back();
+}
 
 // ============================================
 // SIDEBAR
@@ -85,6 +92,7 @@ function clearNotifications() {
 
 function showNotification(title, message, type = 'info') {
     const toastContainer = document.getElementById('toastContainer');
+    console.log(toastContainer);
     if (!toastContainer) return;
 
     const toast = document.createElement('div');
@@ -218,6 +226,7 @@ function updateSale() {
 
 function generateReport(type) {
     showNotification('Gerando Relatório', `Relatório de ${type} está sendo gerado...`, 'info');
+    console.log(`Gerando relatório de ${type}...`);
     
     // Simular geração de relatório
     setTimeout(() => {

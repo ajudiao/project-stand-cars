@@ -1,85 +1,5 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes da Venda - AutoVendas</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-
-<body>
-    <div class="wrapper">
-        <!-- Sidebar -->
-        <nav id="sidebar" class="sidebar">
-            <div class="sidebar-header">
-                <button id="sidebarToggle" class="btn-toggle-sidebar">
-                    <i class="bi bi-list"></i>
-                </button>
-                <h4 class="mb-0 brand-name">AutoVendas</h4>
-            </div>
-
-            <ul class="sidebar-menu">
-                <li>
-                    <a href="index.html" class="nav-link" data-page="dashboard">
-                        <i class="bi bi-speedometer2"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="veiculos.html" class="nav-link" data-page="veiculos">
-                        <i class="bi bi-car-front"></i>
-                        <span>Veículos</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="clientes.html" class="nav-link" data-page="clientes">
-                        <i class="bi bi-people-fill"></i>
-                        <span>Clientes</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="vendas.html" class="nav-link active" data-page="vendas">
-                        <i class="bi bi-graph-up"></i>
-                        <span>Vendas</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="relatorios.html" class="nav-link" data-page="relatorios">
-                        <i class="bi bi-file-earmark-pdf"></i>
-                        <span>Relatórios</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="publicacao.html" class="nav-link" data-page="publicacao">
-                        <i class="bi bi-globe"></i>
-                        <span>Publicação Web</span>
-                    </a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                    <a href="perfil.html" class="nav-link" data-page="perfil">
-                        <i class="bi bi-person-circle"></i>
-                        <span>Meu Perfil</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="configuracoes.html" class="nav-link" data-page="configuracoes">
-                        <i class="bi bi-gear"></i>
-                        <span>Configurações</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="nav-link" onclick="logout()">
-                        <i class="bi bi-box-arrow-right"></i>
-                        <span>Sair</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
+{% extends "layouts/admin.twig" %}
+{% block content %}
         <!-- Main Content -->
         <div class="main-content">
             <!-- Top Bar -->
@@ -150,11 +70,17 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <h6 class="text-muted">Número da Venda</h6>
-                                            <h4>#001</h4>
+                                            <h4>#{{ venda.id }}</h4>
                                         </div>
                                         <div class="col-md-6 text-end">
                                             <h6 class="text-muted">Status</h6>
-                                            <span class="badge bg-success p-2">Concluída</span>
+                                            {% if venda.status == 'Concluido' %}
+                                                <span class="badge bg-success">{{ venda.status }}</span>
+                                            {% elseif venda.status == 'Pendente' %}
+                                                <span class="badge bg-warning text-dark">{{ venda.status }}</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">{{ venda.status }}</span>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
@@ -169,23 +95,23 @@
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label class="fw-bold">Nome</label>
-                                            <p>Carlos Mendes</p>
+                                            <p>{{ venda.cliente }}</p>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label class="fw-bold">Email</label>
                                             <p>
-                                                <a href="mailto:carlos@email.com">carlos@email.com</a>
+                                                <a href="mailto:carlos@email.com"> {{ venda.email }} </a>
                                             </p>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label class="fw-bold">Telefone</label>
                                             <p>
-                                                <a href="tel:(21)98765-4321">(21) 98765-4321</a>
+                                                <a href="tel:(21)98765-4321">{{ venda.telefone }}</a>
                                             </p>
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            <label class="fw-bold">CPF</label>
-                                            <p>123.456.789-00</p>
+                                            <label class="fw-bold">Identidade</label>
+                                            <p>{{ venda.identidade }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -200,19 +126,19 @@
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label class="fw-bold">Marca e Modelo</label>
-                                            <p>Toyota Corolla 2024</p>
+                                            <p>{{ venda.marca }} {{ venda.modelo }}</p>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label class="fw-bold">Cor</label>
-                                            <p>Branco</p>
+                                            <p>{{ venda.cor }}</p>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label class="fw-bold">Quilometragem</label>
-                                            <p>5.230 km</p>
+                                            <p>{{ venda.quilometragem }}</p>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label class="fw-bold">Transmissão</label>
-                                            <p>Automática</p>
+                                            <p>{{ venda.transmissao }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -234,19 +160,19 @@
                                         <tbody>
                                             <tr>
                                                 <td>Valor do Veículo</td>
-                                                <td class="text-end">95.000.000,00</td>
+                                                <td class="text-end">{{ venda.valor_veiculo | number_format(2, ',', '.') }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Desconto</td>
-                                                <td class="text-end">-R$ 5.000,00</td>
+                                                <td class="text-end">{{ venda.desconto | number_format(2, ',', '.') }} %</td>
                                             </tr>
                                             <tr>
                                                 <td>Taxas e Emolumentos</td>
-                                                <td class="text-end">R$ 500,00</td>
+                                                <td class="text-end">500,00</td>
                                             </tr>
                                             <tr class="table-active fw-bold">
-                                                <td>Total</td>
-                                                <td class="text-end">R$ 90.500,00</td>
+                                                <td>Total Pago</td>
+                                                <td class="text-end">{{ venda.valor_pago | number_format(2, ',', '.') }}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -255,11 +181,11 @@
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label class="fw-bold">Forma de Pagamento</label>
-                                            <p>Financiamento</p>
+                                            <p>{{ venda.metodo_pagamento }}</p>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label class="fw-bold">Data da Venda</label>
-                                            <p>15 de Fevereiro de 2024</p>
+                                            <p>{{ venda.data_venda }}</p>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="fw-bold">Parcelas</label>
@@ -280,7 +206,7 @@
                             <div class="card mb-3">
                                 <div class="card-body">
                                     <h6 class="text-muted mb-2">Valor Total</h6>
-                                    <h2 class="text-success mb-3">R$ 90.500</h2>
+                                    <h2 class="text-success mb-3">{{ venda.valor_pago | number_format(2, ',', '.') }}</h2>
                                     <div class="d-grid gap-2">
                                         <button class="btn btn-primary btn-sm">
                                             <i class="bi bi-download"></i> Gerar Recibo
@@ -367,24 +293,4 @@
             </main>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../js/app.js"></script>
-    <script>
-        // Delete Sale
-        function deleteSale(id) {
-            if (confirm('Tem certeza que deseja deletar esta venda?')) {
-                alert('Venda deletada com sucesso!');
-                window.location.href = 'vendas.html';
-            }
-        }
-
-        // Logout
-        function logout() {
-            alert('Logout realizado!');
-            window.location.href = '#';
-        }
-    </script>
-</body>
-
-</html>
+{% endblock %}

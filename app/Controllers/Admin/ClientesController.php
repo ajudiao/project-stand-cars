@@ -61,16 +61,67 @@ class ClientesController extends Controller
     public function show($id)
     {
         if (!is_numeric($id)) {
-            echo "Parametro invalido";
-            return ;
+            echo "Parâmetro inválido";
+            return;
         }
-        
-        $cliente = $this->clienteRepo->getById($id);
-    
+
+        $cliente = $this->clienteRepo->getById((int)$id);
+        if (!$cliente) {
+            echo "Cliente não encontrado";
+            return;
+        }
+
+        $historico = $this->clienteRepo->getHistoricoCompras((int)$id);
+
+        // total de veículos comprados
+        $totalVeiculos = count($historico);
+
+        // total gasto
+        $totalGasto = array_sum(array_column($historico, 'preco_compra'));
 
         $this->view('dashboard/detalhes-cliente', [
             "cliente" => $cliente,
+            "historico" => $historico,
+            "totalVeiculos" => $totalVeiculos,
+            "totalGasto" => $totalGasto
         ]);
+    }
 
+    public function buscar()
+    {
+        $filters = [
+            'nome_busca' => $_GET['nome_busca'] ?? '',  // Nome, identidade ou cidade
+        ];
+        try {
+            $clientes = $this->clienteRepo->search($filters);
+            $this->view('dashboard/clientes', [
+                'clientes' => $clientes,
+                'filters' => $filters
+            ]);
+        } catch (\PDOException $e) {
+            echo "Erro ao buscar clientes: " . $e->getMessage();
+            exit;
+        }
+    }
+    public function update($id)
+    {
+        $data = $_POST;
+
+        $cliente = new Cliente($data);
+        $cliente->id = (int)$id;
+
+         // Verifica duplicados (email ou BI) para outros clientes
+         if ($this->clienteRepo->existsByEmailOrBIExcludingId($cliente->email, $cliente->identidade, $cliente->id)) {
+            echo "Já existe outro cliente com este email ou BI.";
+            return;
+        }
+
+        if (!$this->clienteRepo->update($cliente)) {
+            echo "Erro ao atualizar cliente.";
+            return;
+        }
+
+        header('Location: /admin/clientes');
+        exit;
     }
 }
