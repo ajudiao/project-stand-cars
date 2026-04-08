@@ -230,6 +230,63 @@ class CarRepository
         return (int) $stmt->fetchColumn();
     }
 
+    public function getCarroEmDestaque(): ?Car
+    {
+        $sql = "SELECT v.*, vi.url_imagem, c.nome AS categoria_nome, m.nome AS marca_nome
+                FROM veiculos v
+                LEFT JOIN veiculo_imagens vi ON vi.id_veiculo = v.id
+                LEFT JOIN categorias c ON c.id = v.id_categoria
+                LEFT JOIN marcas m ON m.id = v.id_marca
+                WHERE v.destaque = 1 AND v.status = 'Disponível'
+                ORDER BY v.updated_at DESC, vi.created_at ASC
+                LIMIT 1";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) {
+            return null;
+        }
+
+        $car = new Car($row);
+        $car->categoria_nome = $row['categoria_nome'] ?? null;
+        $car->marca_nome     = $row['marca_nome'] ?? null;
+        $car->foto           = $row['url_imagem'] ?? null;
+
+        return $car;
+    }
+
+    public function getFeaturedCars(int $limit = 3): array
+    {
+        $sql = "SELECT v.*, vi.url_imagem, c.nome AS categoria_nome, m.nome AS marca_nome
+                FROM veiculos v
+                LEFT JOIN veiculo_imagens vi ON vi.id_veiculo = v.id
+                LEFT JOIN categorias c ON c.id = v.id_categoria
+                LEFT JOIN marcas m ON m.id = v.id_marca
+                WHERE v.status = 'Disponível'
+                ORDER BY v.destaque DESC, v.created_at DESC, vi.created_at ASC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $veiculos = [];
+        foreach ($rows as $row) {
+            $id = $row['id'];
+            if (!isset($veiculos[$id])) {
+                $car = new Car($row);
+                $car->categoria_nome = $row['categoria_nome'] ?? null;
+                $car->marca_nome     = $row['marca_nome'] ?? null;
+                $car->foto           = $row['url_imagem'] ?? null;
+                $veiculos[$id] = $car;
+            }
+            if (count($veiculos) >= $limit) break;
+        }
+
+        return array_values($veiculos);
+    }
+
 
     public function delete(int $id): bool
     {
@@ -237,7 +294,7 @@ class CarRepository
         return $stmt->execute(['id' => $id]);
     }
 
-    public function buscarVeiculos(?string $modelo, ?string $status, ?int $idMarca): array
+    public function buscarVeiculos(?string $modelo, ?string $status, ?int $idMarca, ?float $precoMaximo = null, ?string $combustivel = null, ?string $transmissao = null, ?string $order = null): array
     {
         $sql = "SELECT 
                 v.*, 
@@ -255,31 +312,54 @@ class CarRepository
 
         $params = [];
 
-        // --------------------------
-        // FILTRO NOME (modelo)
-        // --------------------------
         if (!empty($modelo)) {
             $sql .= " AND v.modelo LIKE :modelo";
             $params[':modelo'] = '%' . $modelo . '%';
         }
 
-        // --------------------------
-        // FILTRO STATUS
-        // --------------------------
         if (!empty($status)) {
             $sql .= " AND v.status = :status";
             $params[':status'] = $status;
         }
 
-        // --------------------------
-        // FILTRO MARCA
-        // --------------------------
         if (!empty($idMarca)) {
             $sql .= " AND v.id_marca = :marca";
             $params[':marca'] = $idMarca;
         }
 
-        $sql .= " ORDER BY v.id DESC, vi.created_at ASC";
+        if (!empty($precoMaximo) || $precoMaximo === 0.0) {
+            $sql .= " AND v.preco <= :preco_maximo";
+            $params[':preco_maximo'] = $precoMaximo;
+        }
+
+        if (!empty($combustivel)) {
+            $sql .= " AND v.combustivel = :combustivel";
+            $params[':combustivel'] = $combustivel;
+        }
+
+        if (!empty($transmissao)) {
+            $sql .= " AND v.transmissao = :transmissao";
+            $params[':transmissao'] = $transmissao;
+        }
+
+        switch ($order) {
+            case 'price-asc':
+                $sql .= " ORDER BY v.preco ASC, vi.created_at ASC";
+                break;
+            case 'price-desc':
+                $sql .= " ORDER BY v.preco DESC, vi.created_at ASC";
+                break;
+            case 'mileage-asc':
+                $sql .= " ORDER BY v.quilometragem ASC, vi.created_at ASC";
+                break;
+            case 'year-desc':
+                $sql .= " ORDER BY v.ano DESC, vi.created_at ASC";
+                break;
+            case 'newest':
+            default:
+                $sql .= " ORDER BY v.created_at DESC, vi.created_at ASC";
+                break;
+        }
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute($params);
@@ -290,32 +370,31 @@ class CarRepository
             return [];
         }
 
-        // --------------------------
-        // AGRUPAR VEÍCULOS
-        // --------------------------
         $veiculos = [];
 
         foreach ($rows as $row) {
             $id = $row['id'];
 
-            // se ainda não existe, cria
             if (!isset($veiculos[$id])) {
                 $car = new Car($row);
 
                 $car->categoria_nome = $row['categoria_nome'] ?? null;
                 $car->marca_nome     = $row['marca_nome'] ?? null;
                 $car->imagens        = [];
+                $car->foto           = null;
 
                 $veiculos[$id] = $car;
             }
 
-            // adiciona imagens
             if (!empty($row['url_imagem'])) {
                 $veiculos[$id]->imagens[] = $row['url_imagem'];
             }
         }
 
-        // resetar índices (importante para view)
+        foreach ($veiculos as $car) {
+            $car->foto = $car->imagens[0] ?? null;
+        }
+
         return array_values($veiculos);
     }
 }

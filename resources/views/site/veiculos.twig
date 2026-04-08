@@ -13,106 +13,177 @@
     <!-- Pesquisa e Filtros -->
         <section class="px-4 py-8">
             <div class="container mx-auto">
-                <div class="grid gap-8 lg:grid-cols-4">
-                    <!-- Barra Lateral de Filtros -->
-                    <div class="lg:col-span-1">
-                        <div class="sticky top-20 rounded-lg border border-border bg-card p-6">
-                            <div class="mb-6 flex items-center justify-between">
-                                <h2 class="text-lg font-bold">Filtros</h2>
-                                <button id="clear-filters" class="text-sm text-primary hover:underline">Limpar</button>
-                            </div>
+                <form id="filters-form" action="/veiculos" method="get">
+                    <div class="grid gap-8 lg:grid-cols-4">
+                        <!-- Barra Lateral de Filtros -->
+                        <div class="lg:col-span-1">
+                            <div class="sticky top-20 rounded-lg border border-border bg-card p-6">
+                                <div class="mb-6 flex items-center justify-between">
+                                    <h2 class="text-lg font-bold">Filtros</h2>
+                                    <button type="button" id="clear-filters" class="text-sm text-primary hover:underline">Limpar</button>
+                                </div>
 
-                            <!-- Pesquisa -->
-                            <div class="mb-6">
-                                <label class="mb-2 block text-sm font-medium">Pesquisar</label>
-                                <input type="text" id="search-input" placeholder="Marca ou modelo..." class="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
-                            </div>
+                                <!-- Pesquisa -->
+                                <div class="mb-6">
+                                    <label class="mb-2 block text-sm font-medium">Pesquisar</label>
+                                    <input type="text" name="modelo" id="search-input" value="{{ filtros.modelo | default('') }}" placeholder="Marca ou modelo..." class="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                                </div>
 
-                            <!-- Filtro de Marca -->
-                            <div class="mb-6">
-                                <label class="mb-2 block text-sm font-medium">Marca</label>
-                                <select id="brand-filter" class="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
-                                    <option value="">Todas as marcas</option>
-                                </select>
-                            </div>
+                                <!-- Filtro de Marca -->
+                                <div class="mb-6">
+                                    <label class="mb-2 block text-sm font-medium">Marca</label>
+                                    <select id="brand-filter" name="marca" class="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                                        <option value="">Todas as marcas</option>
+                                        {% for marca in marcas %}
+                                            <option value="{{ marca.id }}" {% if marca.id == filtros.idMarca %}selected{% endif %}>{{ marca.nome }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
 
-                            <!-- Intervalo de Preço -->
-                            <div class="mb-6">
-                                <label class="mb-2 block text-sm font-medium">Preço Máximo</label>
-                                <input type="range" id="price-range" min="0" max="100000" step="5000" value="100000" class="w-full">
-                                <div class="mt-2 text-sm text-muted-foreground">
-                                    Até <span id="price-value" class="font-medium text-foreground">100.000€</span>
+                                <!-- Intervalo de Preço -->
+                                <div class="mb-6">
+                                    <label class="mb-2 block text-sm font-medium">Preço Máximo</label>
+                                    <input type="range" id="price-range" name="preco_maximo" min="0" max="100000" step="5000" value="{{ filtros.precoMaximo | default(100000) }}" class="w-full">
+                                    <div class="mt-2 text-sm text-muted-foreground">
+                                        Até <span id="price-value" class="font-medium text-foreground"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Tipo de Combustível -->
+                                <div class="mb-6">
+                                    <label class="mb-2 block text-sm font-medium">Combustível</label>
+                                    <select id="fuel-filter" name="combustivel" class="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                                        <option value="">Todos</option>
+                                        <option value="Gasolina" {% if filtros.combustivel == 'Gasolina' %}selected{% endif %}>Gasolina</option>
+                                        <option value="Diesel" {% if filtros.combustivel == 'Diesel' %}selected{% endif %}>Diesel</option>
+                                        <option value="Elétrico" {% if filtros.combustivel == 'Elétrico' %}selected{% endif %}>Elétrico</option>
+                                        <option value="Híbrido" {% if filtros.combustivel == 'Híbrido' %}selected{% endif %}>Híbrido</option>
+                                    </select>
+                                </div>
+
+                                <!-- Transmissão -->
+                                <div class="mb-6">
+                                    <label class="mb-2 block text-sm font-medium">Transmissão</label>
+                                    <select id="transmission-filter" name="transmissao" class="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                                        <option value="">Todas</option>
+                                        <option value="Manual" {% if filtros.transmissao == 'Manual' %}selected{% endif %}>Manual</option>
+                                        <option value="Automática" {% if filtros.transmissao == 'Automática' %}selected{% endif %}>Automática</option>
+                                    </select>
+                                </div>
+
+                                <!-- Status -->
+                                <div class="mb-6">
+                                    <label class="mb-2 block text-sm font-medium">Status</label>
+                                    <select id="status-filter" name="status" class="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                                        <option value="" {% if filtros.status is empty %}selected{% endif %}>Todas</option>
+                                        <option value="Disponível" {% if filtros.status == 'Disponível' %}selected{% endif %}>Disponível</option>
+                                        <option value="Indisponível" {% if filtros.status == 'Indisponível' %}selected{% endif %}>Indisponível</option>
+                                    </select>
+                                </div>
+
+                                <div class="flex gap-3">
+                                    <button type="submit" class="inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90">Aplicar</button>
+                                    <a href="{{ url('veiculos') }}" class="inline-flex items-center justify-center rounded-lg border border-input bg-background px-4 py-2 text-sm font-medium hover:bg-muted">Limpar</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Grid de Veículos -->
+                        <div class="lg:col-span-3">
+                            <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                                <div>
+                                    {% set total = veiculos | length %}
+                                    <span id="results-count" class="text-sm text-muted-foreground">
+                                        {% if total > 0 %}
+                                            {{ total }} veículo{{ total != 1 ? 's' : '' }} encontrado{{ total != 1 ? 's' : '' }}
+                                        {% else %}
+                                            Nenhum veículo encontrado
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <label for="sort-select" class="text-sm font-medium text-muted-foreground">Ordenar</label>
+                                    <select id="sort-select" name="order" class="rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                                        <option value="newest" {% if filtros.order == 'newest' %}selected{% endif %}>Mais recentes</option>
+                                        <option value="price-asc" {% if filtros.order == 'price-asc' %}selected{% endif %}>Preço: Menor para Maior</option>
+                                        <option value="price-desc" {% if filtros.order == 'price-desc' %}selected{% endif %}>Preço: Maior para Menor</option>
+                                        <option value="mileage-asc" {% if filtros.order == 'mileage-asc' %}selected{% endif %}>Quilometragem: Menor</option>
+                                        <option value="year-desc" {% if filtros.order == 'year-desc' %}selected{% endif %}>Ano: Mais recente</option>
+                                    </select>
                                 </div>
                             </div>
 
-                            <!-- Tipo de Combustível -->
-                            <div class="mb-6">
-                                <label class="mb-2 block text-sm font-medium">Combustível</label>
-                                <select id="fuel-filter" class="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
-                                    <option value="">Todos</option>
-                                    <option value="Gasolina">Gasolina</option>
-                                    <option value="Diesel">Diesel</option>
-                                    <option value="Elétrico">Elétrico</option>
-                                    <option value="Híbrido">Híbrido</option>
-                                </select>
-                            </div>
-
-                            <!-- Transmissão -->
-                            <div class="mb-6">
-                                <label class="mb-2 block text-sm font-medium">Transmissão</label>
-                                <select id="transmission-filter" class="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
-                                    <option value="">Todas</option>
-                                    <option value="Manual">Manual</option>
-                                    <option value="Automática">Automática</option>
-                                </select>
-                            </div>
-
-                            <!-- Estado -->
-                            <div class="mb-6">
-                                <label class="mb-2 block text-sm font-medium">Condição</label>
-                                <select id="condition-filter" class="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
-                                    <option value="">Todas</option>
-                                    <option value="Novo">Novo</option>
-                                    <option value="Semi-novo">Semi-novo</option>
-                                    <option value="Usado">Usado</option>
-                                </select>
-                            </div>
+                            {% if veiculos is not empty %}
+                                <div id="vehicles-grid" class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                                    {% for veiculo in veiculos %}
+                                        <div class="group overflow-hidden rounded-lg border border-border bg-card transition-shadow hover:shadow-lg fade-in">
+                                            <div class="relative aspect-[4/3] overflow-hidden">
+                                                <img src="{{ carImage(veiculo.foto ?? veiculo.imagens[0] ?? null) }}" alt="{{ veiculo.marca_nome }} {{ veiculo.modelo }}" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                                                <span class="absolute right-4 top-4 rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">{{ veiculo.status }}</span>
+                                            </div>
+                                            <div class="p-6">
+                                                <div class="mb-2 flex items-start justify-between">
+                                                    <div>
+                                                        <h3 class="text-xl font-bold">{{ veiculo.marca_nome }} {{ veiculo.modelo }}</h3>
+                                                        <p class="text-sm text-muted-foreground">{{ veiculo.ano }}</p>
+                                                    </div>
+                                                    <div class="text-right">
+                                                        <div class="text-2xl font-bold text-primary">{{ veiculo.preco | number_format(0, ',', '.') }} Kzs</div>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4 flex flex-wrap gap-2">
+                                                    <span class="rounded-full bg-secondary/10 px-3 py-1 text-xs font-medium text-secondary-foreground">{{ veiculo.transmissao }}</span>
+                                                    <span class="rounded-full bg-secondary/10 px-3 py-1 text-xs font-medium text-secondary-foreground">{{ veiculo.combustivel }}</span>
+                                                    <span class="rounded-full bg-secondary/10 px-3 py-1 text-xs font-medium text-secondary-foreground">{{ veiculo.quilometragem | number_format(0, ',', '.') }} km</span>
+                                                </div>
+                                                <a href="/veiculos/{{ veiculo.id }}" class="inline-flex w-full items-center justify-center rounded-lg border border-border bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:bg-muted">
+                                                    Ver Detalhes
+                                                    <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div id="no-results" class="rounded-lg border border-border bg-card p-12 text-center">
+                                    <svg class="mx-auto mb-4 h-16 w-16 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                    <h3 class="mb-2 text-xl font-bold">Nenhum veículo encontrado</h3>
+                                    <p class="text-muted-foreground">Tente ajustar os filtros para ver mais resultados</p>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
-
-                    <!-- Grid de Veículos -->
-                    <div class="lg:col-span-3">
-                        <div class="mb-6 flex items-center justify-between">
-                            <div>
-                                <span id="results-count" class="text-sm text-muted-foreground">Carregando...</span>
-                            </div>
-                            <select id="sort-select" class="rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
-                                <option value="newest">Mais recentes</option>
-                                <option value="price-asc">Preço: Menor para Maior</option>
-                                <option value="price-desc">Preço: Maior para Menor</option>
-                                <option value="mileage-asc">Quilometragem: Menor</option>
-                                <option value="year-desc">Ano: Mais recente</option>
-                            </select>
-                        </div>
-
-                        <div id="vehicles-grid" class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-                            <!-- Veículos serão carregados aqui -->
-                        </div>
-
-                        <div id="no-results" class="hidden rounded-lg border border-border bg-card p-12 text-center">
-                            <svg class="mx-auto mb-4 h-16 w-16 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            <h3 class="mb-2 text-xl font-bold">Nenhum veículo encontrado</h3>
-                            <p class="text-muted-foreground">Tente ajustar os filtros para ver mais resultados</p>
-                        </div>
-                    </div>
-                </div>
+                </form>
             </div>
         </section>
     </main>
-    
-  
-    <script src="assets/js/data.js"></script>
-    <script src="assets/js/veiculos.js"></script>
+
+    <script>
+        const priceRange = document.getElementById('price-range');
+        const priceValue = document.getElementById('price-value');
+        const clearButton = document.getElementById('clear-filters');
+        const formatter = new Intl.NumberFormat('pt-PT', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        });
+
+        function updatePriceValue(value) {
+            priceValue.textContent = formatter.format(value || 100000) + ' Kzs';
+        }
+
+        if (priceRange && priceValue) {
+            updatePriceValue(priceRange.value);
+            priceRange.addEventListener('input', (event) => updatePriceValue(event.target.value));
+        }
+
+        if (clearButton) {
+            clearButton.addEventListener('click', () => {
+                window.location.href = "/veiculos";
+            });
+        }
+    </script>
 {% endblock %}

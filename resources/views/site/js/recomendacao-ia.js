@@ -5,10 +5,10 @@ const questions = [
     question: "Qual é o seu orçamento?",
     type: "range",
     options: [
-      { value: "0-20000", label: "Até 20.000€", score: { budget: 20000 } },
-      { value: "20000-40000", label: "20.000€ - 40.000€", score: { budget: 40000 } },
-      { value: "40000-60000", label: "40.000€ - 60.000€", score: { budget: 60000 } },
-      { value: "60000+", label: "Mais de 60.000€", score: { budget: 100000 } },
+      { value: "0-20000", label: "Até 20.000 Kzs", score: { budget: 20000 } },
+      { value: "20000-40000", label: "20.000 Kzs - 40.000 Kzs", score: { budget: 40000 } },
+      { value: "40000-60000", label: "40.000 Kzs - 60.000 Kzs", score: { budget: 60000 } },
+      { value: "60000+", label: "Mais de 60.000 Kzs", score: { budget: 100000 } },
     ],
   },
   {
@@ -65,11 +65,9 @@ const VEHICLES = (typeof vehicles !== 'undefined' && Array.isArray(vehicles)) ? 
 
 function formatPrice(price) {
   return new Intl.NumberFormat("pt-PT", {
-    style: "currency",
-    currency: "EUR",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(price)
+  }).format(price) + ' Kzs'
 }
 
 function renderQuestion() {

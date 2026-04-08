@@ -1,11 +1,9 @@
 // Funções Utilitárias
 function formatPrice(price) {
   return new Intl.NumberFormat("pt-PT", {
-    style: "currency",
-    currency: "EUR",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(price)
+  }).format(price) + ' Kzs'
 }
 
 function formatNumber(number) {

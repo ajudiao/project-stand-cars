@@ -4,7 +4,7 @@ use App\Core\View;
 use Pecee\SimpleRouter\SimpleRouter as Router;
 use App\Middleware\AdminMiddleware;
 use Pecee\Http\Request;
-
+use Pecee\SimpleRouter\Route\Route;
 
 //
 // ------------------------
@@ -108,9 +108,8 @@ Router::group([
     Router::get('/vendas/show/{id}', 'VendasController@show');
     Router::post('/vendas/update/{id}', 'VendasController@update');
 
-    Router::get('/website', 'SiteController@index');
+    Router::get('/configuracoes', 'DashboardController@configuracoes');
     Router::get('/website/configuracoes', 'SiteController@configuracoes');
-
     Router::get('/perfil', 'PerfilController@index');
 
     Router::get('/logout', 'AuthController@logout');

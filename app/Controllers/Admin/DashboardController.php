@@ -21,4 +21,11 @@ class DashboardController extends Controller
             'countClients' => $countClients,
         ]);
     }
+
+    public function configuracoes()
+    {
+        echo $this->view('dashboard/configuracoes', [
+            'siteConfig' => 'Teste de configuração do site', // Exemplo de dado para a view
+        ]);
+    }
 }
