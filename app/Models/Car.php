@@ -41,7 +41,7 @@ class Car
         $this->transmissao = $data['transmissao'] ?? '';
         $this->status = $data['status'] ?? '';
         $this->descricao = $data['descricao'] ?? null;
-        $this->destaque =  (int)($data['destaque'] ?? 0) === 1;
+        $this->destaque =  (int)($data['destaque']);
         $this->updated_at = $data['updated_at'] ?? date('Y-m-d H:i:s');
         $this->created_at = $data['created_at'] ?? date('Y-m-d H:i:s');
         $this->imagens = $data['imagens'] ?? [];

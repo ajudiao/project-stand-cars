@@ -14,7 +14,7 @@ define('VIEWS_PATH', __DIR__ . '/../../resources/views');         // pasta das v
 // -----------------------------
 // INFORMAÇÕES DO APLICATIVO
 // -----------------------------
-define('APP_NAME', 'Stand de Carros');
+define('APP_NAME', 'Saeld Auto');
 define('APP_ENV', 'development'); // 'production' quando for deploy
 
 // -----------------------------

@@ -56,6 +56,7 @@ class VeiculosController extends Controller
         // --------------------------
         // CRIAR VEÍCULO
         // --------------------------
+        $data['destaque'] = isset($data['destaque']) ? $data['destaque'] : 0;
         $car = new Car($data);
         $carId = $this->carRepo->create($car);
 
