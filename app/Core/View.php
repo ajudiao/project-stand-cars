@@ -44,7 +44,7 @@ class View
             // URL base do sistema
             self::$twig->addFunction(
                 new TwigFunction('url', function ($path = '') {
-                    return URL_BASE . '/' . ltrim($path, '/');
+                    return '/' . ltrim($path, '/');
                 })
             );
 
