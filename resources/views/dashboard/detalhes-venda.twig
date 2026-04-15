@@ -23,7 +23,7 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsBtn">
                                 <li><a class="dropdown-item" href="#">Novo cliente interessado</a></li>
-                                <li><a class="dropdown-item" href="#">Veículo publicado no site</a></li>
+                                <li><a class="dropdown-item" href="#">Automóvel publicado no site</a></li>
                                 <li><a class="dropdown-item" href="#">Venda realizada</a></li>
                             </ul>
                         </div>
@@ -106,7 +106,7 @@
                                         <div class="col-md-6 mb-3">
                                             <label class="fw-bold">Telefone</label>
                                             <p>
-                                                <a href="tel:(21)98765-4321">{{ venda.telefone }}</a>
+                                                <a href="tel:(+244)987653431">{{ venda.telefone }}</a>
                                             </p>
                                         </div>
                                         <div class="col-md-6 mb-3">
@@ -120,7 +120,7 @@
                             <!-- Vehicle Information -->
                             <div class="card mb-3">
                                 <div class="card-header">
-                                    <h6 class="mb-0">Informações do Veículo</h6>
+                                    <h6 class="mb-0">Informações do Automóvel</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
@@ -159,7 +159,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>Valor do Veículo</td>
+                                                <td>Valor do Automóvel</td>
                                                 <td class="text-end">{{ venda.valor_veiculo | number_format(2, ',', '.') }}</td>
                                             </tr>
                                             <tr>

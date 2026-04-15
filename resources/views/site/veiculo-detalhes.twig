@@ -9,14 +9,14 @@
                         <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                         </svg>
-                        Voltar aos veículos
+                        Voltar aos automóveis
                     </a>
                 </div>
 
                 {% if not veiculo %}
                     <div class="rounded-lg border border-border bg-card p-12 text-center">
-                        <h1 class="mb-4 text-3xl font-bold">Veículo não encontrado</h1>
-                        <p class="mb-6 text-muted-foreground">O veículo que procura não existe ou foi removido.</p>
+                        <h1 class="mb-4 text-3xl font-bold">Automóvel não encontrado</h1>
+                        <p class="mb-6 text-muted-foreground">O automóvel que procura não existe ou foi removido.</p>
                         <a href="{{ url('veiculos') }}" class="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 text-base font-medium text-primary-foreground transition-colors hover:bg-primary/90">Ver Todos os Veículos</a>
                     </div>
                 {% else %}
