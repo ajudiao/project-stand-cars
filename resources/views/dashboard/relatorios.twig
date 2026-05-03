@@ -1,0 +1,187 @@
+
+{% extends "layouts/admin.twig" %}
+    {% block content %}
+
+        <div class="main-content">
+                        <main class="page-content">
+                <div class="container-fluid">
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h2>Relatórios</h2>
+                            <p class="text-muted">Gere relatórios detalhados do seu negócio</p>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-graph-up text-primary" style="font-size: 2.5rem;"></i>
+                                    <h5 class="card-title mt-3">Vendas</h5>
+                                    <p class="text-muted">Relatório de vendas por período</p>
+                                    <a href="/admin/relatorios/generate?type=sales" target="_blank" class="btn btn-primary btn-sm" onclick="generateReport('sales'); return true;">
+                                        <i class="bi bi-download"></i> Gerar Relatório
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-car-front text-success" style="font-size: 2.5rem;"></i>
+                                    <h5 class="card-title mt-3">Inventário</h5>
+                                    <p class="text-muted">Status atual de todos os veículos</p>
+                                    <a href="/admin/relatorios/generate?type=inventory" target="_blank" class="btn btn-success btn-sm" onclick="generateReport('inventory'); return true;">
+                                        <i class="bi bi-download"></i> Gerar Relatório
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-cash-coin text-warning" style="font-size: 2.5rem;"></i>
+                                    <h5 class="card-title mt-3">Financeiro</h5>
+                                    <p class="text-muted">Análise financeira e faturamento</p>
+                                    <a href="/admin/relatorios/generate?type=financial" target="_blank" class="btn btn-warning btn-sm" onclick="generateReport('financial'); return true;">
+                                        <i class="bi bi-download"></i> Gerar Relatório
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-people-fill text-info" style="font-size: 2.5rem;"></i>
+                                    <h5 class="card-title mt-3">Clientes</h5>
+                                    <p class="text-muted">Lista e perfil dos clientes</p>
+                                    <a href="/admin/relatorios/generate?type=clients" target="_blank" class="btn btn-info btn-sm" onclick="generateReport('clients'); return true;">
+                                        <i class="bi bi-download"></i> Gerar Relatório
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-bar-chart text-danger" style="font-size: 2.5rem;"></i>
+                                    <h5 class="card-title mt-3">Performance</h5>
+                                    <p class="text-muted">Indicadores e performance</p>
+                                    <a href="/admin/relatorios/generate?type=performance" target="_blank" class="btn btn-danger btn-sm" onclick="generateReport('performance'); return true;">
+                                        <i class="bi bi-download"></i> Gerar Relatório
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-file-earmark-text text-secondary" style="font-size: 2.5rem;"></i>
+                                    <h5 class="card-title mt-3">Personalizado</h5>
+                                    <p class="text-muted">Crie um relatório personalizado</p>
+                                    <button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#customReportModal">
+                                        <i class="bi bi-pencil"></i> Criar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Reports -->
+                    <div class="row mt-5">
+                        <div class="col-12">
+                            <h5>Relatórios Recentes</h5>
+                            <div class="card">
+                                <div class="table-responsive">
+                                    <table class="table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Tipo</th>
+                                                <th>Data de Geração</th>
+                                                <th>Período</th>
+                                                <th>Ação</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><i class="bi bi-graph-up"></i> Vendas</td>
+                                                <td>15/02/2024</td>
+                                                <td>Jan - Fev 2024</td>
+                                                <td><a href="#" class="btn btn-sm btn-primary"><i class="bi bi-download"></i></a></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="bi bi-car-front"></i> Inventário</td>
+                                                <td>14/02/2024</td>
+                                                <td>Fev 2024</td>
+                                                <td><a href="#" class="btn btn-sm btn-primary"><i class="bi bi-download"></i></a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+    <!-- Custom Report Modal -->
+    <div class="modal fade" id="customReportModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Criar Relatório Personalizado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="customReportForm" action="/admin/relatorios/custom-report" method="POST" target="_blank">
+                        <div class="mb-3">
+                            <label class="form-label">Nome do Relatório</label>
+                            <input type="text" name="report_name" id="report_name" class="form-control" placeholder="Meu Relatório" value="Relatório Personalizado">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Período</label>
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="date" name="start_date" id="report_start_date" class="form-control" placeholder="De">
+                                </div>
+                                <div class="col-6">
+                                    <input type="date" name="end_date" id="report_end_date" class="form-control" placeholder="Até">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Dados a Incluir</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="include_sales" id="include_sales" checked>
+                                <label class="form-check-label" for="include_sales">Vendas</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="include_clients" id="include_clients" checked>
+                                <label class="form-check-label" for="include_clients">Clientes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="include_inventory" id="include_inventory">
+                                <label class="form-check-label" for="include_inventory">Inventário</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="include_financial" id="include_financial">
+                                <label class="form-check-label" for="include_financial">Financeiro</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="createCustomReport()">Gerar Relatório</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

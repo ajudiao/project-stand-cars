@@ -1,0 +1,224 @@
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+
+<div class="main-content">
+    <main class="page-content">
+        <div class="container-fluid">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h2>Meu Perfil</h2>
+                    <p class="text-muted">Gerencie apenas sua foto e senha. A edição de dados do usuário do sistema é feita apenas pelo administrador.</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Profile Info -->
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <img src="{{ user.foto ? '/uploads/users/' ~ user.foto : 'https://i.pravatar.cc/150?u=' ~ user.id }}" class="rounded-circle mb-3" alt="Avatar" style="width: 120px; height: 120px; object-fit: cover;">
+                            <h5 class="mb-1">{{ user.nome }}</h5>
+                            <p class="text-muted mb-3">{{ user.perfil }}</p>
+                            <button class="btn btn-secondary btn-sm w-100" data-bs-toggle="modal" data-bs-target="#changePhotoModal">
+                                <i class="bi bi-camera"></i> Alterar Foto
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h6>Informações de Contato</h6>
+                            <div class="list-group list-group-flush">
+                                <div class="list-group-item px-0 py-2">
+                                    <small class="text-muted">Email</small><br>
+                                    <span>{{ user.email }}</span>
+                                </div>
+                                <div class="list-group-item px-0 py-2">
+                                    <small class="text-muted">Telefone</small><br>
+                                    <span>{{ user.telefone ?: 'Não informado' }}</span>
+                                </div>
+                                <div class="list-group-item px-0 py-2">
+                                    <small class="text-muted">Data de Registro</small><br>
+                                    <span>{{ user.created_at|date('d/m/Y H:i') }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Details -->
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Informações da Stand</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Nome da Stand</label>
+                                    <input type="text" class="form-control" value="{{ settings.site_name ?: 'AutoVendas Premium' }}" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">NIF</label>
+                                    <input type="text" class="form-control" value="12.345.678/0001-00" disabled>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Telefone da Stand</label>
+                                    <input type="text" class="form-control" value="{{ settings.site_phone ?: '(+244) 936145154' }}" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Email da Stand</label>
+                                    <input type="text" class="form-control" value="{{ settings.site_email ?: 'saeldauto@gmail.com' }}" disabled>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Endereço</label>
+                                    <input type="text" class="form-control" value="{{ settings.site_address ?: 'Município do Cazenga - Luanda, RJ' }}" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Section -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Segurança</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label">Senha</label>
+                                <input type="password" class="form-control" value="••••••••" disabled>
+                                <button class="btn btn-secondary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                                    <i class="bi bi-key"></i> Alterar Senha
+                                </button>
+                            </div>
+                            <div class="alert alert-info py-2">
+                                Para manter sua conta segura, use uma senha com pelo menos 10 caracteres, incluindo letras maiúsculas, minúsculas, números e símbolos.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Change Photo Modal -->
+<div class="modal fade" id="changePhotoModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Alterar Foto de Perfil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/admin/perfil/foto" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Escolha uma nova foto</label>
+                        <input type="file" class="form-control" name="foto" accept="image/png, image/jpeg">
+                        <div class="form-text">Apenas JPG, JPEG ou PNG. Máximo de 2MB.</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Foto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Alterar Senha</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/admin/perfil/senha" method="post" onsubmit="return validatePasswordForm();">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Senha Atual</label>
+                        <input type="password" class="form-control" id="currentPassword" name="current_password" placeholder="Digite sua senha atual">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Nova Senha</label>
+                        <input type="password" class="form-control" id="newPassword" name="new_password" placeholder="Digite sua nova senha">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Confirmar Senha</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirm_password" placeholder="Confirme sua nova senha">
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <small>Use uma senha forte ou gere uma automaticamente.</small>
+                        </div>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="generateSecurePassword();">Gerar senha segura</button>
+                    </div>
+                    <div class="alert alert-light border">
+                        <ul class="mb-0 small">
+                            <li>Pelo menos 10 caracteres</li>
+                            <li>Uma letra maiúscula</li>
+                            <li>Uma letra minúscula</li>
+                            <li>Um número</li>
+                            <li>Um caractere especial</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Alterar Senha</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function generateSecurePassword() {
+    const length = 14;
+    const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*()-_=+[]{}|;:,.<>?';
+    let password = '';
+
+    for (let i = 0; i < length; i++) {
+        password += charset.charAt(Math.floor(Math.random() * charset.length));
+    }
+
+    document.getElementById('newPassword').value = password;
+    document.getElementById('confirmPassword').value = password;
+}
+
+function validatePasswordForm() {
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    const rules = [
+        { regex: /.{10,}/, message: 'A senha deve ter pelo menos 10 caracteres.' },
+        { regex: /[A-Z]/, message: 'A senha deve conter pelo menos uma letra maiúscula.' },
+        { regex: /[a-z]/, message: 'A senha deve conter pelo menos uma letra minúscula.' },
+        { regex: /\d/, message: 'A senha deve conter pelo menos um número.' },
+        { regex: /[\W_]/, message: 'A senha deve conter pelo menos um caractere especial.' }
+    ];
+
+    for (const rule of rules) {
+        if (!rule.regex.test(newPassword)) {
+            alert(rule.message);
+            return false;
+        }
+    }
+
+    if (newPassword !== confirmPassword) {
+        alert('A nova senha e a confirmação não coincidem.');
+        return false;
+    }
+
+    return true;
+}
+</script>
+
+{% endblock %}

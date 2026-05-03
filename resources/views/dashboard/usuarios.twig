@@ -1,0 +1,214 @@
+{% extends "layouts/admin.twig" %}
+{% block content %}
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Página Content -->
+        <main class="page-content">
+            <div class="container-fluid">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h2>
+                                    Gerenciar Usuários
+                                </h2>
+                                <p class="text-muted">
+                                    Controle de usuários administrativos
+                                </p>
+                            </div>
+                            {% if isAdmin %}
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                                <i class="bi bi-plus-circle"></i>
+                                Adicionar Usuário
+                            </button>
+                            {% else %}
+                            <button class="btn btn-secondary disabled" disabled>
+                                <i class="bi bi-plus-circle"></i>
+                                Adicionar Usuário
+                            </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users Table -->
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Foto</th>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Telefone</th>
+                                    <th>Perfil</th>
+                                    <th>Data de Criação</th>
+                                    <th style="width: 120px;">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for usuario in usuarios %}
+                                <tr>
+                                    <td>
+                                        <img src="{{ userImage(usuario.foto) }}" alt="{{ usuario.nome }}" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                                    </td>
+                                    <td>{{ usuario.nome }}</td>
+                                    <td>{{ usuario.email }}</td>
+                                    <td>{{ usuario.telefone }}</td>
+                                    <td>
+                                        <span class="badge bg-primary">{{ usuario.perfil }}</span>
+                                    </td>
+                                    <td>{{ usuario.created_at | date('d/m/Y H:i') }}</td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            {% if isAdmin %}
+                                            <button class="btn btn-outline-info" title="Editar" data-bs-toggle="modal" data-bs-target="#editUserModal" onclick="editUser({{ usuario.id }}, '{{ usuario.nome }}', '{{ usuario.email }}', '{{ usuario.telefone }}', '{{ usuario.perfil }}', '{{ usuario.foto }}')">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <a href="/admin/usuarios/delete/{{ usuario.id }}" class="btn btn-outline-danger" title="Excluir" onclick="return confirm('Tem certeza que deseja excluir este usuário?')">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                            {% else %}
+                                            <button class="btn btn-outline-secondary disabled" disabled title="Somente administrador pode editar">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <a href="javascript:void(0);" class="btn btn-outline-secondary disabled" aria-disabled="true" title="Somente administrador pode excluir">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="6" class="text-center">
+                                        Nenhum usuário encontrado.
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add User Modal -->
+    <div class="modal fade" id="addUserModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Adicionar Novo Usuário</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/admin/usuarios" method="POST" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nome</label>
+                                <input type="text" class="form-control" name="nome" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" name="email" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Telefone</label>
+                                <input type="text" class="form-control" name="telefone">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Senha</label>
+                                <input type="password" class="form-control" name="senha" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Perfil</label>
+                                <select class="form-select" name="perfil">
+                                    <option value="Administrador">Administrador</option>
+                                    <option value="Vendedor">Vendedor</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Foto de Perfil</label>
+                                <input type="file" class="form-control" name="foto" accept="image/*">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div class="modal fade" id="editUserModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Usuário</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editUserForm" action="" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" id="editUserId" name="id">
+                        <div class="mb-3">
+                            <label class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="editNome" name="nome" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="editEmail" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Telefone</label>
+                            <input type="text" class="form-control" id="editTelefone" name="telefone">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Senha (deixe em branco para manter)</label>
+                            <input type="password" class="form-control" id="editSenha" name="senha">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Perfil</label>
+                            <select class="form-select" id="editPerfil" name="perfil">
+                                <option value="Administrador">Administrador</option>
+                                <option value="Gerente">Gerente</option>
+                                <option value="Vendedor">Vendedor</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Foto de Perfil</label>
+                            <input type="file" class="form-control" id="editFoto" name="foto" accept="image/*">
+                            <div id="currentFoto" class="mt-2"></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Atualizar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function editUser(id, nome, email, telefone, perfil, foto) {
+            document.getElementById('editUserId').value = id;
+            document.getElementById('editNome').value = nome;
+            document.getElementById('editEmail').value = email;
+            document.getElementById('editTelefone').value = telefone;
+            document.getElementById('editPerfil').value = perfil;
+            document.getElementById('editSenha').value = '';
+            document.getElementById('editUserForm').action = '/admin/usuarios/update/' + id;
+
+            const currentFotoDiv = document.getElementById('currentFoto');
+            if (foto) {
+                currentFotoDiv.innerHTML = '<small class="text-muted">Foto atual:</small><br><img src="/uploads/users/' + foto + '" alt="Foto atual" class="rounded" style="width: 100px; height: 100px; object-fit: cover;">';
+            } else {
+                currentFotoDiv.innerHTML = '<small class="text-muted">Nenhuma foto</small>';
+            }
+        }
+    </script>
+
+{% endblock %}

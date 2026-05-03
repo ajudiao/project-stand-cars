@@ -1,0 +1,210 @@
+{% extends "layouts/admin.twig" %}
+{% block content %}
+
+    <!-- Main Content -->
+    <div class="main-content">                    <!-- Página Content -->
+                    <main class="page-content">
+                        <div class="container-fluid">
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h2>
+                                                Gerenciar Clientes
+                                            </h2>
+                                            <p class="text-muted">
+                                                Lista de clientes cadastrados
+                                            </p>
+                                        </div>
+                                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addClientModal">
+                                            <i class="bi bi-plus-circle"></i>
+                                            Adicionar Cliente
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Filters -->
+                            <div class="card card-body mb-4 border-0 shadow-sm">
+                                <form action="/admin/clientes/busca/" method="get" class="d-flex gap-2 align-items-end flex-wrap">
+                                    <!-- BUSCA -->
+                                    <div class="flex-grow-1">
+                                        <label for="nomeBusca" class="form-label small fw-bold">
+                                            Pesquisa
+                                        </label>
+                                        <input type="text" class="form-control" id="nomeBusca" value="{% if filters %}{{ filters.nome_busca }}{% endif %}" name="nome_busca" placeholder="Nome, identidade, cidade"></div>
+
+                                        <!-- BOTÃO BUSCAR -->
+                                        <div style="width: 190px;">
+                                            <button type="submit" class="btn btn-primary w-100 h-100">
+                                                <i class="bi bi-search me-1"></i>
+                                                Buscar
+                                            </button>
+                                        </div>
+
+                                        <!-- BOTÃO LISTAR TODOS -->
+                                        <div style="width: 190px;">
+                                            <a href="/admin/clientes/busca/" class="btn btn-outline-secondary w-100 h-100">
+                                                <i class="bi bi-list-ul me-1"></i>
+                                                Listar todos
+                                            </a>
+                                        </div>
+                                    </form> 
+                                </div>
+
+                                <!-- Clients Table -->
+                                <div class="card">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Nome
+                                                    </th>
+                                                    <th>
+                                                        Identidade
+                                                    </th>
+                                                    <th>
+                                                        Email
+                                                    </th>
+                                                    <th>
+                                                        Telefone
+                                                    </th>
+                                                    <th>
+                                                        Cidade
+                                                    </th>
+                                                    <th>
+                                                        Municipio
+                                                    </th>
+
+                                                    <th>
+                                                        Data de Cadastro
+                                                    </th>
+                                                    <th style="width: 120px;">
+                                                        Ações
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for cliente in clientes %}
+                                                    <tr>
+                                                        <td>
+                                                            {{ cliente.nome_completo }}
+                                                        </td>
+                                                        <td>
+                                                            {{ cliente.identidade }}
+                                                        </td>
+                                                        <td>
+                                                            {{ cliente.email }}
+                                                        </td>
+                                                        <td>
+                                                            {{ cliente.telefone }}
+                                                        </td>
+                                                        <td>
+                                                            {{ cliente.cidade }}
+                                                        </td>
+                                                        <td>
+                                                            {{ cliente.municipio }}
+                                                        </td>
+                                                        <td>
+                                                            {{ cliente.created_at|date("d/m/Y H:i") }}
+                                                        </td>
+                                                        <td>
+                                                            <div class="btn-group btn-group-sm" role="group">
+                                                                <a href="/admin/clientes/show/{{ cliente.id }}" class="btn btn-outline-info" title="Ver Detalhes">
+                                                                    <i class="bi bi-eye"></i>
+                                                                </a>
+                                                               {% if isAdmin %}
+                                                               <a href="/admin/clientes/delete/{{ cliente.id }}" class="btn btn-outline-danger" onclick="return confirm('Tem certeza que deseja apagar este cliente?')">
+                                                                    <i class="bi bi-trash"></i>
+                                                                </a>
+                                                               {% else %}
+                                                               <a href="javascript:void(0);" class="btn btn-outline-secondary disabled" aria-disabled="true" title="Somente administrador pode excluir">
+                                                                    <i class="bi bi-trash"></i>
+                                                                </a>
+                                                               {% endif %}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                {% else %}
+                                                    <tr>
+                                                        <td colspan="9" class="text-center">
+                                                            Nenhum cliente encontrado
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </main>
+                    </div>
+                </div>
+
+                <!-- Add Client Modal -->
+                <div class="modal fade" id="addClientModal" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">
+                                    Adicionar Novo Cliente
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/admin/clientes" method="POST">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                Nome
+                                            </label>
+                                            <input type="text" class="form-control" name="nome_completo" placeholder="Nome completo" required></div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">
+                                                    Email
+                                                </label>
+                                                <input type="email" class="form-control" name="email" placeholder="email@example.com" required></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">
+                                                        Identidade
+                                                    </label>
+                                                    <input type="text" class="form-control" name="identidade" placeholder="Bi ou Passaporte" required></div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <label class="form-label">
+                                                            Telefone
+                                                        </label>
+                                                        <input type="tel" class="form-control" name="telefone" placeholder="(00) 98765-4321" required></div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6 mb-3">
+                                                            <label class="form-label">
+                                                                Cidade
+                                                            </label>
+                                                            <input type="text" class="form-control" name="cidade" placeholder="Luanda" required></div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="form-label">
+                                                                    Municipio
+                                                                </label>
+                                                                <input type="text" class="form-control" name="municipio" placeholder="Kilamba Kiaxi" required></div>
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                                    Cancelar
+                                                                </button>
+                                                                <button type="submit" class="btn btn-primary">
+                                                                    Adicionar Cliente
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    {% endblock %}
+                                    

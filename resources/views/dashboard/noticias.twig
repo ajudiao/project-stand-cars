@@ -1,0 +1,127 @@
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+<!-- Main Content -->
+<div class="main-content">
+    <!-- Page Content -->
+    <main class="page-content">
+        <div class="container-fluid">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Notícias</li>
+                </ol>
+            </nav>
+
+            <!-- Page Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h3 mb-0">Gerenciar Notícias</h1>
+                <a href="{{ url('/admin/noticias/create') }}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Nova Notícia
+                </a>
+            </div>
+
+            <!-- Alert Messages -->
+            {% include 'components/alert.twig' %}
+
+            <!-- Notícias Table -->
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 70px;">ID</th>
+                                <th>Título</th>
+                                <th>Autor</th>
+                                <th>Status</th>
+                                <th>Data de Publicação</th>
+                                <th style="width: 120px;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if noticias|length > 0 %}
+                                {% for noticia in noticias %}
+                                    <tr>
+                                        <td>#{{ noticia.id }}</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                {% if noticia.imagem_capa %}
+                                                    <img src="{{ noticia.imagem_capa }}" alt="{{ noticia.titulo }}" class="rounded me-3" style="width: 40px; height: 40px; object-fit: cover;">
+                                                {% else %}
+                                                    <div class="bg-light rounded me-3" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                                                        <i class="bi bi-newspaper text-muted"></i>
+                                                    </div>
+                                                {% endif %}
+                                                <strong>{{ noticia.titulo|slice(0, 50) }}{% if noticia.titulo|length > 50 %}...{% endif %}</strong>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-secondary">
+                                                {{ noticia.autor_nome ?? 'Desconhecido' }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {% if noticia.status == 'publicado' %}
+                                                <span class="badge bg-success">Publicado</span>
+                                            {% elseif noticia.status == 'rascunho' %}
+                                                <span class="badge bg-warning">Rascunho</span>
+                                            {% else %}
+                                                <span class="badge bg-danger">Arquivado</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <small class="text-muted">
+                                                {{ noticia.data_publicacao ? noticia.data_publicacao|date('d/m/Y H:i') : 'Não definida' }}
+                                            </small>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <a href="{{ url('/admin/noticias/' ~ noticia.id ~ '/edit') }}" class="btn btn-outline-warning" title="Editar">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ noticia.id }}" title="Deletar">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+
+                                            <!-- Delete Modal -->
+                                            <div class="modal fade" id="deleteModal{{ noticia.id }}" tabindex="-1">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Confirmar Exclusão</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Tem certeza que deseja excluir a notícia <strong>{{ noticia.titulo }}</strong>?</p>
+                                                            <p class="text-muted"><small>Esta ação não pode ser desfeita.</small></p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                            <form method="POST" action="{{ url('/admin/noticias/' ~ noticia.id ~ '/delete') }}" style="display: inline;">
+                                                                <button type="submit" class="btn btn-danger">Deletar</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="6" class="text-center py-4 text-muted">
+                                        <i class="bi bi-inbox"></i> Nenhuma notícia ainda<br>
+                                        <small><a href="{{ url('/admin/noticias/create') }}">Criar uma nova notícia</a></small>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

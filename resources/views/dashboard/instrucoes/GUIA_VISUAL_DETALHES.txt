@@ -1,0 +1,384 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║           GUIA VISUAL - PÁGINAS DE DETALHES E CONFIGURAÇÕES               ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+
+═══════════════════════════════════════════════════════════════════════════════
+1. FLUXO DE NAVEGAÇÃO PARA DETALHES DO VEÍCULO
+═══════════════════════════════════════════════════════════════════════════════
+
+VEÍCULOS (Tabela)
+│
+├─ Coluna 1: Foto [placeholder]
+├─ Coluna 2: Modelo
+├─ Coluna 3: Ano
+├─ Coluna 4: Preço
+├─ Coluna 5: Status
+└─ Coluna 6: Ações
+   │
+   ├─ 👁️  [Azul]   ← CLIQUE AQUI para ver detalhes
+   ├─ ✏️  [Primária]
+   └─ 🗑️  [Vermelha]
+   
+   └─→ ABRE: detalhes-veiculo.html?id=1
+        │
+        ├─ Galeria de Fotos (4 imagens)
+        ├─ Especificações (Marca, Modelo, Ano, etc)
+        ├─ Características (checklist com ✓)
+        ├─ Preço (95.000.000)
+        ├─ Status (Disponível / Em Negociação / Vendido)
+        ├─ Publicação Web
+        ├─ Histórico
+        └─ Botões:
+           ├─ ← Voltar
+           ├─ ✏️ Editar Veículo
+           └─ 🗑️ Deletar Veículo
+
+
+═══════════════════════════════════════════════════════════════════════════════
+2. FLUXO DE NAVEGAÇÃO PARA DETALHES DO CLIENTE
+═══════════════════════════════════════════════════════════════════════════════
+
+CLIENTES (Tabela)
+│
+├─ Coluna 1: Nome
+├─ Coluna 2: CPF
+├─ Coluna 3: Email
+├─ Coluna 4: Telefone
+├─ Coluna 5: Data Cadastro
+└─ Coluna 6: Ações
+   │
+   ├─ 👁️  [Azul]   ← CLIQUE AQUI para ver detalhes
+   ├─ ✏️  [Primária]
+   └─ 🗑️  [Vermelha]
+   
+   └─→ ABRE: detalhes-cliente.html?id=1
+        │
+        ├─ Informações Pessoais
+        │  ├─ Nome: Carlos Mendes
+        │  ├─ CPF: 123.456.789-00
+        │  ├─ Email: carlos@email.com
+        │  ├─ Telefone: (21) 98765-4321
+        │  ├─ Data de Cadastro: 15/02/2024
+        │  └─ Status: Ativo
+        │
+        ├─ Endereço
+        │  ├─ Rua: Rua das Flores, 123, Apto 201
+        │  ├─ CEP: 20.000-000
+        │  ├─ Cidade: Rio de Janeiro
+        │  └─ Estado: RJ
+        │
+        ├─ Histórico de Compras (Tabela)
+        │  └─ Toyota Corolla 2024 | 15/02/2024 | 95.000.000
+        │
+        ├─ Contato Rápido
+        │  ├─ 📞 Ligar
+        │  ├─ 💬 WhatsApp
+        │  └─ 📧 Email
+        │
+        ├─ Estatísticas
+        │  ├─ Total de Compras: 1
+        │  └─ Total Gasto: 95.000.000
+        │
+        ├─ Interações Recentes
+        │  ├─ Hoje: Acessou o site
+        │  ├─ Ontem: Visualizou veículo
+        │  └─ 15/Mar: Efetuou a compra
+        │
+        └─ Botões:
+           ├─ ← Voltar à Lista
+           ├─ ✏️ Editar Cliente
+           ├─ 💬 Enviar Mensagem
+           └─ 🗑️ Deletar Cliente
+
+
+═══════════════════════════════════════════════════════════════════════════════
+3. FLUXO DE NAVEGAÇÃO PARA DETALHES DA VENDA
+═══════════════════════════════════════════════════════════════════════════════
+
+VENDAS (Tabela)
+│
+├─ Coluna 1: ID
+├─ Coluna 2: Cliente
+├─ Coluna 3: Veículo
+├─ Coluna 4: Valor
+├─ Coluna 5: Data
+├─ Coluna 6: Status
+└─ Coluna 7: Ações
+   │
+   └─ 👁️  [Azul]   ← CLIQUE AQUI para ver detalhes
+   
+   └─→ ABRE: detalhes-venda.html?id=1
+        │
+        ├─ Cabeçalho
+        │  ├─ Número: #001
+        │  └─ Status: Concluída ✓
+        │
+        ├─ Informações do Cliente
+        │  ├─ Nome: Carlos Mendes
+        │  ├─ Email: carlos@email.com
+        │  ├─ Telefone: (21) 98765-4321
+        │  └─ CPF: 123.456.789-00
+        │
+        ├─ Informações do Veículo
+        │  ├─ Marca e Modelo: Toyota Corolla 2024
+        │  ├─ Cor: Branco
+        │  ├─ Quilometragem: 5.230 km
+        │  └─ Transmissão: Automática
+        │
+        ├─ Detalhamento de Pagamento (Tabela)
+        │  ├─ Valor do Veículo:     95.000.000,00
+        │  ├─ Desconto:              -R$ 5.000,00
+        │  ├─ Taxas e Emolumentos:   R$ 500,00
+        │  └─ TOTAL:                 R$ 90.500,00
+        │
+        ├─ Informações de Pagamento
+        │  ├─ Forma: Financiamento
+        │  ├─ Data da Venda: 15/02/2024
+        │  ├─ Parcelas: 60x R$ 1.508,33
+        │  └─ Primeira Parcela: 15/03/2024
+        │
+        ├─ Valor Total (Card grande)
+        │  ├─ R$ 90.500
+        │  ├─ 🖨️ Gerar Recibo
+        │  └─ 🖨️ Imprimir
+        │
+        ├─ Documentos
+        │  ├─ 📄 Recibo de Venda
+        │  ├─ 📄 Contrato de Compra
+        │  └─ 📄 Nota Fiscal
+        │
+        ├─ Cronograma
+        │  ├─ 15/02: Venda concluída
+        │  ├─ 15/03: Primeira parcela vencida
+        │  └─ Futuro: 59 parcelas restantes
+        │
+        └─ Botões:
+           ├─ ← Voltar à Lista
+           ├─ ✏️ Editar Venda
+           ├─ 🖨️ Imprimir Recibo
+           └─ 🗑️ Deletar Venda
+
+
+═══════════════════════════════════════════════════════════════════════════════
+4. FLUXO DE NAVEGAÇÃO PARA CONFIGURAÇÕES DO SITE
+═══════════════════════════════════════════════════════════════════════════════
+
+MENU LATERAL
+│
+├─ Dashboard
+├─ Veículos
+├─ Clientes
+├─ Vendas
+├─ Relatórios
+├─ Publicação Web
+├─ ────────────
+├─ Meu Perfil
+├─ Configurações da Conta
+└─ 🌍 Configurações do Site  ← CLIQUE AQUI
+
+└─→ ABRE: configuracoes-site.html
+     │
+     ├─ TAB 1: ⚙️  GERAL
+     │  ├─ Nome da Concessionária: [input]
+     │  ├─ Tagline: [input]
+     │  ├─ Descrição: [textarea]
+     │  ├─ Telefone: [input]
+     │  ├─ Email: [input]
+     │  ├─ Endereço: [input]
+     │  ├─ Horário de Funcionamento: [input]
+     │  ├─ ☑️ Ativar Blog
+     │  ├─ ☑️ Ativar Newsletter
+     │  └─ [✓ Salvar Configurações]
+     │
+     ├─ TAB 2: 🎨 APARÊNCIA
+     │  ├─ Logo: [file upload]
+     │  ├─ Cor Principal: [color picker]
+     │  ├─ Cor Secundária: [color picker]
+     │  ├─ Fonte Principal: [select]
+     │  ├─ Imagem de Fundo: [file upload]
+     │  ├─ ☑️ Ativar Modo Escuro
+     │  └─ [✓ Salvar Aparência]
+     │
+     ├─ TAB 3: 🔍 SEO
+     │  ├─ Meta Title: [input]
+     │  ├─ Meta Description: [textarea]
+     │  ├─ Palavras-chave: [input]
+     │  ├─ Google Analytics ID: [input]
+     │  ├─ Google Search Console: [input]
+     │  ├─ ☑️ Permitir rastreamento
+     │  └─ [✓ Salvar SEO]
+     │
+     ├─ TAB 4: 📱 REDES SOCIAIS
+     │  ├─ Facebook: [input URL]
+     │  ├─ Instagram: [input URL]
+     │  ├─ Twitter/X: [input URL]
+     │  ├─ YouTube: [input URL]
+     │  ├─ WhatsApp: [input telefone]
+     │  ├─ ☑️ Botões de compartilhamento
+     │  └─ [✓ Salvar Redes Sociais]
+     │
+     └─ TAB 5: 🔌 INTEGRAÇÕES
+        ├─ [Google Maps] [Conectar]
+        ├─ [Stripe/PayPal] [Conectar]
+        ├─ [Mailchimp] [Conectar]
+        └─ [Chatbot] [Conectar]
+
+
+═══════════════════════════════════════════════════════════════════════════════
+5. ESTRUTURA DE CORES DOS BOTÕES
+═══════════════════════════════════════════════════════════════════════════════
+
+AÇÕES NA TABELA:
+
+┌──────────────────────────────────────────────┐
+│  👁️  AZUL       │  ✏️  PRIMÁRIA   │  🗑️  VERMELHO  │
+│ btn-outline-info│ btn-outline-primary│ btn-outline-danger│
+│ Ver Detalhes   │ Editar Registro│  Deletar Registro  │
+└──────────────────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════════════
+6. LAYOUT RESPONSIVO (Exemplo para Desktop/Tablet/Mobile)
+═══════════════════════════════════════════════════════════════════════════════
+
+DESKTOP (> 1200px):
+┌─────────────────────────────────────────┐
+│ SIDEBAR  │  MAIN CONTENT                │
+│          │  ┌─────────────┬────────────┐│
+│ Dashboard│  │ Informações │  Sidebar   ││
+│ Veículos │  │ Completas   │  (Cards)   ││
+│ Clientes │  ├─────────────┼────────────┤│
+│ Vendas   │  │             │             ││
+│ ...      │  │ Mais Info   │  Timeline  ││
+│          │  │             │             ││
+└─────────────────────────────────────────┘
+
+TABLET (768px - 1199px):
+┌──────────────────────────┐
+│ COLLAPSIBLE SIDEBAR      │
+├──────────────────────────┤
+│ Informações              │
+├──────────────────────────┤
+│ Sidebar Cards (stacked)  │
+├──────────────────────────┤
+│ Mais Informações         │
+└──────────────────────────┘
+
+MOBILE (< 768px):
+┌──────────────┐
+│ ☰ Menu       │
+├──────────────┤
+│ Informações  │
+├──────────────┤
+│ Cards        │
+├──────────────┤
+│ (Vertical)   │
+└──────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════════════
+7. DICAS DE INTEGRAÇÃO PHP
+═══════════════════════════════════════════════════════════════════════════════
+
+Para converter detalhes-veiculo.html para PHP:
+
+1. Renomear: detalhes-veiculo.html → detalhes-veiculo.php
+
+2. Receber ID:
+   $id = $_GET['id'] ?? null;
+   if (!$id) { header('Location: veiculos.html'); exit; }
+
+3. Buscar dados:
+   $resultado = $mysqli->query("SELECT * FROM veiculos WHERE id = " . (int)$id);
+   $veiculo = $resultado->fetch_assoc();
+
+4. Popular HTML:
+   echo $veiculo['marca'] . " " . $veiculo['modelo'];
+   echo "R$ " . number_format($veiculo['preco'], 2, ',', '.');
+
+5. Looping de galeria:
+   <?php foreach ($veiculo['fotos'] as $foto): ?>
+       <img src="<?php echo $foto; ?>">
+   <?php endforeach; ?>
+
+REPETIR PARA:
+├─ detalhes-cliente.php
+└─ detalhes-venda.php
+
+
+═══════════════════════════════════════════════════════════════════════════════
+8. TABELAS DE BANCO DE DADOS RECOMENDADAS
+═══════════════════════════════════════════════════════════════════════════════
+
+VEÍCULOS:
+CREATE TABLE veiculos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    marca VARCHAR(50),
+    modelo VARCHAR(50),
+    ano INT,
+    preco DECIMAL(10,2),
+    status ENUM('disponivel', 'negociacao', 'vendido'),
+    cor VARCHAR(30),
+    quilometragem INT,
+    transmissao VARCHAR(20),
+    combustivel VARCHAR(20)
+);
+
+CLIENTES:
+CREATE TABLE clientes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100),
+    cpf VARCHAR(11),
+    email VARCHAR(100),
+    telefone VARCHAR(20),
+    endereco VARCHAR(200),
+    cidade VARCHAR(50),
+    estado VARCHAR(2),
+    cep VARCHAR(8),
+    data_cadastro DATETIME
+);
+
+VENDAS:
+CREATE TABLE vendas (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    cliente_id INT,
+    veiculo_id INT,
+    valor_veiculo DECIMAL(10,2),
+    desconto DECIMAL(10,2),
+    taxas DECIMAL(10,2),
+    valor_total DECIMAL(10,2),
+    forma_pagamento VARCHAR(50),
+    parcelas INT,
+    data_venda DATETIME,
+    status ENUM('pendente', 'concluida', 'cancelada'),
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id),
+    FOREIGN KEY (veiculo_id) REFERENCES veiculos(id)
+);
+
+
+═══════════════════════════════════════════════════════════════════════════════
+9. CHECKLIST DE IMPLEMENTAÇÃO
+═══════════════════════════════════════════════════════════════════════════════
+
+☐ Converter HTML para PHP
+☐ Implementar conexão com banco de dados
+☐ Criar queries SELECT por ID
+☐ Popular dados dinâmicos
+☐ Adicionar tratamento de erros
+☐ Validar ID de entrada
+☐ Testar com dados reais
+☐ Adicionar paginação (se necessário)
+☐ Implementar segurança (SQL Injection prevention)
+☐ Otimizar queries (índices, joins)
+☐ Adicionar logs de acesso
+☐ Testar responsividade novamente
+☐ Fazer backup de banco de dados
+
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Suas páginas de detalhes estão prontas! Basta substituir os dados
+estáticos por consultas ao banco de dados usando os IDs do URL.
+
+═══════════════════════════════════════════════════════════════════════════════

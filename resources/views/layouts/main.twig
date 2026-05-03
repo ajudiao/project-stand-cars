@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Saeld Auto - Stand de Automóveis{% endblock %}</title>
+    <meta name="description" content="{% block description %}Encontre o veículo perfeito com a ajuda da inteligência artificial{% endblock %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/assets/css/styles.s">
+    <style>
+      @keyframes pageEntrance {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .page-enter {
+        animation: pageEntrance 0.55s ease-out both;
+      }
+    </style>
+    <link rel="icon" href="assets/site/images/logo.png" type="image/x-icon">
+    <script src="assets/js/config.js"></script>
+  </head>
+  <body class="font-sans antialiased bg-background text-foreground">
+    <!-- Navegação -->
+    <div>
+      <nav class="fixed top-0 z-50 border-b left-0 right-0 border-transparent bg-black text-white backdrop-blur supports-[backdrop-filter]:bg-black">
+        <div class="container mx-auto">
+
+          <div class="flex h-16 items-center justify-between">
+          <a href="/" class="flex items-center gap-2">
+                <img src="{% if settings.logo_path %}/uploads/{{ settings.logo_path }}{% else %}{{ companyLogo }}{% endif %}" alt="Logo" class="h-16 w-auto">
+              </a>  
+          <div class="flex items-center gap-8">
+              
+              <div class="hidden md:flex md:gap-6">
+                <a href="/" class="text-sm font-medium text-white transition-colors hover:text-primary ${currentPage === " index.html" || currentPage === " " ? " text-primary" : " text-white/80"}">
+                  Home
+                </a>
+                <a href="/veiculos" class="text-sm font-medium text-white transition-colors hover:text-primary ${currentPage === " veiculos.html" ? " text-primary" : " text-white/80"}">
+                  Automóveis
+                </a>
+                <a href="/noticias" class="text-sm font-medium text-white transition-colors hover:text-primary ${currentPage === " noticias.html" ? " text-primary" : " text-white/80"}">
+                  Notícias
+                </a>
+                <a href="/sobre" class="text-sm font-medium text-white transition-colors hover:text-primary ${currentPage === " sobre.html" ? " text-primary" : " text-white/80"}">
+                  Sobre Nós
+                </a>
+                <a href="/contato" class="text-sm font-medium text-white transition-colors hover:text-primary ${currentPage === " contato.html" ? " text-primary" : " text-white/80"}">
+                  Contato
+                </a>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <a href="/contato" class="hidden sm:inline-flex items-center justify-center rounded-full border border-white bg-white px-5 py-2 text-sm font-semibold text-black transition-colors hover:bg-slate-200">
+                Falar Conosco
+              </a>
+              <button id="mobile-menu-button" class="md:hidden inline-flex items-center justify-center rounded-lg p-2 text-white hover:bg-white/10 hover:text-white">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden border-t border-border md:hidden">
+          <div class="container mx-auto space-y-1 px-4 py-4">
+            <a href="index.html" class="block rounded-lg px-3 py-2 text-base font-medium transition-colors hover:bg-muted ${currentPage === " index.html" || currentPage === " " ? " bg-muted text-primary" : " text-muted-foreground"}">
+              Home
+            </a>
+            <a href="veiculos.html" class="block rounded-lg px-3 py-2 text-base font-medium transition-colors hover:bg-muted ${currentPage === " veiculos.html" ? " bg-muted text-primary" : " text-muted-foreground"}">
+              Automóveis
+            </a>
+            <a href="recomendacao-ia.html" class="block rounded-lg px-3 py-2 text-base font-medium transition-colors hover:bg-muted ${currentPage === " recomendacao-ia.html" ? " bg-muted text-primary" : " text-muted-foreground"}">
+              Recomendação 
+            </a>
+            <a href="noticias.html" class="block rounded-lg px-3 py-2 text-base font-medium transition-colors hover:bg-muted ${currentPage === " noticias.html" ? " bg-muted text-primary" : " text-muted-foreground"}">
+              Notícias
+            </a>
+            <a href="sobre.html" class="block rounded-lg px-3 py-2 text-base font-medium transition-colors hover:bg-muted ${currentPage === " sobre.html" ? " bg-muted text-primary" : " text-muted-foreground"}">
+              Sobre Nós
+            </a>
+            <a href="contato.html" class="block rounded-lg px-3 py-2 text-base font-medium transition-colors hover:bg-muted ${currentPage === " contato.html" ? " bg-muted text-primary" : " text-muted-foreground"}">
+              Contato
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <main class="min-h-screen page-enter reveal">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="border-t border-white/10 bg-slate-950 text-white">
+      <div class="container mx-auto px-4 py-12">
+        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <div class="mb-4 flex items-center gap-2">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
+                <svg class="h-6 w-6 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <span class="text-xl font-bold text-white">
+                {{ settings.site_name ?? 'Saeld Auto' }}
+              </span>
+            </div>
+            <p class="text-sm text-slate-300">
+              {{ settings.site_description ?? 'Venda de automóveis com qualidade, segurança e confiabilidade em Luanda.' }}
+            </p>
+          </div>
+          <div>
+            <h3 class="mb-4 text-sm font-semibold text-white">
+              Navegação
+            </h3>
+            <ul class="space-y-2 text-sm">
+              <li>
+                <a href="index.html" class="text-slate-300 transition-colors hover:text-white">
+                  Home
+                </a>
+              </li>
+              <li>
+                <a href="veiculos.html" class="text-slate-300 transition-colors hover:text-white">
+                  Automóveis
+                </a>
+              </li>
+              <li>
+                <a href="noticias.html" class="text-slate-300 transition-colors hover:text-white">
+                  Notícias
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="mb-4 text-sm font-semibold text-white">
+              Empresa
+            </h3>
+            <ul class="space-y-2 text-sm">
+              <li>
+                <a href="sobre.html" class="text-slate-300 transition-colors hover:text-white">
+                  Sobre Nós
+                </a>
+              </li>
+              <li>
+                <a href="contato.html" class="text-slate-300 transition-colors hover:text-white">
+                  Contato
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-slate-300 transition-colors hover:text-white">
+                  Política de Privacidade
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-slate-300 transition-colors hover:text-white">
+                  Termos de Serviço
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="mb-4 text-sm font-semibold text-white">
+              Contato
+            </h3>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li class="flex items-center gap-2">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                {{ settings.site_phone ?? '+244 936 145 154' }}
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                {{ settings.site_email ?? 'saeldauto@gmail.com' }}
+              </li>
+              <li class="flex items-start gap-2">
+                <svg class="h-4 w-4 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                {{ settings.site_address ?? 'Cazenga, Luanda' }}<br>
+                {{ settings.site_city ?? 'Angola' }}
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-8 border-t border-white/10 pt-8 text-center text-sm text-slate-400">
+          <p>
+            ©
+            {{ "now"|date("Y") }}
+            {{ settings.site_name ?? 'Saeld Auto' }}
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+
+  </body>
+</html>

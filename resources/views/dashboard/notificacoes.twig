@@ -1,0 +1,94 @@
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+    <div class="main-content">
+                <main class="page-content">
+            <div class="container-fluid">
+                <div class="row mb-4">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="mb-0">Atividade recente</h5>
+                                    <p class="text-muted mb-0">Notificações geradas a partir das ações mais recentes do sistema.</p>
+                                </div>
+                                <span class="badge bg-primary">{{ unreadCount }} novas</span>
+                            </div>
+                            <div class="card-body">
+                                {% if notifications is empty %}
+                                    <div class="text-center py-5">
+                                        <i class="bi bi-bell-slash fs-1 text-muted"></i>
+                                        <p class="mt-3 mb-0 text-muted">Nenhuma notificação encontrada.</p>
+                                    </div>
+                                {% else %}
+                                    <div class="list-group">
+                                        {% for item in notifications %}
+                                            <a href="{{ item.url }}" class="list-group-item list-group-item-action py-3">
+                                                <div class="d-flex align-items-start gap-3">
+                                                    <span class="badge bg-{{ item.badge }} p-3 rounded-circle">
+                                                        <i class="{{ item.icon }} text-white"></i>
+                                                    </span>
+                                                    <div class="flex-grow-1">
+                                                        <div class="d-flex justify-content-between align-items-start">
+                                                            <div>
+                                                                <h6 class="mb-1">{{ item.title }}</h6>
+                                                            </div>
+                                                            <small class="text-muted">{{ item.timeAgo }}</small>
+                                                        </div>
+                                                        <p class="mb-1 text-secondary">{{ item.message }}</p>
+                                                        <small class="text-muted">{{ item.created_at }}</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Resumo da semana</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <div>
+                                        <h6 class="mb-1">Novas vendas</h6>
+                                        <strong>{{ summary.sales }}</strong>
+                                    </div>
+                                    <i class="bi bi-check-circle text-success fs-3"></i>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <div>
+                                        <h6 class="mb-1">Novos clientes</h6>
+                                        <strong>{{ summary.clients }}</strong>
+                                    </div>
+                                    <i class="bi bi-people-fill text-info fs-3"></i>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <h6 class="mb-1">Novos veículos</h6>
+                                        <strong>{{ summary.vehicles }}</strong>
+                                    </div>
+                                    <i class="bi bi-car-front text-primary fs-3"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <h5 class="mb-0">Como usar</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">A página de notificações mostra as ações mais recentes do sistema. Você pode clicar em uma notificação para ver o detalhe relacionado.</p>
+                                <p class="text-muted mb-0">As notificações são atualizadas sempre que novos registros de vendas, clientes ou veículos são criados.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+        </main>
+    </div>
+{% endblock %}

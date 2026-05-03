@@ -1,0 +1,41 @@
+{% extends "layouts/main.twig" %}
+
+{% block title %}{{ noticia.titulo }} - {{ settings.site_name }}{% endblock %}
+{% block description %}{{ noticia.resumo ?? noticia.titulo }}{% endblock %}
+
+{% block content %}
+
+    <!-- Cabeçalho -->
+    <section class="bg-gradient-to-br from-primary/10 via-background to-accent/5 px-4 pt-20 py-12">
+        <div class="container mx-auto">
+            <div class="mx-auto max-w-4xl">
+                <div class="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
+                    <time datetime="{{ noticia.data_publicacao }}">{{ noticia.data_publicacao | date('d/m/Y') }}</time>
+                    {% if noticia.autor %}
+                    <span>•</span>
+                    <span>{{ noticia.autor }}</span>
+                    {% endif %}
+                </div>
+                <h1 class="mb-4 text-4xl font-bold leading-tight lg:text-5xl">{{ noticia.titulo }}</h1>
+                {% if noticia.resumo %}
+                <p class="text-xl text-muted-foreground">{{ noticia.resumo }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Conteúdo da Notícia -->
+    <section class="px-4 py-12">
+        <div class="container mx-auto">
+            <div class="mx-auto max-w-4xl">
+                <div class="aspect-[16/9] mb-8 overflow-hidden rounded-2xl border border-border bg-muted">
+                    <img src="{% if noticia.imagem_capa %}/uploads/news/{{ noticia.imagem_capa }}{% else %}https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&h=450&fit=crop{% endif %}" alt="{{ noticia.titulo }}" class="h-full w-full object-cover">
+                </div>
+                <div class="prose prose-lg max-w-none">
+                    {{ noticia.conteudo | raw }}
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

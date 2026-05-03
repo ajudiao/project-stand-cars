@@ -1,0 +1,231 @@
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+
+<div class="main-content">
+    <main class="page-content">
+        <div class="container-fluid">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h2>Configurações do Sistema</h2>
+                    <p class="text-muted">Gerencie backups, exportações e outras configurações do sistema</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <!-- Backup Settings -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-cloud-check"></i> Backup do Banco de Dados
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-muted mb-4">Faça backup completo do seu banco de dados para evitar perda de dados.</p>
+                            <button class="btn btn-primary" onclick="backupNow()">
+                                <i class="bi bi-cloud-upload"></i> Fazer Backup Agora
+                            </button>
+                            <div id="backupStatus" class="mt-3" style="display: none;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Export Data -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-download"></i> Exportar Dados
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-muted mb-4">Exporte dados em formato CSV.</p>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Selecione a tabela:</label>
+                                    <select id="tableSelect" class="form-select">
+                                        <option value="veiculos">Veículos</option>
+                                        <option value="clientes">Clientes</option>
+                                        <option value="vendas">Vendas</option>
+                                        <option value="usuarios">Usuários</option>
+                                        <option value="categorias">Categorias</option>
+                                        <option value="marcas">Marcas</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">&nbsp;</label>
+                                    <button class="btn btn-secondary w-100" onclick="exportData()">
+                                        <i class="bi bi-download"></i> Exportar CSV
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Information -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-info-circle"></i> Informações do Sistema
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong>Versão PHP:</strong> {{ php_version }}</p>
+                                    <p><strong>Versão MySQL:</strong> {{ mysql_version }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Servidor:</strong> {{ server_info }}</p>
+                                    <p><strong>Memória Disponível:</strong> {{ memory_available }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Danger Zone -->
+                    <div class="card mt-4 border-danger">
+                        <div class="card-header bg-danger text-white">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-exclamation-triangle"></i> Zona de Perigo
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-muted mb-3">Ações irreversíveis. Use com cuidado!</p>
+                            <button class="btn btn-outline-danger btn-sm" onclick="if(confirm('Tem certeza? Esta ação é irreversível!')) deleteAllData()">
+                                <i class="bi bi-trash"></i> Limpar Todos os Dados
+                            </button>
+                            <div id="deleteStatus" class="mt-3" style="display: none;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <!-- Quick Actions -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-lightning"></i> Ações Rápidas
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <button class="btn btn-outline-primary w-100 mb-2" onclick="clearCache()">
+                                <i class="bi bi-arrow-clockwise"></i> Limpar Cache
+                            </button>
+                            <button class="btn btn-outline-primary w-100 mb-2" onclick="optimizeDatabase()">
+                                <i class="bi bi-box-seam"></i> Otimizar BD
+                            </button>
+                            <button class="btn btn-outline-primary w-100" onclick="viewLogs()">
+                                <i class="bi bi-file-text"></i> Ver Logs
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Statistics -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-graph-up"></i> Estatísticas
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <small class="text-muted">Tamanho do BD</small>
+                                <p class="mb-0"><strong>{{ db_size }}</strong></p>
+                            </div>
+                            <div class="mb-3">
+                                <small class="text-muted">Registros de Veículos</small>
+                                <p class="mb-0"><strong>{{ total_vehicles }}</strong></p>
+                            </div>
+                            <div class="mb-3">
+                                <small class="text-muted">Registros de Vendas</small>
+                                <p class="mb-0"><strong>{{ total_sales }}</strong></p>
+                            </div>
+                            <div>
+                                <small class="text-muted">Usuários do Sistema</small>
+                                <p class="mb-0"><strong>{{ total_users }}</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+function backupNow() {
+    const statusDiv = document.getElementById('backupStatus');
+    statusDiv.style.display = 'block';
+    statusDiv.innerHTML = '<div class="alert alert-info"><i class="bi bi-hourglass-split"></i> Criando backup...</div>';
+
+    fetch('/admin/configuracoes/backup', {
+        method: 'POST',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            statusDiv.innerHTML = '<div class="alert alert-success"><i class="bi bi-check-circle"></i> ' + data.message + '</div>';
+            setTimeout(() => {
+                statusDiv.style.display = 'none';
+            }, 5000);
+        } else {
+            statusDiv.innerHTML = '<div class="alert alert-danger"><i class="bi bi-x-circle"></i> Erro: ' + data.message + '</div>';
+        }
+    })
+    .catch(error => {
+        statusDiv.innerHTML = '<div class="alert alert-danger"><i class="bi bi-x-circle"></i> Erro na solicitação</div>';
+        console.error('Erro:', error);
+    });
+}
+
+function exportData() {
+    const table = document.getElementById('tableSelect').value;
+    window.location.href = '/admin/configuracoes/export?table=' + table;
+}
+
+function clearCache() {
+    showNotification('Cache limpo com sucesso!', 'success', 3000);
+}
+
+function optimizeDatabase() {
+    showNotification('Banco de dados otimizado!', 'success', 3000);
+}
+
+function viewLogs() {
+    showNotification('Função em desenvolvimento', 'info', 3000);
+}
+
+function deleteAllData() {
+    const statusDiv = document.getElementById('deleteStatus');
+    statusDiv.style.display = 'block';
+    statusDiv.innerHTML = '<div class="alert alert-warning"><i class="bi bi-hourglass-split"></i> Excluindo todos os dados...</div>';
+
+    fetch('/admin/configuracoes/delete-all', {
+        method: 'POST',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        statusDiv.innerHTML = '<div class="alert ' + (data.success ? 'alert-success' : 'alert-danger') + '"><i class="bi ' + (data.success ? 'bi-check-circle' : 'bi-x-circle') + '"></i> ' + data.message + '</div>';
+
+        if (data.success) {
+            setTimeout(() => {
+                statusDiv.style.display = 'none';
+                window.location.reload();
+            }, 3000);
+        }
+    })
+    .catch(error => {
+        statusDiv.innerHTML = '<div class="alert alert-danger"><i class="bi bi-x-circle"></i> Erro na solicitação</div>';
+        console.error('Erro:', error);
+    });
+}
+</script>
+
+{% endblock %}

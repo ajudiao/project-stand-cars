@@ -1,0 +1,242 @@
+{% extends "layouts/main.twig" %}
+
+{% block title %}{{ settings.site_name ?? 'Saeld Auto' }} - {{ settings.site_tagline ?? 'Stand de Automóveis' }}{% endblock %}
+{% block description %}{{ settings.seo_description ?? 'Encontre o veículo perfeito' }}{% endblock %}
+
+{% block content %}
+
+    <!-- Conteúdo Principal -->
+    <main class="min-h-screen pt-10">
+    
+    <!-- Secção Hero com Carrossel -->
+        <style>
+            @keyframes slideshow {
+                0%, 16.66% { opacity: 1; }
+                20%, 100% { opacity: 0; }
+            }
+            
+            .hero-carousel-item {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-size: cover;
+                background-position: center;
+                opacity: 0;
+                animation: slideshow 12s infinite;
+            }
+            
+            .hero-carousel-item:nth-child(1) { animation-delay: 0s; }
+            .hero-carousel-item:nth-child(2) { animation-delay: 2s; }
+            .hero-carousel-item:nth-child(3) { animation-delay: 4s; }
+            .hero-carousel-item:nth-child(4) { animation-delay: 6s; }
+            .hero-carousel-item:nth-child(5) { animation-delay: 8s; }
+            .hero-carousel-item:nth-child(6) { animation-delay: 10s; }
+        </style>
+
+        <section class="relative overflow-hidden h-screen flex items-center justify-center pt-20">
+            <!-- Carrossel de Fundo -->
+            <div class="absolute inset-0 w-full h-full">
+                {% for vehicle in featuredCars|slice(0, 6) %}
+                    <div class="hero-carousel-item" style="background-image: url('{{ carImage(vehicle.foto) }}');"></div>
+                {% else %}
+                    <div class="hero-carousel-item" style="background-image: url('/assets/site/images/modern-luxury-car-showroom-automotive-technology.jpg');"></div>
+                {% endfor %}
+                
+                <!-- Overlay Gradiente -->
+                <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70"></div>
+            </div>
+
+            <!-- Conteúdo -->
+            <div class="relative z-10 container mx-auto px-4">
+                <div class="max-w-2xl">
+                    <span class="inline-flex items-center gap-1 rounded-full bg-accent/20 px-4 py-2 text-sm font-medium text-accent mb-6 border border-accent/30">
+                        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        Premium Automotive
+                    </span>
+
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+                        {{ settings.site_name ?? 'Saeld Auto' }}
+                    </h1>
+
+                    <p class="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed max-w-xl">
+                        {{ settings.site_description ?? 'Bem-vindo à sua stand de confiança. Oferecemos automóveis de qualidade com atendimento premium e garantia de satisfação.' }}
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="{{ url('recomendacao') }}" class="group inline-flex items-center justify-center rounded-lg bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-2xl hover:scale-105">
+                            <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                            Encontrar Carro Ideal
+                        </a>
+
+                        <a href="{{ url('veiculos') }}" class="inline-flex items-center justify-center rounded-lg border-2 border-white text-white px-8 py-4 text-lg font-semibold transition-all hover:bg-white hover:text-black hover:shadow-2xl hover:scale-105">
+                            <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                            Ver Catálogo Completo
+                        </a>
+
+                        <a href="{{ url('contato') }}" class="inline-flex items-center justify-center rounded-lg bg-white/10 border border-white/20 text-white px-8 py-4 text-lg font-semibold transition-all backdrop-blur-sm hover:bg-white/20 hover:shadow-2xl hover:scale-105">
+                            Falar com Vendedor
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <!-- Secção de Estatísticas -->
+        <section class="animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 border-y border-border bg-muted/30 px-4 py-12">
+            <div class="container mx-auto">
+                <div class="grid grid-cols-2 gap-8 lg:grid-cols-4">
+                    <div class="text-center">
+                        <div class="mb-2 text-4xl font-bold text-primary lg:text-5xl">50+</div>
+                        <div class="text-sm text-muted-foreground lg:text-base">Automóveis Disponíveis</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="mb-2 text-4xl font-bold text-primary lg:text-5xl">200+</div>
+                        <div class="text-sm text-muted-foreground lg:text-base">Clientes Satisfeitos</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="mb-2 text-4xl font-bold text-primary lg:text-5xl">98%</div>
+                        <div class="text-sm text-muted-foreground lg:text-base">Taxa de Satisfação</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="mb-2 text-4xl font-bold text-primary lg:text-5xl">7+</div>
+                        <div class="text-sm text-muted-foreground lg:text-base">Anos de Experiência</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <!-- Veículos em Destaque -->
+        <section class="animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 px-4 py-20">
+            <div class="container mx-auto">
+                <div class="mb-12 text-center">
+                    <h2 class="mb-4 text-3xl font-bold lg:text-4xl">Automóveis em Destaque</h2>
+                    <p class="text-lg text-muted-foreground">Seleção premium dos nossos melhores automóveis disponíveis na Saeld Auto</p>
+                </div>
+                <div id="featured-vehicles" class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    {% for vehicle in featuredCars %}
+                        <div class="group overflow-hidden rounded-lg border border-border bg-card transition-shadow hover:shadow-lg fade-in">
+                            <div class="relative aspect-[4/3] overflow-hidden">
+                                <img src="{{ carImage(vehicle.foto) }}" alt="{{ vehicle.marca_nome }} {{ vehicle.modelo }}" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                                <span class="absolute right-4 top-4 rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">
+                                    {{ vehicle.status }}
+                                </span>
+                            </div>
+                            <div class="p-6">
+                                <div class="mb-2 flex items-start justify-between">
+                                    <div>
+                                        <h3 class="text-xl font-bold">{{ vehicle.marca_nome }} {{ vehicle.modelo }}</h3>
+                                        <p class="text-sm text-muted-foreground">{{ vehicle.ano }}</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-2xl font-bold text-primary">{{ vehicle.preco|number_format(0, ',', '.') }} Kzs</div>
+                                    </div>
+                                </div>
+                                <div class="mb-4 flex flex-wrap gap-2">
+                                    <span class="rounded-full bg-secondary/10 px-3 py-1 text-xs font-medium text-secondary-foreground">{{ vehicle.transmissao }}</span>
+                                    <span class="rounded-full bg-secondary/10 px-3 py-1 text-xs font-medium text-secondary-foreground">{{ vehicle.combustivel }}</span>
+                                    <span class="rounded-full bg-secondary/10 px-3 py-1 text-xs font-medium text-secondary-foreground">{{ vehicle.quilometragem|number_format(0, ',', '.') }} km</span>
+                                </div>
+                                <a href="/veiculos/{{ vehicle.id }}" class="inline-flex w-full items-center justify-center rounded-lg border border-border bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:bg-muted">
+                                    Ver Detalhes
+                                    <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="col-span-full text-center text-muted-foreground">Nenhum veículo em destaque no momento.</p>
+                    {% endfor %}
+                </div>
+                <div class="mt-12 text-center">
+                    <a href="{{ url('veiculos') }}" class="inline-flex items-center justify-center rounded-lg border border-border bg-background px-6 py-3 text-base font-medium transition-colors hover:bg-muted">
+                        Ver Todos os Veículos
+                        <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    <!-- CTA Escolha do Carro -->
+<section class="animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 px-4 py-20">
+    <div class="container mx-auto">
+        <div class="overflow-hidden rounded-2xl border-2 border-primary/20 bg-gradient-to-br from-primary/5 via-background to-accent/5 p-8 lg:p-12">
+            <div class="grid gap-8 lg:grid-cols-2 lg:gap-12">
+                
+                <!-- Texto -->
+                <div class="flex flex-col justify-center">
+                    <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
+                        <svg class="h-8 w-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 13l4-4m0 0l4 4m-4-4v12"/>
+                        </svg>
+                    </div>
+
+                    <h2 class="mb-4 text-3xl font-bold lg:text-4xl">
+                        Ainda não encontrou o carro ideal?
+                    </h2>
+
+                    <p class="mb-8 text-lg text-muted-foreground">
+                        Fale com a nossa equipa e ajudamos você a encontrar o carro perfeito, dentro do seu orçamento e necessidade.
+                    </p>
+
+                    <div class="flex flex-wrap gap-4">
+                        <a href="{{ url('veiculos') }}" class="inline-flex bg-black text-white items-center justify-center rounded-lg bg-gradient-to-r from-primary to-primary/80 px-8 py-4 text-lg font-medium text-primary-foreground transition-all hover:from-primary/90 hover:to-primary/70 hover:shadow-lg hover:scale-105">
+                            Ver Stock
+                        </a>
+
+                        <a href="{{ url('contato') }}" class="inline-flex items-center justify-center rounded-lg border-2 border-primary bg-background px-8 py-4 text-lg font-medium text-primary transition-all hover:bg-primary hover:text-primary-foreground hover:shadow-lg hover:scale-105">
+                            Falar com Vendedor
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Imagem -->
+                <div class="relative hidden lg:block">
+                    <div class="aspect-square overflow-hidden rounded-2xl border border-border bg-muted">
+                            <img src="{{ localImage }}" object-cover">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    
+
+    <script>
+        // Animação de entrada no scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.remove('opacity-0', 'translate-y-8');
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                    }
+                });
+            }, observerOptions);
+
+            // Observar todos os elementos com a classe animate-on-scroll
+            document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+
+{% endblock %}

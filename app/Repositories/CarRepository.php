@@ -1,0 +1,420 @@
+<?php
+
+namespace App\Repositories;
+
+use App\Core\Database;
+use App\Models\Car;
+use PDO;
+
+class CarRepository
+{
+    private PDO $conn;
+
+    public function __construct()
+    {
+        // Usa o singleton do Database
+        $this->conn = Database::getInstance();
+    }
+
+    public function getAllWithImages(): array
+    {
+        // Pega todos os veículos com LEFT JOIN para imagens
+        $sql = "SELECT v.*, vi.url_imagem
+            FROM veiculos v
+            LEFT JOIN veiculo_imagens vi ON vi.id_veiculo = v.id WHERE status='Disponivel'
+            ORDER BY v.id DESC, vi.created_at ASC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Agrupa as imagens por veículo
+        $cars = [];
+        foreach ($rows as $row) {
+            $id = $row['id'];
+
+            if (!isset($cars[$id])) {
+                $cars[$id] = new Car($row);
+                $cars[$id]->imagens = [];
+            }
+
+            if (!empty($row['url_imagem'])) {
+                $cars[$id]->imagens[] = $row['url_imagem'];
+            }
+        }
+
+        // Define a primeira imagem como foto principal
+        foreach ($cars as $car) {
+            $car->foto = $car->imagens[0] ?? null;
+        }
+
+        return array_values($cars); // resetar chaves numéricas
+    }
+
+    public function findById(int $id): ?Car
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM veiculos WHERE id = :id LIMIT 1");
+        $stmt->execute(['id' => $id]);
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $data ? new Car($data) : null;
+    }
+
+    public function getByIdWithImages(int $id): ?Car
+    {
+        $sql = "SELECT 
+                v.*, 
+                vi.url_imagem,
+                c.nome AS categoria_nome,
+                m.nome AS marca_nome
+            FROM veiculos v
+            LEFT JOIN veiculo_imagens vi 
+                ON vi.id_veiculo = v.id
+            LEFT JOIN categorias c 
+                ON c.id = v.id_categoria
+            LEFT JOIN marcas m 
+                ON m.id = v.id_marca
+            WHERE v.id = :id
+            ORDER BY vi.created_at ASC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($rows)) {
+            return null;
+        }
+
+        // Cria o veículo com a primeira linha
+        $car = new Car($rows[0]);
+
+        // adiciona propriedades extras
+        $car->categoria_nome = $rows[0]['categoria_nome'] ?? null;
+        $car->marca_nome     = $rows[0]['marca_nome'] ?? null;
+
+        $car->imagens = [];
+
+        foreach ($rows as $row) {
+            if (!empty($row['url_imagem'])) {
+                $car->imagens[] = $row['url_imagem'];
+            }
+        }
+
+        return $car;
+    }
+
+    public function create(Car $car): int
+    {
+        $sql = "INSERT INTO veiculos (
+                id_marca, id_categoria, modelo, ano, cor, 
+                preco, quilometragem, combustivel, transmissao, 
+                status, descricao, destaque, updated_at, created_at
+            ) VALUES (
+                :id_marca, :id_categoria, :modelo, :ano, :cor, 
+                :preco, :quilometragem, :combustivel, :transmissao, 
+                :status, :descricao, :destaque, :updated_at, :created_at
+            )";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $success = $stmt->execute([
+            'id_marca'      => $car->id_marca,
+            'id_categoria'  => $car->id_categoria,
+            'modelo'        => $car->modelo,
+            'ano'           => $car->ano,
+            'cor'           => $car->cor,
+            'preco'         => $car->preco,
+            'quilometragem' => $car->quilometragem,
+            'combustivel'   => $car->combustivel,
+            'transmissao'   => $car->transmissao,
+            'status'        => $car->status,
+            'descricao'     => $car->descricao,
+            'destaque'      => $car->destaque,
+            // Se o banco não gerar o timestamp sozinho, enviamos agora:
+            'created_at'    => $car->created_at ?? date('Y-m-d'),
+            'updated_at'    => $car->updated_at ?? date('Y-m-d H:i:s')
+        ]);
+
+        if ($success)
+            return (int) $this->conn->lastInsertId(); // retorna o id do carro inserido
+        return 0;
+    }
+
+    public function saveImage($carId, $fileName)
+    {
+        $sql = "INSERT INTO veiculo_imagens (id_veiculo, url_imagem, created_at)
+            VALUES (:id_veiculo, :url_imagem, NOW())";
+
+        $stmt = $this->conn->prepare($sql);
+
+        return $stmt->execute([
+            'id_veiculo' => $carId,
+            'url_imagem' => $fileName
+        ]);
+    }
+
+    public function getImages(int $carId): array
+    {
+        $sql = "SELECT url_imagem 
+            FROM veiculo_imagens 
+            WHERE id_veiculo = :id_veiculo
+            ORDER BY created_at ASC"; // mantém a ordem de upload
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['id_veiculo' => $carId]);
+
+        return $stmt->fetchAll(PDO::FETCH_COLUMN); // retorna array simples de nomes de arquivos
+    }
+
+    public function getMainImage(int $carId): ?string
+    {
+        $sql = "SELECT url_imagem 
+            FROM veiculo_imagens 
+            WHERE id_veiculo = :id_veiculo 
+            ORDER BY created_at ASC 
+            LIMIT 1"; // pega a primeira imagem cadastrada
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['id_veiculo' => $carId]);
+
+        $image = $stmt->fetchColumn();
+
+        return $image ?: null;
+    }
+
+    public function update(Car $car): bool
+    {
+        $sql = "UPDATE veiculos SET 
+                id_marca = :id_marca, 
+                id_categoria = :id_categoria, 
+                modelo = :modelo, 
+                ano = :ano, 
+                cor = :cor, 
+                preco = :preco, 
+                quilometragem = :quilometragem, 
+                combustivel = :combustivel, 
+                transmissao = :transmissao, 
+                status = :status, 
+                descricao = :descricao,
+                destaque = :destaque,
+                updated_at = :updated_at
+            WHERE id = :id";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->execute([
+            'id_marca'      => (int) $car->id_marca,
+            'id_categoria'  => (int) $car->id_categoria,
+            'modelo'        => $car->modelo,
+            'ano'           => (int) $car->ano,
+            'cor'           => $car->cor,
+            'preco'         => (float) $car->preco,
+            'quilometragem' => (int) $car->quilometragem,
+            'combustivel'   => $car->combustivel,
+            'transmissao'   => $car->transmissao,
+            'status'        => $car->status,
+            'descricao'     => $car->descricao,
+            'destaque'      => $car->destaque,
+            'updated_at'    => date('Y-m-d H:i:s'),
+            'id'            => (int) $car->id
+        ]);
+
+        return $stmt->rowCount() > 0;
+    }
+
+    public function getTheNumberOfVehicles(): int
+    {
+        $stmt = $this->conn->query("SELECT COUNT(*) FROM veiculos");
+        return (int) $stmt->fetchColumn();
+    }
+
+    public function getInventoryReport(): array
+    {
+        $sql = "SELECT 
+                v.id,
+                m.nome AS marca,
+                v.modelo,
+                v.ano,
+                v.preco,
+                v.status
+            FROM veiculos v
+            LEFT JOIN marcas m ON m.id = v.id_marca
+            ORDER BY v.id DESC
+            LIMIT 10000";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getCarroEmDestaque(): ?Car
+    {
+        $sql = "SELECT v.*, vi.url_imagem, c.nome AS categoria_nome, m.nome AS marca_nome
+                FROM veiculos v
+                LEFT JOIN veiculo_imagens vi ON vi.id_veiculo = v.id
+                LEFT JOIN categorias c ON c.id = v.id_categoria
+                LEFT JOIN marcas m ON m.id = v.id_marca
+                WHERE v.destaque = 1 AND v.status = 'Disponível'
+                ORDER BY v.updated_at DESC, vi.created_at ASC
+                LIMIT 1";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) {
+            return null;
+        }
+
+        $car = new Car($row);
+        $car->categoria_nome = $row['categoria_nome'] ?? null;
+        $car->marca_nome     = $row['marca_nome'] ?? null;
+        $car->foto           = $row['url_imagem'] ?? null;
+
+        return $car;
+    }
+
+    public function getFeaturedCars(int $limit = 3): array
+    {
+        $sql = "SELECT v.*, vi.url_imagem, c.nome AS categoria_nome, m.nome AS marca_nome
+                FROM veiculos v
+                LEFT JOIN veiculo_imagens vi ON vi.id_veiculo = v.id
+                LEFT JOIN categorias c ON c.id = v.id_categoria
+                LEFT JOIN marcas m ON m.id = v.id_marca
+                WHERE v.status = 'Disponível'
+                ORDER BY v.destaque DESC, v.created_at DESC, vi.created_at ASC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $veiculos = [];
+        foreach ($rows as $row) {
+            $id = $row['id'];
+            if (!isset($veiculos[$id])) {
+                $car = new Car($row);
+                $car->categoria_nome = $row['categoria_nome'] ?? null;
+                $car->marca_nome     = $row['marca_nome'] ?? null;
+                $car->foto           = $row['url_imagem'] ?? null;
+                $veiculos[$id] = $car;
+            }
+            if (count($veiculos) >= $limit) break;
+        }
+
+        return array_values($veiculos);
+    }
+
+
+    public function delete(int $id): bool
+    {
+        $stmt = $this->conn->prepare("UPDATE veiculos SET status = 'Indisponível' WHERE id = :id");
+        return $stmt->execute(['id' => $id]);
+    }
+
+    public function buscarVeiculos(?string $modelo, ?string $status, ?int $idMarca, ?float $precoMaximo = null, ?string $combustivel = null, ?string $transmissao = null, ?string $order = null): array
+    {
+        $sql = "SELECT 
+                v.*, 
+                vi.url_imagem,
+                c.nome AS categoria_nome,
+                m.nome AS marca_nome
+            FROM veiculos v
+            LEFT JOIN veiculo_imagens vi 
+                ON vi.id_veiculo = v.id
+            LEFT JOIN categorias c 
+                ON c.id = v.id_categoria
+            LEFT JOIN marcas m 
+                ON m.id = v.id_marca
+            WHERE 1=1";
+
+        $params = [];
+
+        if (!empty($modelo)) {
+            $sql .= " AND v.modelo LIKE :modelo";
+            $params[':modelo'] = '%' . $modelo . '%';
+        }
+
+        if (!empty($status)) {
+            $sql .= " AND v.status = :status";
+            $params[':status'] = $status;
+        }
+
+        if (!empty($idMarca)) {
+            $sql .= " AND v.id_marca = :marca";
+            $params[':marca'] = $idMarca;
+        }
+
+        if (!empty($precoMaximo) || $precoMaximo === 0.0) {
+            $sql .= " AND v.preco <= :preco_maximo";
+            $params[':preco_maximo'] = $precoMaximo;
+        }
+
+        if (!empty($combustivel)) {
+            $sql .= " AND v.combustivel = :combustivel";
+            $params[':combustivel'] = $combustivel;
+        }
+
+        if (!empty($transmissao)) {
+            $sql .= " AND v.transmissao = :transmissao";
+            $params[':transmissao'] = $transmissao;
+        }
+
+        switch ($order) {
+            case 'price-asc':
+                $sql .= " ORDER BY v.preco ASC, vi.created_at ASC";
+                break;
+            case 'price-desc':
+                $sql .= " ORDER BY v.preco DESC, vi.created_at ASC";
+                break;
+            case 'mileage-asc':
+                $sql .= " ORDER BY v.quilometragem ASC, vi.created_at ASC";
+                break;
+            case 'year-desc':
+                $sql .= " ORDER BY v.ano DESC, vi.created_at ASC";
+                break;
+            case 'newest':
+            default:
+                $sql .= " ORDER BY v.created_at DESC, vi.created_at ASC";
+                break;
+        }
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($params);
+
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($rows)) {
+            return [];
+        }
+
+        $veiculos = [];
+
+        foreach ($rows as $row) {
+            $id = $row['id'];
+
+            if (!isset($veiculos[$id])) {
+                $car = new Car($row);
+
+                $car->categoria_nome = $row['categoria_nome'] ?? null;
+                $car->marca_nome     = $row['marca_nome'] ?? null;
+                $car->imagens        = [];
+                $car->foto           = null;
+
+                $veiculos[$id] = $car;
+            }
+
+            if (!empty($row['url_imagem'])) {
+                $veiculos[$id]->imagens[] = $row['url_imagem'];
+            }
+        }
+
+        foreach ($veiculos as $car) {
+            $car->foto = $car->imagens[0] ?? null;
+        }
+
+        return array_values($veiculos);
+    }
+}

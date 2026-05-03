@@ -1,0 +1,86 @@
+<header class="top-bar">
+    <div class="d-flex align-items-center justify-content-between w-100">
+        <div class="d-flex align-items-center gap-3">
+            <button class="btn btn-sm btn-outline-secondary d-lg-none" id="mobileToggle">
+                <i class="bi bi-list"></i>
+            </button>
+            <div>
+                <h5 class="mb-0">{{ pageTitle ?? title|default('Painel')|split(' - ') | first }}</h5>
+                {% if pageSubtitle is defined and pageSubtitle %}
+                    <small class="text-muted">{{ pageSubtitle }}</small>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-3">
+            <div class="dropdown">
+                <button class="btn btn-sm position-relative" id="notificationsBtn" data-bs-toggle="dropdown">
+                    <i class="bi bi-bell"></i>
+                    {% if notificationsCount > 0 %}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{ notificationsCount }}</span>
+                    {% endif %}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end notifications-dropdown" id="notificationsDropdown">
+                    <li class="dropdown-header">
+                        Notificações ({{ notificationsCount }})
+                        <button class="btn btn-sm float-end" onclick="clearNotifications()">
+                            <i class="bi bi-x"></i>
+                        </button>
+                    </li>
+                    {% if notifications is empty %}
+                        <li class="dropdown-item text-center text-muted py-3">Sem notificações</li>
+                    {% else %}
+                        {% for item in notifications %}
+                            <li>
+                                <a class="dropdown-item" href="{{ item.url }}">
+                                    <div class="notification-item">
+                                        <i class="{{ item.icon }} text-{{ item.badge }}"></i>
+                                        <div>
+                                            <strong>{{ item.title }}</strong>
+                                            <p>{{ item.message }}</p>
+                                            <small class="text-muted">{{ item.timeAgo }}</small>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                    <li>
+                        <hr class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item text-center small" href="/admin/notificacoes">Ver todas as notificações</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="dropdown">
+                <button class="btn btn-sm d-flex align-items-center gap-2" id="userBtn" data-bs-toggle="dropdown">
+                    <img src="{{ userAvatar }}" class="rounded-circle" alt="User">
+                    <span class="d-none d-sm-inline">{{ userName }}</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item" href="/admin/perfil">
+                            <i class="bi bi-person"></i> Meu Perfil
+                        </a>
+                    </li>
+                    {% if isAdmin %}
+                    <li>
+                        <a class="dropdown-item" href="/admin/configuracoes">
+                            <i class="bi bi-gear"></i> Configurações
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li>
+                        <hr class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item" href="/admin/logout" onclick="logout()">
+                            <i class="bi bi-box-arrow-right"></i> Sair
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+            

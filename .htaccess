@@ -1,0 +1,8 @@
+# Bloqueia acesso direto à raiz do projeto
+# O único ponto de entrada é public/
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^ public/index.php [QSA,L]
+</IfModule>

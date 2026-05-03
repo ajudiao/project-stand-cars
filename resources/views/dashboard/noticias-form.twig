@@ -1,0 +1,178 @@
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+<!-- Main Content -->
+<div class="main-content">
+    <!-- Page Content -->
+    <main class="page-content">
+        <div class="container-fluid">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url('/admin/noticias') }}">Notícias</a></li>
+                    <li class="breadcrumb-item active">{% if noticia %}Editar{% else %}Nova{% endif %}</li>
+                </ol>
+            </nav>
+
+            <!-- Page Header -->
+            <h1 class="h3 mb-4">{% if noticia %}Editar Notícia{% else %}Nova Notícia{% endif %}</h1>
+
+            <!-- Alert Messages -->
+            {% include 'components/alert.twig' %}
+
+            <form method="POST" action="{% if noticia %}{{ url('/admin/noticias/' ~ noticia.id ~ '/update') }}{% else %}{{ url('/admin/noticias/store') }}{% endif %}" enctype="multipart/form-data" id="noticiaForm">
+                <div class="row">
+                    <!-- Main Content -->
+                    <div class="col-lg-8">
+                        <!-- Título -->
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="titulo" class="form-label fw-bold">Título *</label>
+                                    <input type="text" class="form-control form-control-lg" id="titulo" name="titulo" value="{{ noticia.titulo ?? '' }}" placeholder="Digite o título da notícia" required>
+                                    <small class="text-muted">Máximo de 200 caracteres</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Resumo -->
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="resumo" class="form-label fw-bold">Resumo</label>
+                                    <textarea class="form-control" id="resumo" name="resumo" rows="3" placeholder="Digite um resumo breve da notícia (será preenchido automaticamente se deixar vazio)" maxlength="500">{{ noticia.resumo ?? '' }}</textarea>
+                                    <small class="text-muted">Máximo de 500 caracteres</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Conteúdo -->
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="conteudo" class="form-label fw-bold">Conteúdo *</label>
+                                    <textarea class="form-control" id="conteudo" name="conteudo" rows="10" placeholder="Digite o conteúdo completo da notícia" required>{{ noticia.conteudo ?? '' }}</textarea>
+                                    <small class="text-muted">Suporta HTML e markdown</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="col-lg-4">
+                        <!-- Status & Publication -->
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h6 class="mb-0">Publicação</h6>
+                            </div>
+                            <div class="card-body">
+                                <!-- Status -->
+                                <div class="mb-3">
+                                    <label for="status" class="form-label fw-bold">Status</label>
+                                    <select class="form-select" id="status" name="status">
+                                        <option value="rascunho" {% if noticia and noticia.status == 'rascunho' %}selected{% endif %}>Rascunho</option>
+                                        <option value="publicado" {% if noticia and noticia.status == 'publicado' %}selected{% endif %}>Publicado</option>
+                                        <option value="arquivado" {% if noticia and noticia.status == 'arquivado' %}selected{% endif %}>Arquivado</option>
+                                    </select>
+                                </div>
+
+                                <!-- Data de Publicação -->
+                                <div class="mb-3">
+                                    <label for="data_publicacao" class="form-label fw-bold">Data de Publicação</label>
+                                    <input type="datetime-local" class="form-control" id="data_publicacao" name="data_publicacao" value="{% if noticia and noticia.data_publicacao %}{{ noticia.data_publicacao|date('Y-m-d\\TH:i') }}{% else %}{{ 'now'|date('Y-m-d\\T14:00') }}{% endif %}">
+                                    <small class="text-muted">Data e hora de publicação</small>
+                                </div>
+
+                                <!-- Autor -->
+                                <div class="mb-0">
+                                    <label class="form-label fw-bold">Autor</label>
+                                    <p class="text-muted mb-0">
+                                        {{ noticia.autor_nome ?? userName ?? 'Admin' }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Imagem de Capa -->
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h6 class="mb-0">Imagem de Capa</h6>
+                            </div>
+                            <div class="card-body">
+                                <div id="imagemCapaPreview" class="mb-3" style="{% if not noticia or not noticia.imagem_capa %}display: none;{% endif %}">
+                                    {% if noticia and noticia.imagem_capa %}
+                                        <img src="{{ noticia.imagem_capa }}" alt="Capa" class="img-fluid rounded mb-2" style="max-height: 200px; object-fit: cover; width: 100%;">
+                                    {% endif %}
+                                    <input type="hidden" id="imagem_capa" name="imagem_capa" value="{{ noticia.imagem_capa ?? '' }}">
+                                </div>
+
+                                <div class="mb-2">
+                                    <label for="imagemCapaInput" class="form-label">Selecionar Imagem</label>
+                                    <input type="file" class="form-control" id="imagemCapaInput" name="imagem_capa_file" accept="image/*">
+                                    <small class="text-muted">JPG, PNG, WEBP (máx. 2MB)</small>
+                                </div>
+
+                                <button type="button" class="btn btn-sm btn-outline-secondary w-100" id="removerImagem" {% if not noticia or not noticia.imagem_capa %}disabled{% endif %}>
+                                    <i class="bi bi-trash"></i> Remover Imagem
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="">
+                            <a href="{{ url('/admin/noticias') }}" class="btn btn-outline-secondary w-100 mb-2">
+                                <i class="bi bi-arrow-left"></i> Voltar
+                            </a>
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-check-circle"></i> {% if noticia %}Atualizar{% else %}Criar{% endif %} Notícia
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+<!-- Script para Upload de Imagem -->
+<script>
+    const imagemCapaInput = document.getElementById('imagemCapaInput');
+    const imagemCapaField = document.getElementById('imagem_capa');
+    const imagemCapaPreview = document.getElementById('imagemCapaPreview');
+    const removerImagemBtn = document.getElementById('removerImagem');
+
+    imagemCapaInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const preview = imagemCapaPreview.querySelector('img') || document.createElement('img');
+                preview.src = event.target.result;
+                preview.className = 'img-fluid rounded mb-2';
+                preview.style.maxHeight = '200px';
+                preview.style.objectFit = 'cover';
+                preview.style.width = '100%';
+                
+                if (!imagemCapaPreview.querySelector('img')) {
+                    imagemCapaPreview.insertBefore(preview, imagemCapaPreview.firstChild);
+                }
+                
+                imagemCapaPreview.style.display = 'block';
+                removerImagemBtn.disabled = false;
+                imagemCapaField.value = '';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    removerImagemBtn.addEventListener('click', function() {
+        imagemCapaField.value = '';
+        imagemCapaInput.value = '';
+        imagemCapaPreview.style.display = 'none';
+        removerImagemBtn.disabled = true;
+        const img = imagemCapaPreview.querySelector('img');
+        if (img) img.remove();
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% set flash = flashMessage %}
+
+{% if flash %}
+    <div class="alert {% if flash.type == 'success' %}alert-success{% elseif flash.type == 'error' %}alert-danger{% elseif flash.type == 'warning' %}alert-warning{% else %}alert-info{% endif %} alert-dismissible fade show" role="alert">
+        {% if flash.type == 'success' %}
+            <i class="bi bi-check-circle-fill"></i>
+        {% elseif flash.type == 'error' %}
+            <i class="bi bi-exclamation-triangle-fill"></i>
+        {% elseif flash.type == 'warning' %}
+            <i class="bi bi-exclamation-triangle-fill"></i>
+        {% else %}
+            <i class="bi bi-info-circle-fill"></i>
+        {% endif %}
+        <strong>
+            {% if flash.type == 'success' %}
+                Sucesso!
+            {% elseif flash.type == 'error' %}
+                Erro!
+            {% elseif flash.type == 'warning' %}
+                Aviso!
+            {% else %}
+                Informação
+            {% endif %}
+        </strong> {{ flash.message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endif %}

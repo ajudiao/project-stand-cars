@@ -1,0 +1,338 @@
+{% extends "layouts/admin.twig" %}
+{% block content %}
+
+    <!-- Main Content -->
+    <div class="main-content">            <!-- Page Content -->
+            <main class="page-content">
+                <div class="container-fluid">
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb" class="mb-4">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="/admin/">
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="/admin/clientes">
+                                    Clientes
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                Detalhes
+                            </li>
+                        </ol>
+                    </nav>
+
+                    <!-- Back Button -->
+                    <div class="mb-3">
+                        <a href="/admin/clientes/" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i>
+                            Voltar
+                        </a>
+                    </div>
+
+                    <!-- Client Details -->
+                    <div class="row">
+                        <!-- Main Information -->
+                        <div class="col-lg-8 mb-4">
+                            <!-- Personal Information -->
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0">
+                                        Informações Pessoais
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">
+                                                Nome
+                                            </label>
+                                            <p>
+                                                {{ cliente.nome_completo }}
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">
+                                                Identidade
+                                            </label>
+                                            <p>
+                                                c
+                                                {{ cliente.identidade }}
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">
+                                                Email
+                                            </label>
+                                            <p>
+                                                <a href="mailto:carlos@email.com">
+                                                    {{ cliente.email }}
+                                                </a>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">
+                                                Telefone
+                                            </label>
+                                            <p>
+                                                <a href="tel:(21)98765-4321">
+                                                    {{ cliente.telefone }}
+                                                </a>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">
+                                                Data de Cadastro
+                                            </label>
+                                            <p>
+                                                {{ cliente.created_at }}
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Address Information -->
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0">
+                                        Endereço
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">
+                                                Cidade
+                                            </label>
+                                            <p>
+                                                {{ cliente.cidade }}
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">
+                                                Município
+                                            </label>
+                                            <p>
+                                                {{ cliente.municipio }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Purchase History -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">
+                                        Histórico de Compras
+                                    </h6>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Automóvel
+                                                </th>
+                                                <th>
+                                                    Data
+                                                </th>
+                                                <th>
+                                                    Valor
+                                                </th>
+                                                <th>
+                                                    Pagamento
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for compra in historico %}
+                                                <tr>
+                                                    <td>
+                                                        <strong>
+                                                            {{ compra.marca }}
+                                                            {{ compra.carro }}
+                                                            {{ compra.ano }}
+                                                        </strong>
+                                                        <br>
+                                                            <small class="text-muted">
+                                                                {{ compra.pagamento }}
+                                                            </small>
+                                                        </td>
+                                                        <td>
+                                                            {{ compra.data_compra|date("d/m/Y") }}
+                                                        </td>
+                                                        <td>
+                                                            {{ compra.preco_compra|number_format(2, ',', '.') }}
+                                                        </td>
+                                                        <td>
+                                                            {% if compra.pagamento in ['Cartão', 'Transferência', 'Dinheiro'] %}
+                                                                <span class="badge bg-success">
+                                                                    Concluída
+                                                                </span>
+                                                            {% else %}
+                                                                <span class="badge bg-warning">
+                                                                    Pendente
+                                                                </span>
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                {% else %}
+                                                    <tr>
+                                                        <td colspan="4" class="text-center">
+                                                            Nenhuma compra encontrada
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sidebar -->
+                            <div class="col-lg-4">
+                                <!-- Contact Card -->
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h6 class="card-title mb-3">
+                                            Contato Rápido
+                                        </h6>
+                                        <div class="d-grid gap-2">
+                                            <a href="tel:(244){{ cliente.telefone }}" class="btn btn-outline-primary btn-sm">
+                                                <i class="bi bi-telephone"></i>
+                                                Ligar
+                                            </a>
+                                            <a href="https://wa.me/5521987654321" class="btn btn-outline-success btn-sm">
+                                                <i class="bi bi-whatsapp"></i>
+                                                WhatsApp
+                                            </a>
+                                            <a href="mailto:carlos@email.com" class="btn btn-outline-danger btn-sm">
+                                                <i class="bi bi-envelope"></i>
+                                                Email
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Statistics Card -->
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h6 class="card-title mb-3">
+                                            Estatísticas
+                                        </h6>
+                                        <div class="mb-3">
+                                            <label class="fw-bold d-block mb-2">
+                                                Total de Compras
+                                            </label>
+                                            <h4>
+                                                {% if totalVeiculos %}
+                                                    {{ totalVeiculos }}
+                                                {% else %}
+                                                    0
+                                                {% endif %}
+                                            </h4>
+                                        </div>
+                                        <div>
+                                            <label class="fw-bold d-block mb-2">
+                                                Total Gasto
+                                            </label>
+                                            <h4>
+                                                {{ totalGasto | number_format(2, ',', '.') }}
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="row mt-4 mb-4">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="btn-group w-100 flex-wrap" role="group">
+                                            <a href="clientes.html" class="btn btn-outline-secondary">
+                                                <i class="bi bi-arrow-left"></i>
+                                                Voltar à Lista
+                                            </a>
+                                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editClientModal">
+                                                <i class="bi bi-pencil"></i>
+                                                Editar Cliente
+                                            </button>
+                                            <button class="btn btn-outline-danger" onclick="deleteClient(1)">
+                                                <i class="bi bi-trash"></i>
+                                                Deletar Cliente
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <!-- Edit Client Modal -->
+            <div class="modal fade" id="editClientModal" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                Editar Cliente
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="editClientForm" method="POST" action="/admin/clientes/update/{{ cliente.id }}">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">
+                                            Nome
+                                        </label>
+                                        <input type="text" class="form-control" name="nome_completo" value="{{ cliente.nome_completo }}"></div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                Identidade
+                                            </label>
+                                            <input type="text" class="form-control" name="identidade" value="{{ cliente.identidade }}"></div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">
+                                                    Email
+                                                </label>
+                                                <input type="email" class="form-control" name="email" value="{{ cliente.email }}"></div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">
+                                                        Telefone
+                                                    </label>
+                                                    <input type="tel" class="form-control" name="telefone" value="{{ cliente.telefone }}"></div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <label class="form-label">
+                                                            Cidade
+                                                        </label>
+                                                        <input type="text" class="form-control" name="cidade" value="{{ cliente.cidade }}"></div>
+                                                        <div class="col-md-6 mb-3">
+                                                            <label class="form-label">
+                                                                Município
+                                                            </label>
+                                                            <input type="text" class="form-control" name="municipio" value="{{ cliente.municipio }}"></div>
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                                    Cancelar
+                                                                </button>
+                                                                <button type="submit" class="btn btn-primary">
+                                                                    Salvar Alterações
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endblock %}
+                                

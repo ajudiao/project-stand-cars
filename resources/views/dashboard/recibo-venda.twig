@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Recibo de Venda #{{ venda.id }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #222;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .document {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 24px;
+            border: 1px solid #d8d8d8;
+        }
+
+        .header,
+        .footer {
+            text-align: center;
+        }
+
+        .brand-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+            text-align: left;
+        }
+
+        .brand-logo img {
+            max-width: 180px;
+            height: auto;
+            display: block;
+        }
+
+        .brand-info h1 {
+            margin: 0;
+            font-size: 26px;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-info p {
+            margin: 4px 0;
+            color: #555;
+        }
+
+        .company-contact {
+            border: 1px solid #e2e2e2;
+            padding: 14px;
+            margin-bottom: 18px;
+            background-color: #f9f9f9;
+            text-align: left;
+        }
+
+        .company-contact p {
+            margin: 2px 0;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .meta {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 24px 0;
+        }
+
+        .box {
+            border: 1px solid #e2e2e2;
+            padding: 14px;
+            flex: 1 1 45%;
+            min-width: 240px;
+        }
+
+        .box h2 {
+            margin: 0 0 10px;
+            font-size: 16px;
+        }
+
+        .box p {
+            margin: 4px 0;
+            line-height: 1.5;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th,
+        table td {
+            padding: 12px 10px;
+            border: 1px solid #d8d8d8;
+            text-align: left;
+        }
+
+        table th {
+            background: #f7f7f7;
+        }
+
+        .total-row td {
+            font-weight: bold;
+            background: #f1f9f2;
+        }
+
+        .footer {
+            margin-top: 28px;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .thank-you {
+            margin-top: 16px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="document">
+        <div class="header brand-header">
+            <div class="brand-logo">
+                {% if company.logo %}
+                    <img src="{{ company.logo }}" alt="{{ company.name }}" />
+                {% else %}
+                    <h2>{{ company.name }}</h2>
+                {% endif %}
+            </div>
+            <div class="brand-info">
+                <h1>Recibo de Pagamento</h1>
+                <p>Recibo #{{ venda.id }}</p>
+                <p class="small">Emitido em: {{ venda.emitido_em }}</p>
+            </div>
+        </div>
+
+        <div class="company-contact">
+            <p><strong>{{ company.name }}</strong></p>
+            <p>{{ company.address }}</p>
+            <p>Tel: {{ company.phone }} | Email: {{ company.email }}</p>
+        </div>
+
+        <div class="meta">
+            <div class="box">
+                <h2>Cliente</h2>
+                <p><strong>Nome:</strong> {{ venda.cliente }}</p>
+                <p><strong>Email:</strong> {{ venda.email }}</p>
+                <p><strong>Telefone:</strong> {{ venda.telefone }}</p>
+                <p><strong>Identidade:</strong> {{ venda.identidade }}</p>
+            </div>
+
+            <div class="box">
+                <h2>Venda</h2>
+                <p><strong>Data:</strong> {{ venda.data_venda | date('d/m/Y H:i') }}</p>
+                <p><strong>Status:</strong> {{ venda.status }}</p>
+                <p><strong>Forma de pagamento:</strong> {{ venda.pagamento }}</p>
+                <p><strong>Atendente:</strong> {{ seller.nome }}</p>
+                <p><strong>Contato:</strong> {{ seller.telefone }} | {{ seller.email }}</p>
+            </div>
+        </div>
+
+        <div class="box">
+            <h2>Veículo</h2>
+            <p><strong>Marca / Modelo:</strong> {{ venda.marca }} {{ venda.modelo }}</p>
+            <p><strong>Cor:</strong> {{ venda.cor }}</p>
+            <p><strong>Quilometragem:</strong> {{ venda.quilometragem }}</p>
+            <p><strong>Transmissão:</strong> {{ venda.transmissao }}</p>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Descrição</th>
+                    <th>Valor (R$)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Valor do automóvel</td>
+                    <td>{{ venda.valor_veiculo | number_format(2, ',', '.') }}</td>
+                </tr>
+                <tr>
+                    <td>Desconto ({{ venda.desconto }}%)</td>
+                    <td>{{ venda.valor_desconto | number_format(2, ',', '.') }}</td>
+                </tr>
+                <tr>
+                    <td>Taxas e emolumentos</td>
+                    <td>{{ venda.taxas | number_format(2, ',', '.') }}</td>
+                </tr>
+                <tr class="total-row">
+                    <td>Total pago</td>
+                    <td>{{ venda.valor_total | number_format(2, ',', '.') }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="footer">
+            <p class="thank-you">Obrigado por confiar na nossa concessionária. Este recibo serve como comprovante de pagamento e venda do veículo descrito acima.</p>
+            <p>Documento gerado automaticamente pelo sistema Stand Cars.</p>
+        </div>
+    </div>
+</body>
+</html>

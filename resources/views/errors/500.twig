@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 - Erro no Servidor | Saeld Auto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes pulse-warning {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .car-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .pulse-warning {
+            animation: pulse-warning 2s ease-in-out infinite;
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .error-500 {
+            font-size: 15rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -5px;
+            line-height: 0.9;
+        }
+
+        @keyframes smoke {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scaleX(0.5);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-50px) scaleX(1);
+            }
+        }
+
+        .smoke {
+            animation: smoke 3s ease-out infinite;
+        }
+
+        .smoke:nth-child(1) { animation-delay: 0s; }
+        .smoke:nth-child(2) { animation-delay: 1s; }
+        .smoke:nth-child(3) { animation-delay: 2s; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-red-900 to-slate-900 text-white overflow-hidden">
+    <!-- Background elements -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden">
+        <!-- Smoke effect -->
+        <div class="absolute left-1/2 top-1/3 transform -translate-x-1/2">
+            <div class="smoke w-32 h-32 bg-red-500 rounded-full blur-3xl opacity-40"></div>
+            <div class="smoke w-32 h-32 bg-red-500 rounded-full blur-3xl opacity-30"></div>
+            <div class="smoke w-32 h-32 bg-red-500 rounded-full blur-3xl opacity-20"></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="relative z-10 min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8">
+        <!-- Error Container -->
+        <div class="text-center max-w-2xl mx-auto">
+            <!-- Animated 500 -->
+            <div class="mb-8 car-float">
+                <div class="error-500 mb-2">500</div>
+            </div>
+
+            <!-- Icon -->
+            <div class="mb-8 flex justify-center">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-red-500 rounded-full blur-lg opacity-30"></div>
+                    <div class="relative bg-gradient-to-br from-red-500 to-orange-600 p-6 rounded-full pulse-warning">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4v2m0 0v2M12 3a9 9 0 110 18 9 9 0 010-18zm0 16a7 7 0 110-14 7 7 0 010 14z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Message -->
+            <h1 class="text-4xl sm:text-5xl font-bold mb-4 text-white">
+                Oops! Algo Deu Errado
+            </h1>
+
+            <p class="text-lg sm:text-xl text-slate-300 mb-8 leading-relaxed">
+                Estamos tendo problemas técnicos no servidor no momento.
+                <span class="block mt-2 text-sm text-slate-400">Nosso time foi notificado e estamos trabalhando para resolver o problema o mais rápido possível.</span>
+            </p>
+
+            <!-- Error Details Box -->
+            <div class="glass-effect p-6 rounded-lg mb-8 text-left">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+                    <h3 class="text-red-300 font-semibold">Erro no Servidor (500)</h3>
+                </div>
+                <p class="text-slate-300 text-sm font-mono break-words">
+                    {% if message %}
+                        {{ message }}
+                    {% else %}
+                        Internal Server Error - Por favor, tente novamente mais tarde.
+                    {% endif %}
+                </p>
+            </div>
+
+            <!-- What You Can Do -->
+            <div class="mb-8">
+                <h3 class="text-slate-400 text-sm font-semibold mb-4 uppercase tracking-wider">O que você pode fazer:</h3>
+                <div class="grid sm:grid-cols-3 gap-4 text-sm text-slate-300">
+                    <div class="glass-effect p-4 rounded-lg">
+                        <span class="block text-blue-400 font-semibold mb-2">🔄 Recarregar</span>
+                        <p>Tente atualizar a página</p>
+                    </div>
+                    <div class="glass-effect p-4 rounded-lg">
+                        <span class="block text-blue-400 font-semibold mb-2">🏠 Voltar</span>
+                        <p>Retorne à página inicial</p>
+                    </div>
+                    <div class="glass-effect p-4 rounded-lg">
+                        <span class="block text-blue-400 font-semibold mb-2">📞 Contate-nos</span>
+                        <p>Se o problema persistir</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Info -->
+            <div class="mt-12 pt-8 border-t border-white/10">
+                <p class="text-sm text-slate-400 mb-4">
+                    Código do Erro: <span class="font-mono text-red-400">500_ISE</span>
+                </p>
+                <a href="/contato" class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m0 0v10a2 2 0 01-2 2H5a2 2 0 01-2-2V8m0 0h18" />
+                    </svg>
+                    Nos Envie um Email
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-refresh check every 30 seconds (you could implement a better retry logic)
+        setTimeout(() => {
+            fetch(window.location.href, { method: 'HEAD' })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Server is back online');
+                        // Optionally reload after server recovery
+                    }
+                })
+                .catch(err => console.log('Still offline'));
+        }, 30000);
+    </script>
+</body>
+</html>

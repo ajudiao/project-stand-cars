@@ -1,0 +1,196 @@
+{% extends "layouts/main.twig" %}
+
+{% block content %}
+
+    <!-- Header -->
+    <section class="bg-gradient-to-br from-primary/10 via-background to-accent/5 px-4 pt-20 py-12">
+        <div class="container mx-auto text-center">
+            <h1 class="mb-4 text-4xl font-bold lg:text-5xl">
+                {{ settings.about_title ?? 'Sobre a Saeld Auto' }}
+            </h1>
+            <p class="text-lg text-muted-foreground">
+                Qualidade, segurança e confiabilidade no mercado automóvel desde 2017
+            </p>
+        </div>
+    </section>
+
+    <!-- Company Story -->
+    <section class="px-4 py-20">
+        <div class="container mx-auto">
+            <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
+                <div>
+                    <h2 class="mb-6 text-3xl font-bold lg:text-4xl">
+                        Nossa História
+                    </h2>
+                    <div class="space-y-4 text-lg leading-relaxed text-muted-foreground">
+                        <p>
+                            A <span class="font-bold">Saeld Auto</span> nasceu com um propósito claro: oferecer mais do que carros — oferecer confiança.
+                                
+                                Movidos pela paixão pelo setor automóvel, criámos uma stand focada em qualidade, transparência e compromisso com cada cliente. Sabemos que adquirir um veículo é uma decisão importante, e por isso trabalhamos diariamente para garantir uma experiência segura, simples e satisfatória.
+                                
+                                Na Saeld Auto, cada viatura é cuidadosamente selecionada, garantindo padrões elevados de qualidade e procedência. O nosso atendimento é baseado na honestidade e proximidade, ajudando cada cliente a encontrar a melhor solução para as suas necessidades.
+                                
+                            Ao longo do tempo, construímos relações sólidas e uma reputação baseada na confiança. Mais do que vender carros, ajudamos pessoas a dar o próximo passo nas suas vidas.
+                            <br><br>
+                            <span class="font-bold">Saeld Auto</span> — onde a confiança é o nosso maior valor.
+                        </p>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-muted shadow-2xl">
+                        <img src="{{ localImage }}" alt="Equipa Saeld Auto" class="h-full w-full object-cover"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Organizational Structure -->
+        <section class="bg-muted/30 px-4 py-20">
+            <div class="container mx-auto">
+                <div class="mb-12 text-center">
+                    <h2 class="mb-4 text-3xl font-bold lg:text-4xl">
+                        Estrutura Organizacional
+                    </h2>
+                    <p class="text-lg text-muted-foreground">
+                        Um modelo funcional focado na eficiência e transparência
+                    </p>
+                </div>
+                <div class="grid gap-8 md:grid-cols-3">
+                    <div class="rounded-2xl border border-border bg-card p-8">
+                        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                            <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="mb-4 text-xl font-bold">
+                            Comercial
+                        </h3>
+                        <p class="text-muted-foreground">
+                            Concentra-se na gestão de vendas e marketing, garantindo que nossos clientes encontrem as melhores opções de mobilidade.
+                        </p>
+                    </div>
+                    <div class="rounded-2xl border border-border bg-card p-8">
+                        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                            <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                        <h3 class="mb-4 text-xl font-bold">
+                            Administrativo e Financeiro
+                        </h3>
+                        <p class="text-muted-foreground">
+                            Coordena recursos, fluxo financeiro e processos internos, assegurando a transparência e solidez das negociações.
+                        </p>
+                    </div>
+                    <div class="rounded-2xl border border-border bg-card p-8">
+                        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                            <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="mb-4 text-xl font-bold">
+                            Operações
+                        </h3>
+                        <p class="text-muted-foreground">
+                            Supervisiona logística, suporte pós-venda e testes de automóveis, garantindo a qualidade e segurança de cada veículo.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission & Vision -->
+        <section class="px-4 py-20">
+            <div class="container mx-auto">
+                <div class="grid gap-8 md:grid-cols-2">
+                    <div class="rounded-2xl border border-border bg-card p-8">
+                        <h3 class="mb-4 text-2xl font-bold">
+                            Nossa Missão
+                        </h3>
+                        <p class="leading-relaxed text-muted-foreground">
+                            Oferecer automóveis que atendam às necessidades e expectativas de nossos clientes, aliando qualidade, segurança e confiabilidade em cada negociação.
+                        </p>
+                    </div>
+                    <div class="rounded-2xl border border-border bg-card p-8">
+                        <h3 class="mb-4 text-2xl font-bold">
+                            Nossa Visão
+                        </h3>
+                        <p class="leading-relaxed text-muted-foreground">
+                            Consolidar-se como a principal referência no mercado automóvel de Luanda, sendo reconhecida pelo compromisso com a satisfação do cliente e transparência.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Values -->
+        <section class="bg-muted/30 px-4 py-20">
+            <div class="container mx-auto">
+                <div class="mb-12 text-center">
+                    <h2 class="mb-4 text-3xl font-bold lg:text-4xl">
+                        Nossos Valores
+                    </h2>
+                    <p class="text-lg text-muted-foreground">
+                        Os princípios que guiam nossa atuação comercial
+                    </p>
+                </div>
+                <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+                    <div class="text-center">
+                        <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
+                            <svg class="h-8 w-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                        </div>
+                        <h3 class="mb-2 text-xl font-bold">
+                            Transparência
+                        </h3>
+                        <p class="text-sm text-muted-foreground">
+                            Negociações claras e honestas em todos os processos.
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
+                            <svg class="h-8 w-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="mb-2 text-xl font-bold">
+                            Qualidade
+                        </h3>
+                        <p class="text-sm text-muted-foreground">
+                            Compromisso com a excelência dos automóveis comercializados.
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
+                            <svg class="h-8 w-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                        </div>
+                        <h3 class="mb-2 text-xl font-bold">
+                            Segurança
+                        </h3>
+                        <p class="text-sm text-muted-foreground">
+                            Garantia de procedência e confiabilidade mecânica.
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
+                            <svg class="h-8 w-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <h3 class="mb-2 text-xl font-bold">
+                            Responsabilidade
+                        </h3>
+                        <p class="text-sm text-muted-foreground">
+                            Exercício ético e profissional de nossas atividades.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    {% endblock %}
+    

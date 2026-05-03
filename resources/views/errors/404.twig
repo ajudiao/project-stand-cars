@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Página Não Encontrada | Saeld Auto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <style>
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(-5deg);
+            }
+        }
+
+        @keyframes drift {
+            0% {
+                transform: translateX(-100%) opacity(0);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(110vw) opacity(0);
+            }
+        }
+
+        .car-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .car-drift {
+            animation: drift 8s linear infinite;
+            position: absolute;
+        }
+
+        .car-drift:nth-child(1) {
+            animation-delay: 0s;
+            top: 20%;
+        }
+
+        .car-drift:nth-child(2) {
+            animation-delay: 3s;
+            top: 50%;
+        }
+
+        .car-drift:nth-child(3) {
+            animation-delay: 6s;
+            top: 80%;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 30px rgba(29, 78, 216, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(29, 78, 216, 0);
+            }
+        }
+
+        .pulse-button {
+            animation: pulse-ring 2s infinite;
+        }
+
+        .glitch {
+            animation: glitch 0.3s ease-in-out;
+        }
+
+        @keyframes glitch {
+            0%, 100% {
+                transform: translate(0);
+            }
+            20% {
+                transform: translate(-2px, 2px);
+            }
+            40% {
+                transform: translate(-2px, -2px);
+            }
+            60% {
+                transform: translate(2px, 2px);
+            }
+            80% {
+                transform: translate(2px, -2px);
+            }
+        }
+
+        .error-404 {
+            font-size: 15rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -5px;
+            line-height: 0.9;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-slate-800 to-black text-white overflow-hidden">
+    <!-- Background cars -->
+    <div class="fixed inset-0 pointer-events-none">
+        <div class="car-drift opacity-10">
+            <svg class="w-32 h-32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.6-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9C1.1 11.7 1 12.1 1 12.5V16c0 .6.4 1 1 1h2m6-4v6m6 0v-6M9 6h6M9 10h6"></path>
+            </svg>
+        </div>
+        <div class="car-drift opacity-10">
+            <svg class="w-32 h-32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.6-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9C1.1 11.7 1 12.1 1 12.5V16c0 .6.4 1 1 1h2m6-4v6m6 0v-6M9 6h6M9 10h6"></path>
+            </svg>
+        </div>
+        <div class="car-drift opacity-10">
+            <svg class="w-32 h-32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.6-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9C1.1 11.7 1 12.1 1 12.5V16c0 .6.4 1 1 1h2m6-4v6m6 0v-6M9 6h6M9 10h6"></path>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="relative z-10 min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8">
+        <!-- Error Container -->
+        <div class="text-center max-w-2xl mx-auto">
+            <!-- Animated 404 -->
+            <div class="mb-8 car-float">
+                <div class="error-404 mb-2">404</div>
+            </div>
+
+            <!-- Icon -->
+            <div class="mb-8 flex justify-center">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-blue-500 rounded-full blur-lg opacity-30 animate-pulse"></div>
+                    <div class="relative bg-gradient-to-br from-blue-500 to-indigo-600 p-6 rounded-full">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Message -->
+            <h1 class="text-4xl sm:text-5xl font-bold mb-4 text-white">
+                Rota Perdida!
+            </h1>
+
+            <p class="text-lg sm:text-xl text-slate-300 mb-6 leading-relaxed">
+                Desculpe, não conseguimos encontrar a página que você está procurando. 
+                <span class="block mt-2">A página pode ter sido movida, deletada ou simplesmente não existe.</span>
+            </p>
+
+            <!-- Suggestions -->
+            <div class="mb-8 grid sm:grid-cols-2 gap-4 text-sm text-slate-400">
+                <div class="glass-effect p-4 rounded-lg">
+                    <span class="text-blue-400 font-semibold block mb-1">💡 Dica:</span>
+                    Verifique se a URL está correta
+                </div>
+                <div class="glass-effect p-4 rounded-lg">
+                    <span class="text-blue-400 font-semibold block mb-1">🔍 Outra opção:</span>
+                    Volte ao início e procure de novo
+                </div>
+            </div>
+
+            <!-- Footer Info -->
+            <div class="mt-12 pt-8 border-t border-white/10">
+                <p class="text-sm text-slate-400 mb-4">
+                    Precisa de ajuda? Entre em contato conosco
+                </p>
+                <a href="/contato" class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                    </svg>
+                    Fale Conosco
+                </a>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    <script>
+        // Easter egg: click on 404 to trigger animation
+        document.querySelector('.error-404').addEventListener('click', function(e) {
+            this.classList.add('glitch');
+            setTimeout(() => this.classList.remove('glitch'), 300);
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="/"]').forEach(a => {
+            a.addEventListener('click', function(e) {
+                if (this.getAttribute('href') !== '#') return;
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; color: #212529; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .header img { max-height: 70px; }
+        .header .company { text-align: right; }
+        h1 { font-size: 24px; margin-bottom: 10px; }
+        .meta { margin-bottom: 20px; }
+        .meta div { margin-bottom: 6px; }
+        .summary { margin-bottom: 20px; }
+        .summary .item { margin-bottom: 8px; }
+        .table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .table th, .table td { border: 1px solid #dee2e6; padding: 10px; text-align: left; }
+        .table th { background: #f8f9fa; }
+        .table tr:nth-child(even) { background: #f5f5f5; }
+        .no-data { text-align: center; padding: 14px; color: #6c757d; }
+        .footer { margin-top: 40px; font-size: 12px; color: #6c757d; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>{{ title }}</h1>
+            <div>Período: {{ period }}</div>
+            <div>Moeda: {{ currency }}</div>
+        </div>
+        <div class="company">
+            {% set logoSrc = company.logo ?? companyLogo ?? '' %}
+            {% if logoSrc %}
+                <img src="{{ logoSrc }}" alt="Logo">
+            {% endif %}
+            <div><strong>{{ company.name }}</strong></div>
+            <div>{{ company.address }}</div>
+            <div>{{ company.phone }}</div>
+            <div>{{ company.email }}</div>
+        </div>
+    </div>
+
+    {% if summary is defined and summary %}
+        <div class="summary">
+            {% for label, value in summary %}
+                <div class="item"><strong>{{ label }}:</strong> {{ value }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if rows is defined and rows|length > 0 %}
+        <table class="table">
+            <thead>
+                <tr>
+                    {% for column in columns %}
+                        <th>{{ column.label }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                    <tr>
+                        {% for column in columns %}
+                            <td>{{ row[column.key] is defined ? row[column.key] : '' }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="no-data">Nenhum dado disponível para o período selecionado.</div>
+    {% endif %}
+
+    <div class="footer">Relatório gerado em {{ "now"|date('d/m/Y H:i') }}</div>
+</body>
+</html>

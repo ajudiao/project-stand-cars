@@ -1,0 +1,113 @@
+<nav id="sidebar" class="sidebar">
+
+    <div class="sidebar-header">
+        <h4 class="mb-0 brand-name">
+            Saeld Auto
+        </h4>
+        <button id="sidebarToggle" class="btn-toggle-sidebar">
+            <i class="bi bi-list"></i>
+        </button>
+    </div>
+
+    <ul class="sidebar-menu">
+        <li>
+            <a href="/admin" class="nav-link {% if currentPath == '/admin' %}active{% endif %}" data-page="dashboard">
+                <i class="bi bi-speedometer2"></i>
+                <span>
+                    Dashboard
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/automoveis" class="nav-link {% if currentPath starts with '/admin/automoveis' %}active{% endif %}" data-page="automoveis">
+                <i class="bi bi-car-front"></i>
+                <span>
+                    Automóveis
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/clientes" class="nav-link {% if currentPath starts with '/admin/clientes' %}active{% endif %}" data-page="clientes">
+                <i class="bi bi-people-fill"></i>
+                <span>
+                    Clientes
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/usuarios" class="nav-link {% if currentPath starts with '/admin/usuarios' %}active{% endif %}" data-page="usuarios">
+                <i class="bi bi-person-badge"></i>
+                <span>
+                    Usuários
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/vendas" class="nav-link {% if currentPath starts with '/admin/vendas' %}active{% endif %}" data-page="vendas">
+                <i class="bi bi-graph-up"></i>
+                <span>
+                    Vendas
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/noticias" class="nav-link {% if currentPath starts with '/admin/noticias' %}active{% endif %}" data-page="noticias">
+                <i class="bi bi-newspaper"></i>
+                <span>
+                    Notícias
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/notificacoes" class="nav-link {% if currentPath starts with '/admin/notificacoes' %}active{% endif %}" data-page="notificacoes">
+                <i class="bi bi-bell"></i>
+                <span>
+                    Notificações
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/relatorios" class="nav-link {% if currentPath starts with '/admin/relatorios' %}active{% endif %}" data-page="relatorios">
+                <i class="bi bi-file-earmark-pdf"></i>
+                <span>
+                    Relatórios
+                </span>
+            </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+            <a href="/admin/perfil" class="nav-link {% if currentPath starts with '/admin/perfil' %}active{% endif %}" data-page="perfil">
+                <i class="bi bi-person-circle"></i>
+                <span>
+                    Meu Perfil
+                </span>
+            </a>
+        </li>
+        {% if isAdmin %}
+        <li>
+            <a href="/admin/website/configuracoes" class="nav-link {% if currentPath starts with '/admin/website' %}active{% endif %}" data-page="configuracoes">
+                <i class="bi bi-globe"></i>
+                <span>
+                    WebSite
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/configuracoes" class="nav-link {% if currentPath starts with '/admin/configuracoes' %}active{% endif %}" data-page="configuracoes">
+                <i class="bi bi-gear"></i>
+                <span>
+                    Configurações
+                </span>
+            </a>
+        </li>
+        {% endif %}
+        <li>
+            <a href="/admin/logout" class="nav-link" onclick="logout()">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>
+                    Sair
+                </span>
+            </a>
+        </li>
+    </ul>
+</nav>

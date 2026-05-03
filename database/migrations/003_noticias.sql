@@ -1,0 +1,15 @@
+CREATE TABLE IF NOT EXISTS noticias (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  titulo VARCHAR(255) NOT NULL,
+  slug VARCHAR(255) NOT NULL,
+  conteudo TEXT NOT NULL,
+  resumo TEXT,
+  imagem_capa VARCHAR(255),
+  autor VARCHAR(100),
+  status ENUM('publicado','rascunho') DEFAULT 'rascunho',
+  data_publicacao DATETIME DEFAULT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY slug (slug)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

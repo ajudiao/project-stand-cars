@@ -1,0 +1,433 @@
+{% extends "layouts/admin.twig" %}
+    {% block content %}
+
+            <!-- Página Content -->
+            <main class="page-content">
+                <!-- Dashboard -->
+                <div id="dashboard-page" class="page-section fade-in">
+                    <div class="container-fluid">
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h2>Bem-vindo, {{ userName }}</h2>
+                                <p class="text-muted">Resumo do seu negócio</p>
+                            </div>
+                        </div>
+
+                        <!-- KPI Cards -->
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-6 col-lg-3">
+                                <div class="card stat-card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="stat-icon bg-primary">
+                                                <i class="bi bi-car-front"></i>
+                                            </div>
+                                            <div class="ms-3">
+                                                <h6 class="text-muted mb-0">Automóveis em Estoque</h6>
+                                                <h3 class="mb-0">{{ countCar }}</h3>
+                                            </div>
+                                        </div>
+                                        <small class="text-muted mt-2 d-block">
+                                            <i class="bi bi-arrow-up text-success"></i> Veículos disponíveis
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-lg-3">
+                                <div class="card stat-card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="stat-icon bg-success">
+                                                <i class="bi bi-cash-coin"></i>
+                                            </div>
+                                            <div class="ms-3">
+                                                <h6 class="text-muted mb-0">Vendas Realizadas</h6>
+                                                <h3 class="mb-0">{{ countSeles }}</h3>
+                                            </div>
+                                        </div>
+                                        <small class="text-success mt-2 d-block">
+                                            <i class="bi bi-arrow-up"></i> Transações completas
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-lg-3">
+                                <div class="card stat-card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="stat-icon bg-info">
+                                                <i class="bi bi-people-fill"></i>
+                                            </div>
+                                            <div class="ms-3">
+                                                <h6 class="text-muted mb-0">Clientes Cadastrados</h6>
+                                                <h3 class="mb-0">{{ countClients }}</h3>
+                                            </div>
+                                        </div>
+                                        <small class="text-muted mt-2 d-block">
+                                            <i class="bi bi-arrow-up"></i> Base de clientes
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-lg-3">
+                                <div class="card stat-card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="stat-icon bg-warning">
+                                                <i class="bi bi-percent"></i>
+                                            </div>
+                                            <div class="ms-3">
+                                                <h6 class="text-muted mb-0">Taxa Conversão</h6>
+                                                <h3 class="mb-0">{% if countClients > 0 %}{{ ((countSeles / countClients) * 100) | round(1) }}%{% else %}0%{% endif %}</h3>
+                                            </div>
+                                        </div>
+                                        <small class="text-muted mt-2 d-block">
+                                            <i class="bi bi-arrow-up"></i> Eficiência de vendas
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gráficos -->
+                        <div class="row g-4 mb-4">
+                            <div class="col-lg-8">
+                                <div class="card shadow-sm chart-card">
+                                    <div class="card-header bg-white border-bottom">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h5 class="card-title mb-0">
+                                                <i class="bi bi-graph-up text-primary"></i> Vendas do Mês
+                                            </h5>
+                                            <small class="text-muted">Apenas vendas concluídas</small>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Navegação de Mês -->
+                                    <div class="card-body border-bottom bg-light">
+                                        <div class="d-flex align-items-center justify-content-between gap-2">
+                                            <button class="btn btn-sm btn-outline-primary" id="prevMonth" title="Mês anterior">
+                                                <i class="bi bi-chevron-left"></i> Anterior
+                                            </button>
+                                            
+                                            <div class="text-center flex-grow-1">
+                                                <h6 class="mb-0" id="monthDisplay">{{ salesByDay|length > 0 ? 'Março 2026' : 'Sem dados' }}</h6>
+                                                <small class="text-muted" id="monthYear">Clique para selecionar</small>
+                                            </div>
+                                            
+                                            <button class="btn btn-sm btn-outline-success" id="refreshBtn" title="Atualizar agora">
+                                                <i class="bi bi-arrow-clockwise"></i> Atualizar
+                                            </button>
+                                            
+                                            <button class="btn btn-sm btn-outline-primary" id="nextMonth" title="Próximo mês">
+                                                Próximo <i class="bi bi-chevron-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="card-body">
+                                        <canvas id="salesChart" height="80"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="card shadow-sm">
+                                    <div class="card-header bg-white border-bottom">
+                                        <h5 class="card-title mb-0">
+                                            <i class="bi bi-pie-chart text-success"></i> Top 5 Marcas
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div style="position: relative; height: 300px;">
+                                            <canvas id="brandsChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Últimas Vendas -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title mb-0">Últimas Vendas</h5>
+                                        <a href="vendas.html" class="btn btn-sm btn-primary">Ver tudo</a>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Cliente</th>
+                                                    <th>Automóvel</th>
+                                                    <th>Valor</th>
+                                                    <th>Data</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for sale in recentSales %}
+                                                <tr>
+                                                    <td>{{ sale.cliente }}</td>
+                                                    <td>{{ sale.marca }} {{ sale.modelo }}</td>
+                                                    <td class="text-nowrap">
+                                                        {{ sale.valor_pago | number_format(0, ',', '.') }}
+                                                        <span class="currency-label">AOA</span>
+                                                    </td>
+                                                    <td>{{ sale.data_venda | date('d/m/Y') }}</td>
+                                                    <td>
+                                                        {% set statusLabel = sale.status == 'Concluido' ? 'Concluída' : sale.status == 'Pendente' ? 'Pendente' : sale.status %}
+                                                        {% set badgeClass = sale.status == 'Concluido' ? 'success' : sale.status == 'Pendente' ? 'warning' : 'secondary' %}
+                                                        <span class="badge bg-{{ badgeClass }}">{{ statusLabel }}</span>
+                                                    </td>
+                                                </tr>
+                                                {% else %}
+                                                <tr>
+                                                    <td colspan="5" class="text-center">Nenhuma venda encontrada</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+
+    <!-- Toast Notification -->
+    
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Dados iniciais dos gráficos
+        const allSalesData = {{ salesByDay | json_encode | raw }};
+        const brandsData = {{ topBrands | json_encode | raw }};
+        const initialLastDay = {{ lastDayWithSales }};
+        const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+        const monthNamesShort = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+
+        const dashboardCurrency = localStorage.getItem('setting_currency') || 'BRL';
+        const currencySymbols = {
+            BRL: 'R$',
+            USD: 'US$',
+            EUR: '€'
+        };
+
+        function getDashboardCurrencySymbol() {
+            return currencySymbols[dashboardCurrency] || 'AOA';
+        }
+
+        function applyDashboardCurrencyLabels() {
+            const symbol = getDashboardCurrencySymbol();
+            document.querySelectorAll('.currency-label').forEach(el => {
+                el.textContent = symbol;
+            });
+        }
+
+        // Estado do gráfico
+        let currentMonth = {{ selectedMonth }};
+        let currentYear = {{ selectedYear }};
+        let salesChart = null;
+        let lastDayWithSales = initialLastDay;
+        let isRefreshing = false;
+
+        // Formatar dados para o gráfico (cresça a medida que há vendas)
+        function formatChartData(salesData, lastDay) {
+            const days = [];
+            const quantities = [];
+
+            // Preencher apenas até o último dia com vendas (ou dia atual)
+            for (let i = 1; i <= lastDay; i++) {
+                const dayStr = String(i).padStart(2, '0');
+                const daySale = salesData.find(s => s.numero_dia == i);
+                
+                days.push(i);
+                quantities.push(daySale ? parseInt(daySale.quantidade) : 0);
+            }
+
+            return { days, quantities };
+        }
+
+        // Atualizar display do mês
+        function updateMonthDisplay() {
+            const monthName = monthNames[currentMonth - 1];
+            document.getElementById('monthDisplay').textContent = monthName + ' ' + currentYear;
+            document.getElementById('monthYear').textContent = currentYear;
+        }
+
+        // Carregar dados via AJAX
+        async function loadSalesData() {
+            if (isRefreshing) return; // Evitar requisições duplicadas
+            isRefreshing = true;
+            
+            const refreshBtn = document.getElementById('refreshBtn');
+            refreshBtn.disabled = true;
+            refreshBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Carregando...';
+            
+            try {
+                const response = await fetch(`/admin/dashboard/get-sales-data?month=${currentMonth}&year=${currentYear}`);
+                const data = await response.json();
+                
+                lastDayWithSales = data.lastDay;
+                const { days, quantities } = formatChartData(data.sales, lastDayWithSales);
+                
+                // Destruir gráfico anterior
+                if (salesChart) {
+                    salesChart.destroy();
+                }
+                
+                // Criar novo gráfico com animação
+                const ctxSales = document.getElementById('salesChart').getContext('2d');
+                salesChart = new Chart(ctxSales, {
+                    type: 'bar',
+                    data: {
+                        labels: days,
+                        datasets: [{
+                            label: 'Vendas Concluídas',
+                            data: quantities,
+                            backgroundColor: 'rgba(13, 110, 253, 0.8)',
+                            borderColor: 'rgba(13, 110, 253, 1)',
+                            borderWidth: 1,
+                            borderRadius: 4,
+                            hoverBackgroundColor: 'rgba(13, 110, 253, 1)',
+                            tension: 0.3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        animation: {
+                            duration: 600,
+                            easing: 'easeInOutQuart',
+                            delay: (context) => {
+                                let delay = 0;
+                                if (context.type === 'data') {
+                                    delay = context.dataIndex * 40;
+                                }
+                                return delay;
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1
+                                },
+                                max: Math.max(...quantities) > 0 ? undefined : 5
+                            }
+                        }
+                    }
+                });
+                
+                updateMonthDisplay();
+                
+                // Feedback visual
+                if (quantities.length > 0 && quantities.some(q => q > 0)) {
+                    refreshBtn.innerHTML = '<i class="bi bi-check-circle text-success"></i> Atualizado!';
+                    setTimeout(() => {
+                        refreshBtn.innerHTML = '<i class="bi bi-arrow-clockwise"></i> Atualizar';
+                    }, 2000);
+                } else {
+                    refreshBtn.innerHTML = '<i class="bi bi-arrow-clockwise"></i> Atualizar';
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+                refreshBtn.innerHTML = '<i class="bi bi-exclamation-circle text-danger"></i> Erro!';
+                setTimeout(() => {
+                    refreshBtn.innerHTML = '<i class="bi bi-arrow-clockwise"></i> Atualizar';
+                }, 2000);
+            } finally {
+                refreshBtn.disabled = false;
+                isRefreshing = false;
+            }
+        }
+
+        // Navegação de mês
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            if (currentMonth === 1) {
+                currentMonth = 12;
+                currentYear--;
+            } else {
+                currentMonth--;
+            }
+            loadSalesData();
+        });
+
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            if (currentMonth === 12) {
+                currentMonth = 1;
+                currentYear++;
+            } else {
+                currentMonth++;
+            }
+            loadSalesData();
+        });
+
+        // Botão de refresh manual
+        document.getElementById('refreshBtn').addEventListener('click', loadSalesData);
+
+        // Gráfico de Pizza - Top Marcas
+        const brandsLabels = brandsData.map(b => b.marca);
+        const brandsQuantities = brandsData.map(b => parseInt(b.quantidade));
+        const brandColors = [
+            'rgba(13, 110, 253, 0.8)',
+            'rgba(25, 135, 84, 0.8)',
+            'rgba(255, 193, 7, 0.8)',
+            'rgba(220, 53, 69, 0.8)',
+            'rgba(23, 162, 184, 0.8)'
+        ];
+
+        const ctxBrands = document.getElementById('brandsChart').getContext('2d');
+        const brandsChart = new Chart(ctxBrands, {
+            type: 'doughnut',
+            data: {
+                labels: brandsLabels,
+                datasets: [{
+                    label: 'Vendas por Marca',
+                    data: brandsQuantities,
+                    backgroundColor: brandColors.slice(0, brandsLabels.length),
+                    borderColor: '#fff',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                animation: {
+                    duration: 1500,
+                    easing: 'easeInOutQuart',
+                    animateRotate: true
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 15,
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Carregar dados iniciais
+        applyDashboardCurrencyLabels();
+        loadSalesData();
+    </script>
+{% endblock %}

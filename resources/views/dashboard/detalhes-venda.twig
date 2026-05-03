@@ -1,0 +1,237 @@
+{% extends "layouts/admin.twig" %}
+{% block content %}
+        <!-- Main Content -->
+        <div class="main-content">            <!-- Page Content -->
+            <main class="page-content">
+                <div class="container-fluid">
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb" class="mb-4">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{ url('/admin/vendas') }}">Vendas</a></li>
+                            <li class="breadcrumb-item active">Detalhes</li>
+                        </ol>
+                    </nav>
+
+                    <!-- Back Button -->
+                    <div class="mb-3">
+                        <a href="{{ url('/admin/vendas') }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Voltar
+                        </a>
+                    </div>
+
+                    <!-- Sale Details -->
+                    <div class="row">
+                        <!-- Main Information -->
+                        <div class="col-lg-8 mb-4">
+                            <!-- Sale Header -->
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6 class="text-muted">Número da Venda</h6>
+                                            <h4>#{{ venda.id }}</h4>
+                                        </div>
+                                        <div class="col-md-6 text-end">
+                                            <h6 class="text-muted">Status</h6>
+                                            {% if venda.status == 'Concluido' %}
+                                                <span class="badge bg-success">{{ venda.status }}</span>
+                                            {% elseif venda.status == 'Pendente' %}
+                                                <span class="badge bg-warning text-dark">{{ venda.status }}</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">{{ venda.status }}</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Client Information -->
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Informações do Cliente</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">Nome</label>
+                                            <p>{{ venda.cliente }}</p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">Email</label>
+                                            <p>
+                                                <a href="mailto:carlos@email.com"> {{ venda.email }} </a>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">Telefone</label>
+                                            <p>
+                                                <a href="tel:(+244)987653431">{{ venda.telefone }}</a>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">Identidade</label>
+                                            <p>{{ venda.identidade }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Vehicle Information -->
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Informações do Automóvel</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">Marca e Modelo</label>
+                                            <p>{{ venda.marca }} {{ venda.modelo }}</p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">Cor</label>
+                                            <p>{{ venda.cor }}</p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">Quilometragem</label>
+                                            <p>{{ venda.quilometragem }}</p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">Transmissão</label>
+                                            <p>{{ venda.transmissao }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Payment Information -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Informações de Pagamento</h6>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Descrição</th>
+                                                <th class="text-end">Valor</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Valor do Automóvel</td>
+                                                <td class="text-end">{{ venda.valor_veiculo | number_format(2, ',', '.') }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Desconto</td>
+                                                <td class="text-end">{{ venda.desconto | number_format(2, ',', '.') }} %</td>
+                                            </tr>
+                                            <tr class="table-active fw-bold">
+                                                <td>Total Pago</td>
+                                                <td class="text-end">{{ venda.valor_pago | number_format(2, ',', '.') }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="card-body border-top">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">Forma de Pagamento</label>
+                                            <p>{{ venda.metodo_pagamento }}</p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="fw-bold">Data da Venda</label>
+                                            <p>{{ venda.data_venda }}</p>
+                                        </div>
+                                     
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar -->
+                        <div class="col-lg-4">
+                            <!-- Total Card -->
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h6 class="text-muted mb-2">Valor Total</h6>
+                                    <h2 class="text-success mb-3">{{ venda.valor_pago | number_format(2, ',', '.') }}</h2>
+                                    <div class="d-grid gap-2">
+                                        <a href="{{ url('admin/vendas/' ~ venda.id ~ '/recibo') }}" class="btn btn-primary btn-sm">
+                                            <i class="bi bi-download"></i> Gerar Recibo
+                                        </a>
+                                        <button class="btn btn-outline-secondary btn-sm">
+                                            <i class="bi bi-printer"></i> Imprimir
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Documents Card -->
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Documentos</h6>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">
+                                            <i class="bi bi-file-pdf text-danger"></i>
+                                            <a href="#" class="ms-2">Recibo de Venda</a>
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="bi bi-file-pdf text-danger"></i>
+                                            <a href="#" class="ms-2">Contrato de Compra</a>
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="bi bi-file-pdf text-danger"></i>
+                                            <a href="#" class="ms-2">Nota Fiscal</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Timeline Card -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Vendedor</h6>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="timeline">
+                                        <li>
+                                            <small class="text-muted">Vendedor: {{ seller.nome }}</small>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="row mt-4 mb-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="btn-group w-100 flex-wrap" role="group">
+                                        <a href="{{ url('/admin/vendas') }}" class="btn btn-outline-secondary">
+                                            <i class="bi bi-arrow-left"></i> Voltar à Lista
+                                        </a>
+                                        {% if isAdmin %}
+                                        <button class="btn btn-outline-danger" onclick="deleteSale({{ venda.id }})">
+                                            <i class="bi bi-trash"></i> Deletar Venda
+                                        </button>
+                                        {% else %}
+                                        <button class="btn btn-outline-secondary disabled" disabled title="Somente administrador pode excluir">
+                                            <i class="bi bi-trash"></i> Deletar Venda
+                                        </button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+{% endblock %}
