@@ -35,7 +35,8 @@ class VeiculosController extends Controller
             $precoMaximo,
             $combustivel,
             $transmissao,
-            $order
+            $order,
+            true
         );
 
         $marcas = $this->marcaRepository->getAll();
@@ -59,7 +60,7 @@ class VeiculosController extends Controller
     {
         $veiculo = $this->carRepository->getByIdWithImages((int)$id);
 
-        if (!$veiculo) {
+        if (!$veiculo || strtolower($veiculo->status) !== 'publicado') {
             $this->view('errors/404');
             return;
         }

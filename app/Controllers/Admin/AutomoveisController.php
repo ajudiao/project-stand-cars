@@ -103,8 +103,18 @@ class AutomoveisController extends Controller
         $maxSize = 2 * 1024 * 1024; // 2MB
 
         $uploadedCount = 0;
+        $existingCount = $this->carRepo->countImages($carId);
+        $maxImages = 5;
+        $remainingSlots = max(0, $maxImages - $existingCount);
+
+        if ($remainingSlots === 0) {
+            error_log("Limite de imagens atingido para o veículo #{$carId}. Nenhuma imagem adicional será salva.");
+            return 0;
+        }
+
         $total = count($images['name']);
-        for ($i = 0; $i < min($total, 5); $i++) {
+        $uploadLimit = min($total, $remainingSlots, 5);
+        for ($i = 0; $i < $uploadLimit; $i++) {
 
             if ($images['error'][$i] !== 0) {
                 error_log("Erro no upload do arquivo {$images['name'][$i]}: Código de erro {$images['error'][$i]}");
@@ -259,10 +269,39 @@ class AutomoveisController extends Controller
             exit;
         }
 
-        // --------------------------
-        // REDIRECT
-        // --------------------------
-        \App\Helpers\Helpers::setFlash('success', 'Veículo atualizado com sucesso.');
+        $deletedCount = 0;
+        if (!empty($_POST['delete_images']) && is_array($_POST['delete_images'])) {
+            foreach ($_POST['delete_images'] as $imageName) {
+                $imageName = trim($imageName);
+                if ($imageName === '') {
+                    continue;
+                }
+
+                if ($this->carRepo->deleteImageByUrl($id, $imageName)) {
+                    $deletedCount++;
+                    @unlink(__DIR__ . '/../../../public/uploads/cars/' . $imageName);
+                }
+            }
+        }
+
+        $uploadedCount = 0;
+        if (!empty($_FILES['fotos']['name'][0])) {
+            $uploadedCount = $this->uploadImages($_FILES['fotos'], $id);
+        }
+
+        $message = 'Veículo atualizado com sucesso.';
+        if ($deletedCount > 0 || $uploadedCount > 0) {
+            $parts = [];
+            if ($deletedCount > 0) {
+                $parts[] = "{$deletedCount} imagem(ns) removida(s)";
+            }
+            if ($uploadedCount > 0) {
+                $parts[] = "{$uploadedCount} imagem(ns) adicionada(s)";
+            }
+            $message = 'Veículo atualizado com sucesso. ' . implode(' e ', $parts) . '.';
+        }
+
+        \App\Helpers\Helpers::setFlash('success', $message);
         header('Location: /admin/automoveis');
         exit;
     }

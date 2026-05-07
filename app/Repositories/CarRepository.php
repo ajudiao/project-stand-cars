@@ -155,6 +155,24 @@ class CarRepository
         ]);
     }
 
+    public function countImages(int $carId): int
+    {
+        $stmt = $this->conn->prepare("SELECT COUNT(*) FROM veiculo_imagens WHERE id_veiculo = :id_veiculo");
+        $stmt->execute(['id_veiculo' => $carId]);
+        return (int) $stmt->fetchColumn();
+    }
+
+    public function deleteImageByUrl(int $carId, string $fileName): bool
+    {
+        $sql = "DELETE FROM veiculo_imagens WHERE id_veiculo = :id_veiculo AND url_imagem = :url_imagem";
+        $stmt = $this->conn->prepare($sql);
+
+        return $stmt->execute([
+            'id_veiculo'  => $carId,
+            'url_imagem'  => $fileName
+        ]);
+    }
+
     public function getImages(int $carId): array
     {
         $sql = "SELECT url_imagem 
@@ -314,7 +332,7 @@ class CarRepository
         return $stmt->execute(['id' => $id]);
     }
 
-    public function buscarVeiculos(?string $modelo, ?string $status, ?int $idMarca, ?float $precoMaximo = null, ?string $combustivel = null, ?string $transmissao = null, ?string $order = null): array
+    public function buscarVeiculos(?string $modelo, ?string $status, ?int $idMarca, ?float $precoMaximo = null, ?string $combustivel = null, ?string $transmissao = null, ?string $order = null, bool $onlyPublished = false): array
     {
         $sql = "SELECT 
                 v.*, 
@@ -337,7 +355,9 @@ class CarRepository
             $params[':modelo'] = '%' . $modelo . '%';
         }
 
-        if (!empty($status)) {
+        if ($onlyPublished) {
+            $sql .= " AND LOWER(v.status) = 'publicado'";
+        } elseif (!empty($status)) {
             $sql .= " AND v.status = :status";
             $params[':status'] = $status;
         }

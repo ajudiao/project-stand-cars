@@ -513,9 +513,31 @@
                                                                                                     <label class="form-label">
                                                                                                         Descrição
                                                                                                     </label>
-                                                                                                    <textarea class="form-control" rows="3" placeholder="Detalhes adicionais...">
-                                                                                                        {{ veiculo.descricao }}
-                                                                                                    </textarea>
+                                                                                                    <textarea class="form-control" name="descricao" rows="3" placeholder="Detalhes adicionais...">{{ veiculo.descricao }}</textarea>
+                                                                                                </div>
+
+                                                                                                <div class="card card-body mb-3">
+                                                                                                    <h6 class="mb-3">Fotos do veículo</h6>
+                                                                                                    {% if veiculo.imagens is not empty %}
+                                                                                                        <div class="row g-2 mb-3">
+                                                                                                            {% for img in veiculo.imagens %}
+                                                                                                                <div class="col-4 col-md-3 text-center">
+                                                                                                                    <img src="{{ carImage(img) }}" alt="Foto {{ loop.index }}" class="img-fluid rounded mb-2" style="height: 120px; object-fit: cover; width: 100%;">
+                                                                                                                    <div class="form-check">
+                                                                                                                        <input class="form-check-input" type="checkbox" id="delete_image_{{ loop.index }}" name="delete_images[]" value="{{ img }}">
+                                                                                                                        <label class="form-check-label" for="delete_image_{{ loop.index }}">Remover</label>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            {% endfor %}
+                                                                                                        </div>
+                                                                                                    {% else %}
+                                                                                                        <p>Sem fotos atuais.</p>
+                                                                                                    {% endif %}
+                                                                                                    <div>
+                                                                                                        <label class="form-label">Adicionar novas fotos</label>
+                                                                                                        <input type="file" class="form-control" name="fotos[]" accept="image/*" multiple>
+                                                                                                        <small class="text-muted">Envie até 5 fotos no total por veículo. Marque imagens para remover antes de enviar novas, se desejar.</small>
+                                                                                                    </div>
                                                                                                 </div>
                                                                                                 <div class="form-check">
                                                                                                     <input type="checkbox" name="destaque" id="destaqueSim" value="1" class="form-check-input" {% if veiculo.destaque == 1 %} checked {% endif %}>
