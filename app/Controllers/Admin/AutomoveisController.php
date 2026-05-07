@@ -51,6 +51,12 @@ class AutomoveisController extends Controller
             exit;
         }
 
+        if (empty($_FILES['fotos']['name'][0])) {
+            \App\Helpers\Helpers::setFlash('error', 'É obrigatório enviar pelo menos uma foto.');
+            header('Location: /admin/automoveis');
+            exit;
+        }
+
         // --------------------------
         // CRIAR VEÍCULO
         // --------------------------
@@ -65,15 +71,17 @@ class AutomoveisController extends Controller
         }
 
         // --------------------------
-        // Mensagem flash
-        // --------------------------
-        \App\Helpers\Helpers::setFlash('success', 'Veículo adicionado com sucesso.');
-
-        // --------------------------
         // UPLOAD DAS IMAGENS
         // --------------------------
-        if (!empty($_FILES['fotos']['name'][0])) {
-            $this->uploadImages($_FILES['fotos'], $carId);
+        $imagesUploaded = $this->uploadImages($_FILES['fotos'], $carId);
+        
+        // --------------------------
+        // Mensagem flash
+        // --------------------------
+        if ($imagesUploaded > 0) {
+            \App\Helpers\Helpers::setFlash('success', "Veículo adicionado com sucesso ({$imagesUploaded} imagem(ns)).");
+        } else {
+            \App\Helpers\Helpers::setFlash('error', 'Veículo criado, mas nenhuma imagem foi salva. Tente adicionar imagens depois.');
         }
 
         // --------------------------
@@ -83,7 +91,7 @@ class AutomoveisController extends Controller
         exit;
     }
 
-    private function uploadImages($images, $carId)
+    private function uploadImages($images, $carId): int
     {
         $uploadDir = __DIR__ . '/../../../public/uploads/cars/';
 
@@ -94,10 +102,14 @@ class AutomoveisController extends Controller
         $allowed = ['jpg', 'jpeg', 'png', 'webp'];
         $maxSize = 2 * 1024 * 1024; // 2MB
 
+        $uploadedCount = 0;
         $total = count($images['name']);
         for ($i = 0; $i < min($total, 5); $i++) {
 
-            if ($images['error'][$i] !== 0) continue;
+            if ($images['error'][$i] !== 0) {
+                error_log("Erro no upload do arquivo {$images['name'][$i]}: Código de erro {$images['error'][$i]}");
+                continue;
+            }
 
             $tmpName = $images['tmp_name'][$i];
             $originalName = $images['name'][$i];
@@ -106,19 +118,39 @@ class AutomoveisController extends Controller
             $ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
 
             // validações
-            if (!in_array($ext, $allowed)) continue;
-            if ($size > $maxSize) continue;
+            if (!in_array($ext, $allowed)) {
+                error_log("Extensão não permitida: $ext para arquivo {$originalName}");
+                continue;
+            }
+            if ($size > $maxSize) {
+                error_log("Arquivo muito grande: {$originalName} ({$size} bytes, máximo: {$maxSize})");
+                continue;
+            }
 
             // nome único
             $fileName = uniqid('car_') . '.' . $ext;
             $destination = $uploadDir . $fileName;
 
             if (move_uploaded_file($tmpName, $destination)) {
-
                 // salva no banco
-                $this->carRepo->saveImage($carId, $fileName);
+                if ($this->carRepo->saveImage($carId, $fileName)) {
+                    $uploadedCount++;
+                    error_log("Imagem salva com sucesso: {$fileName} para veículo #{$carId}");
+                } else {
+                    error_log("Erro ao salvar imagem no BD: {$fileName} para veículo #{$carId}");
+                    // Remover arquivo se falhar ao salvar no BD
+                    @unlink($destination);
+                }
+            } else {
+                error_log("Erro ao mover arquivo {$originalName} para {$destination}");
             }
         }
+
+        if ($uploadedCount === 0 && count($images['name']) > 0) {
+            error_log("Nenhuma imagem foi salva para o veículo #{$carId}");
+        }
+        
+        return $uploadedCount;
     }
 
     public function show($id)

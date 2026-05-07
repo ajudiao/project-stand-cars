@@ -45,6 +45,7 @@ class View
 
         self::$twig->addFunction(new TwigFunction('userImage', function (?string $filename) {
             $filePath = BASE_PATH . '/public/uploads/users/' . $filename;
+            
             if ($filename && file_exists($filePath)) {
                 return '/uploads/users/' . ltrim($filename, '/');
             }
