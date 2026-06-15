@@ -437,4 +437,27 @@ class CarRepository
 
         return array_values($veiculos);
     }
+
+    // Obtém a contagem de veículos por modelo
+    public function getModelCountByBrand(): array
+    {
+        $sql = "SELECT CONCAT(m.nome, ' ', v.modelo) AS model_name, COUNT(v.id) AS stock_count
+                FROM veiculos v
+                LEFT JOIN marcas m ON m.id = v.id_marca
+                WHERE v.status = 'Disponível'
+                GROUP BY v.id_marca, v.modelo
+                ORDER BY m.nome, v.modelo";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+
+        $result = [];
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        foreach ($rows as $row) {
+            $result[$row['model_name']] = $row['stock_count'];
+        }
+
+        return $result;
+    }
 }

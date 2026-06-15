@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'andrejudiao/stand-cars',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => null,
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => 'a3bf572e4e8c0d05228f9979f36d454677307545',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'andrejudiao/stand-cars' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => null,
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => 'a3bf572e4e8c0d05228f9979f36d454677307545',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

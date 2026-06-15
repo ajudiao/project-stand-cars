@@ -28,6 +28,12 @@ Router::group([
 ], function () {
     Router::get('/login', 'AuthController@loginForm');
     Router::post('/login', 'AuthController@login');
+    Router::get('/signup', 'AuthController@signupForm');
+    Router::post('/signup', 'AuthController@signup');
+    Router::get('/forgot-password', 'AuthController@forgotPasswordForm');
+    Router::post('/forgot-password', 'AuthController@sendResetLink');
+    Router::get('/reset-password', 'AuthController@resetPasswordForm');
+    Router::post('/reset-password', 'AuthController@resetPassword');
 });
 
 // ------------------------
@@ -43,6 +49,7 @@ Router::group([
     Router::get('/', 'DashboardController@index');
     Router::get('/dashboard/get-sales-data', 'DashboardController@getSalesData');
     Router::get('/notificacoes', 'NotificationsController@index');
+    Router::get('/notificacoes/fetch', 'NotificationsController@getNotifications');
 
     // VEÍCULOS — estáticas antes de {id}
     Router::get('/automoveis', 'AutomoveisController@index');

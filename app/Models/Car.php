@@ -26,6 +26,9 @@ class Car
     // Propriedades extras para imagens
     public array $imagens = [];
     public ?string $foto = null;
+    
+    // Propriedade para quantidade em Stock
+    public int $stock_count = 0;
 
     public function __construct(array $data = [])
     {

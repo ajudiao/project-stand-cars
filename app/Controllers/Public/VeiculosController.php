@@ -39,6 +39,15 @@ class VeiculosController extends Controller
             true
         );
 
+        // Obter contagem de modelos
+        $modelCount = $this->carRepository->getModelCountByBrand();
+        
+        // Adicionar contagem a cada veículo
+        foreach ($veiculos as $veiculo) {
+            $modelKey = $veiculo->marca_nome . ' ' . $veiculo->modelo;
+            $veiculo->stock_count = $modelCount[$modelKey] ?? 0;
+        }
+
         $marcas = $this->marcaRepository->getAll();
 
         $this->view('site/veiculos', [
